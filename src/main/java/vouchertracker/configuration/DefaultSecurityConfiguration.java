@@ -1,17 +1,37 @@
 package vouchertracker.configuration;
 
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import vouchertracker.domain.Account;
+import vouchertracker.service.AccountService;
 
 @Configuration
 @Profile("default")
 @EnableWebSecurity
 public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @PostConstruct // initialize a few fake users for sandbox
+    public void init() {
+        Account huey = accountService.register("Huey", "Duck", "huey", "qwerty");
+        Account dewey = accountService.register("Dewey", "Duck", "dewey", "qwerty");
+        Account louie = accountService.register("Louie", "Duck", "louie", "qwerty");
+        //accountService.toggleAdmin(dewey.getId());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,7 +53,17 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("admin").password("admin").authorities("USER", "ADMIN", "SUPERUSER");
+                .withUser("superuser")
+                .password("superuser")
+                .authorities("ADMIN", "SUPERUSER");
+
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }
