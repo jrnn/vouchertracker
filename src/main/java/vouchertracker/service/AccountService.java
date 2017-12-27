@@ -1,5 +1,6 @@
 package vouchertracker.service;
 
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,21 +15,26 @@ public class AccountService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // this method could be prettier
-    public Account register(String firstName, String lastName, String email, String password) {
-        email = email.trim().toLowerCase(); // should trimming etc. be done upstream?
-        Account account = accountRepository.findByEmail(email);
+    public Collection<Account> findAll() {
+        return accountRepository.findAll();
+    }
 
-        if (account != null) throw new IllegalArgumentException(
+    public boolean isEmailReserved(String email) {
+        return accountRepository.findByEmail(email.trim().toLowerCase()) != null;
+    }
+
+    // this method could be prettier
+    public Account register(String firstName, String lastName, String email, String password, boolean admin) {
+        if (isEmailReserved(email)) throw new IllegalArgumentException(
                 "An account with email address " + email + " already exists!"
         );
 
-        account = new Account();
-        account.setFirstName(firstName);
-        account.setLastName(lastName);
-        account.setEmail(email);
+        Account account = new Account();
+        account.setFirstName(firstName.trim());
+        account.setLastName(lastName.trim());
+        account.setEmail(email.trim().toLowerCase());
         account.setPassword(passwordEncoder.encode(password));
-        account.setAdministrator(false);
+        account.setAdministrator(admin);
 
         return this.accountRepository.save(account);
     }

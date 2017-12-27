@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+    <head>
+        <title>PvTracker | User management</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+        <meta th:replace="fragments/common_styles :: common_styles"/>
+    </head>
+
+    <body>
+        <section class="container">
+            <h1>User management</h1>
+        </section>
+
+        <section class="container">
+            <table id="users-table" class="table">
+                <thead>
+                    <tr>
+                        <th>Last name</th>
+                        <th>First name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.lastName}">Last name</td>
+                        <td th:text="${user.firstName}">First name</td>
+                        <td th:text="${user.email}">Email</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a th:href="@{/users/new}">ädd nëw üser HIÖR~</a>
+        </section>
+
+        <script th:replace="fragments/common_scripts :: common_scripts"></script>
+    </body>
+
+</html>

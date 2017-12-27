@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import vouchertracker.domain.Account;
 import vouchertracker.service.AccountService;
 
 @Configuration
@@ -27,10 +26,9 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @PostConstruct // initialize a few fake users for sandbox
     public void init() {
-        Account huey = accountService.register("Huey", "Duck", "huey", "qwerty");
-        Account dewey = accountService.register("Dewey", "Duck", "dewey", "qwerty");
-        Account louie = accountService.register("Louie", "Duck", "louie", "qwerty");
-        //accountService.toggleAdmin(dewey.getId());
+        accountService.register("Huey", "Duck", "huey", "qwerty", false);
+        accountService.register("Dewey", "Duck", "dewey", "qwerty", true);
+        accountService.register("Louie", "Duck", "louie", "qwerty", false);
     }
 
     @Override
@@ -42,6 +40,7 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/h2-console/", "/h2-console/**").permitAll()
                 // .antMatchers("/css/**").permitAll() <-- needed later for custom login page
+                .antMatchers("/users/", "/users/**").hasAuthority("SUPERUSER")
                 .anyRequest().authenticated();
 
         http.formLogin()

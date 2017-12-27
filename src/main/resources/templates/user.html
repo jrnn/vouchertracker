@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+    <head>
+        <title>PvTracker | User management</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+        <meta th:replace="fragments/common_styles :: common_styles"/>
+    </head>
+
+    <body>
+        <section class="container">
+            <h1>Add/edit user</h1>
+        </section>
+
+        <section class="container">
+            <form action="#" th:method="POST" th:action="@{/users/new}" th:object="${accountForm}">
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="firstName">First name</label>
+                        <input th:field="*{firstName}" type="text" class="form-control" th:errorclass="is-invalid" placeholder="Spongebob"/>
+                        <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="invalid-feedback">error msg</small>
+                    </div>
+                    <div class="col form-group">
+                        <label for="lastName">Last name</label>
+                        <input th:field="*{lastName}" type="text" class="form-control" th:errorclass="is-invalid" placeholder="Squarepants"/>
+                        <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="invalid-feedback">error msg</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="email">Email (for login)</label>
+                        <input th:field="*{email}" type="text" class="form-control" th:errorclass="is-invalid" placeholder="sponge.bob@square.pants"/>
+                        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback">error msg</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col form-check">
+                        <label class="form-check-label">
+                            <input th:field="*{administrator}" type="checkbox" class="form-check-input"/>
+                            Has admin rights (can edit all vouchers and customers)
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="submit" value="Add new user"/>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <script th:replace="fragments/common_scripts :: common_scripts"></script>
+    </body>
+
+</html>
