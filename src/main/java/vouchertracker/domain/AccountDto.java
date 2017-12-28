@@ -5,13 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import vouchertracker.validation.EmailFormat;
-import vouchertracker.validation.EmailNotReserved;
 import vouchertracker.validation.NotEmpty;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AccountForm {
+public class AccountDto {
 
     @NotEmpty
     private String firstName;
@@ -20,7 +19,6 @@ public class AccountForm {
     private String lastName;
 
     @EmailFormat
-    @EmailNotReserved
     private String email;
 
     @NotNull

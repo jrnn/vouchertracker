@@ -1,10 +1,10 @@
 package vouchertracker.service;
 
-import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vouchertracker.domain.Account;
+import vouchertracker.domain.AccountDto;
 import vouchertracker.repository.AccountRepository;
 
 @Service
@@ -15,26 +15,15 @@ public class AccountService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Collection<Account> findAll() {
-        return accountRepository.findAll();
-    }
-
     public boolean isEmailReserved(String email) {
-        return accountRepository.findByEmail(email.trim().toLowerCase()) != null;
+        return accountRepository.findByEmailIgnoreCase(email.trim()) != null;
     }
 
-    // this method could be prettier
-    public Account register(String firstName, String lastName, String email, String password, boolean admin) {
-        if (isEmailReserved(email)) throw new IllegalArgumentException(
-                "An account with email address " + email + " already exists!"
-        );
+    public Account registerNewUser(AccountDto dto) {
+        if (isEmailReserved(dto.getEmail())) return null;
 
-        Account account = new Account();
-        account.setFirstName(firstName.trim());
-        account.setLastName(lastName.trim());
-        account.setEmail(email.trim().toLowerCase());
-        account.setPassword(passwordEncoder.encode(password));
-        account.setAdministrator(admin);
+        Account account = writeDtoToAccount(new Account(), dto);
+        account.setPassword(passwordEncoder.encode("qwerty")); // <-- TEMPORARY
 
         return this.accountRepository.save(account);
     }
@@ -50,6 +39,15 @@ public class AccountService {
 
         account.setAdministrator(!account.isAdministrator());
         accountRepository.save(account);
+    }
+
+    private Account writeDtoToAccount(Account account, AccountDto dto) {
+        account.setFirstName(dto.getFirstName().trim());
+        account.setLastName(dto.getLastName().trim());
+        account.setEmail(dto.getEmail().trim().toLowerCase());
+        account.setAdministrator(dto.isAdministrator());
+
+        return account;
     }
 
 }

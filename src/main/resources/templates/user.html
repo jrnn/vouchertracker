@@ -16,7 +16,10 @@
         </section>
 
         <section class="container">
-            <form action="#" th:method="POST" th:action="@{/users/new}" th:object="${accountForm}">
+            <form action="#" th:method="POST" th:action="@{/users/new}" th:object="${accountDto}">
+                <div th:if="${#fields.hasErrors('*')}" class='row'>
+                    <div class='col alert alert-danger' role='alert'>Oops! There's something fishy with the data you provided</div>
+                </div>
                 <div class="row">
                     <div class="col form-group">
                         <label for="firstName">First name</label>

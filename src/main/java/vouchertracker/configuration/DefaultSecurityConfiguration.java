@@ -6,29 +6,31 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import vouchertracker.domain.AccountDto;
 import vouchertracker.service.AccountService;
+import vouchertracker.service.CustomUserDetailsService;
 
 @Configuration
 @Profile("default")
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AccountService accountService;
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @PostConstruct // initialize a few fake users for sandbox
     public void init() {
-        accountService.register("Huey", "Duck", "huey", "qwerty", false);
-        accountService.register("Dewey", "Duck", "dewey", "qwerty", true);
-        accountService.register("Louie", "Duck", "louie", "qwerty", false);
+        this.accountService.registerNewUser(new AccountDto("Spongebob", "Squarepants", "sponge@bob.io", false));
+        this.accountService.registerNewUser(new AccountDto("Chuck", "Norris", "chuck@norr.is", true));
     }
 
     @Override

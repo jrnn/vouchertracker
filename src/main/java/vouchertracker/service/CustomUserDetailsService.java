@@ -20,10 +20,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        email = email.trim().toLowerCase();
-        Account account = accountRepository.findByEmail(email);
+        Account account = accountRepository.findByEmailIgnoreCase(email.trim());
 
-        if (account == null) throw new UsernameNotFoundException("No such user: " + email);
+        if (account == null) throw new UsernameNotFoundException("No user registered with this email");
 
         return new org.springframework.security.core.userdetails.User(
                 account.getEmail(),
@@ -32,8 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 true,
                 true,
                 true,
-                getAuthorities(account)
-        );
+                getAuthorities(account));
     }
 
     private List<GrantedAuthority> getAuthorities(Account account) {
@@ -42,9 +40,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority("USER"));
         authorities.add(new SimpleGrantedAuthority(account.getId()));
 
-        if (account.isAdministrator()) {
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        }
+        if (account.isAdministrator()) authorities.add(new SimpleGrantedAuthority("ADMIN"));
 
         return authorities;
     }

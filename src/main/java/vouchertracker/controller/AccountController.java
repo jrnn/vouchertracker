@@ -2,50 +2,54 @@ package vouchertracker.controller;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import vouchertracker.domain.AccountForm;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import vouchertracker.domain.Account;
+import vouchertracker.domain.AccountDto;
+import vouchertracker.repository.AccountRepository;
 import vouchertracker.service.AccountService;
 
 @Controller
 public class AccountController {
 
     @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
     private AccountService accountService;
 
-    // preauthorize
-    @GetMapping("/users")
-    public String list(Model model) {
-        model.addAttribute("users", accountService.findAll());
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public String listAll(Model model) {
+        model.addAttribute("users", accountRepository.findAll());
 
         return "users";
     }
 
-    // preauthorize
-    @GetMapping("/users/new")
-    public String emptyForm(@ModelAttribute AccountForm accountForm) {
+    @RequestMapping(value = "/users/new", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public String emptyForm(@ModelAttribute AccountDto accountDto) {
         return "user";
     }
 
-    // preauthorize
-    @PostMapping("/users/new")
-    public String add(
-            @Valid @ModelAttribute AccountForm accountForm,
+    @RequestMapping(value = "/users/new", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public String addNew(
+            @ModelAttribute("accountDto") @Valid AccountDto accountDto,
             BindingResult bindingResult
     ) {
-        if (bindingResult.hasErrors()) return "user";
+        if (!bindingResult.hasErrors()) {
+            Account account = accountService.registerNewUser(accountDto);
 
-        this.accountService.register(
-                accountForm.getFirstName(),
-                accountForm.getLastName(),
-                accountForm.getEmail(),
-                "qwerty", // <-- temporary .......
-                accountForm.isAdministrator()
-        );
+            if (account == null) bindingResult.rejectValue("email", "",
+                    "This email address is already in use by another user");
+        }
+
+        if (bindingResult.hasErrors()) return "user";
 
         return "redirect:/users";
     }

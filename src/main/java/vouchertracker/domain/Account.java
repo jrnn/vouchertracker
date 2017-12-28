@@ -16,6 +16,7 @@ public class Account extends UUIDPersistable {
     private String email;
     private String password;
     private boolean administrator;
+    // private boolean active; <-- ??
     // private LocalDate addedOn; <-- ??
 
 }
