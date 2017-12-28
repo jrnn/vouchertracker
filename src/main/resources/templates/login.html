@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+    <head>
+        <title>PvTracker | Login</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+        <meta th:replace="fragments/common_styles :: common_styles"/>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Prepaid Voucher Tracker</h1>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h3>Please provide credentials</h3>
+                </div>
+            </div>
+
+            <form name="f" th:action="@{/login}" method="POST">
+                <div class="row">
+                    <div th:if="${param.error}" class="col alert alert-danger" role="alert">
+                        Invalid email or password!
+                    </div>
+                    <div th:if="${param.logout}" class="col alert alert-success" role="alert">
+                        You are now logged out
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="username">Email</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="jane.doe@company.com"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="qwerty"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="submit" value="Log in"/>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="col" align="middle">
+                    <a th:href="@{/login/forgot}">Forgot password?</a>
+                </div>
+            </div>
+        </div>
+
+        <script th:replace="fragments/common_scripts :: common_scripts"></script>
+    </body>
+
+</html>

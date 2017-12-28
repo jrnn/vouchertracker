@@ -41,13 +41,12 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/h2-console/", "/h2-console/**").permitAll()
-                // .antMatchers("/css/**").permitAll() <-- needed later for custom login page
+                .antMatchers("/css/**").permitAll()
                 .antMatchers("/users/", "/users/**").hasAuthority("SUPERUSER")
                 .anyRequest().authenticated();
 
         http.formLogin()
-                // .loginPage("/login") <-- neede later for custom login page
-                .permitAll().and()
+                .loginPage("/login").permitAll().and()
                 .logout().permitAll();
     }
 

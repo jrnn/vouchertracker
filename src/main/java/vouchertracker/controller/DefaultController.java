@@ -19,4 +19,9 @@ public class DefaultController {
         return "redirect:/";
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login() {
+        return "login";
+    }
+
 }
