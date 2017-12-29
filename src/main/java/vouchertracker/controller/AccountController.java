@@ -25,7 +25,7 @@ public class AccountController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    public String list(Model model) {
+    public String listAccounts(Model model) {
         model.addAttribute("users", accountRepository.findAll());
 
         return "users";
@@ -33,26 +33,26 @@ public class AccountController {
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    public String edit(Model model, @PathVariable("id") String id) {
-        model.addAttribute("accountDto", accountService.getDtoForAccount(id));
+    public String editAccount(Model model, @PathVariable("id") String id) {
+        model.addAttribute("dto", accountService.getDtoForAccount(id));
 
         return "user";
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    public String addOrUpdate(
-            @ModelAttribute("accountDto") @Valid AccountDto accountDto,
-            BindingResult bindingResult
+    public String addOrUpdateAccount(
+            @ModelAttribute("dto") @Valid AccountDto dto,
+            BindingResult result
     ) {
-        if (!bindingResult.hasErrors()) {
-            Account account = accountService.registerOrUpdateAccount(accountDto);
+        if (!result.hasErrors()) {
+            Account account = accountService.registerOrUpdateAccount(dto);
 
-            if (account == null) bindingResult.rejectValue("email", "",
+            if (account == null) result.rejectValue("email", "",
                     "This email address is already reserved for another user");
         }
 
-        if (bindingResult.hasErrors()) return "user";
+        if (result.hasErrors()) return "user";
 
         return "redirect:/users";
     }

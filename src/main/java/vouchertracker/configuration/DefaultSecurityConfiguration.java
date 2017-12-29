@@ -29,8 +29,8 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @PostConstruct // initialize a few fake users for sandbox
     public void init() {
-        this.accountService.registerOrUpdateAccount(new AccountDto(null, "Spongebob", "Squarepants", "sponge@bob.io", false));
-        this.accountService.registerOrUpdateAccount(new AccountDto(null, "Chuck", "Norris", "chuck@norr.is", true));
+        accountService.registerOrUpdateAccount(new AccountDto(null, "Spongebob", "Squarepants", "sponge@bob.io", false));
+        accountService.registerOrUpdateAccount(new AccountDto(null, "Chuck", "Norris", "chuck@norr.is", true));
     }
 
     @Override
@@ -39,9 +39,11 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
 
+        // note that RESET_PASSWORD now can access everything not explicitly restricted to a role
         http.authorizeRequests()
                 .antMatchers("/h2-console/", "/h2-console/**").permitAll()
-                .antMatchers("/css/**").permitAll()
+                .antMatchers("/css/**", "/login/**").permitAll()
+                .antMatchers("/password/reset").hasAuthority("RESET_PASSWORD")
                 .antMatchers("/users/", "/users/**").hasAuthority("SUPERUSER")
                 .anyRequest().authenticated();
 

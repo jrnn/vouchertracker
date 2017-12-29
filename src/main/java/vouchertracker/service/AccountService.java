@@ -1,7 +1,6 @@
 package vouchertracker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vouchertracker.domain.Account;
 import vouchertracker.domain.AccountDto;
@@ -13,9 +12,13 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordService passwordService;
 
-    public boolean isEmailReserved(String id, String email) {
+    public boolean emailExists(String email) {
+        return accountRepository.findByEmailIgnoreCase(email.trim()) != null;
+    }
+
+    public boolean anotherUserHasThisEmail(String id, String email) {
         return accountRepository.countIdenticalEmails(id, email.trim()) > 0;
     }
 
@@ -28,13 +31,13 @@ public class AccountService {
     }
 
     public Account registerOrUpdateAccount(AccountDto dto) {
-        if (isEmailReserved(dto.getId(), dto.getEmail())) return null;
+        if (anotherUserHasThisEmail(dto.getId(), dto.getEmail())) return null;
 
         Account account = accountRepository.findByUuid(dto.getId());
 
         if (account == null) {
             account = new Account();
-            account.setPassword(passwordEncoder.encode("qwerty")); // <-- TEMPORARY
+            account.setPassword(passwordService.getRandomPassword());
         }
 
         account = writeDtoToAccount(account, dto);

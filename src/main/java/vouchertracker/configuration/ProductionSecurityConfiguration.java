@@ -24,8 +24,10 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // note that RESET_PASSWORD now can access everything not explicitly restricted to a role
         http.authorizeRequests()
-                .antMatchers("/css/**").permitAll()
+                .antMatchers("/css/**", "/login/**").permitAll()
+                .antMatchers("/password/reset").hasAuthority("RESET_PASSWORD")
                 .antMatchers("/users/", "/users/**").hasAuthority("SUPERUSER")
                 .anyRequest().authenticated();
 
