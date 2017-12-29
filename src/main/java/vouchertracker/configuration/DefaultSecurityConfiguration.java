@@ -29,8 +29,8 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @PostConstruct // initialize a few fake users for sandbox
     public void init() {
-        this.accountService.registerNewUser(new AccountDto("Spongebob", "Squarepants", "sponge@bob.io", false));
-        this.accountService.registerNewUser(new AccountDto("Chuck", "Norris", "chuck@norr.is", true));
+        this.accountService.registerOrUpdateAccount(new AccountDto(null, "Spongebob", "Squarepants", "sponge@bob.io", false));
+        this.accountService.registerOrUpdateAccount(new AccountDto(null, "Chuck", "Norris", "chuck@norr.is", true));
     }
 
     @Override

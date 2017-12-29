@@ -12,6 +12,8 @@ import vouchertracker.validation.NotEmpty;
 @Data
 public class AccountDto {
 
+    private String id = "new";
+
     @NotEmpty
     private String firstName;
 

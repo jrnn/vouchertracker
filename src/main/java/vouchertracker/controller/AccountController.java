@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import vouchertracker.domain.Account;
@@ -24,29 +25,31 @@ public class AccountController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    public String listAll(Model model) {
+    public String list(Model model) {
         model.addAttribute("users", accountRepository.findAll());
 
         return "users";
     }
 
-    @RequestMapping(value = "/users/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    public String emptyForm(@ModelAttribute AccountDto accountDto) {
+    public String edit(Model model, @PathVariable("id") String id) {
+        model.addAttribute("accountDto", accountService.getDtoForAccount(id));
+
         return "user";
     }
 
-    @RequestMapping(value = "/users/new", method = RequestMethod.POST)
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    public String addNew(
+    public String addOrUpdate(
             @ModelAttribute("accountDto") @Valid AccountDto accountDto,
             BindingResult bindingResult
     ) {
         if (!bindingResult.hasErrors()) {
-            Account account = accountService.registerNewUser(accountDto);
+            Account account = accountService.registerOrUpdateAccount(accountDto);
 
             if (account == null) bindingResult.rejectValue("email", "",
-                    "This email address is already in use by another user");
+                    "This email address is already reserved for another user");
         }
 
         if (bindingResult.hasErrors()) return "user";

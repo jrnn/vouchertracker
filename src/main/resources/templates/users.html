@@ -22,6 +22,7 @@
                         <th>Last name</th>
                         <th>First name</th>
                         <th>Email</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,6 +30,7 @@
                         <td th:text="${user.lastName}">Last name</td>
                         <td th:text="${user.firstName}">First name</td>
                         <td th:text="${user.email}">Email</td>
+                        <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
                     </tr>
                 </tbody>
             </table>

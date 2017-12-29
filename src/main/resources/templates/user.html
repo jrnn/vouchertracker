@@ -16,7 +16,7 @@
         </section>
 
         <section class="container">
-            <form action="#" th:method="POST" th:action="@{/users/new}" th:object="${accountDto}">
+            <form action="#" th:method="POST" th:action="@{/users}" th:object="${accountDto}">
                 <div th:if="${#fields.hasErrors('*')}" class='row'>
                     <div class='col alert alert-danger' role='alert'>Oops! There's something fishy with the data you provided</div>
                 </div>
@@ -49,7 +49,8 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <input type="submit" value="Add new user"/>
+                        <input th:field="*{id}" type="hidden"/>
+                        <input type="submit" value="Submit"/>
                     </div>
                 </div>
             </form>

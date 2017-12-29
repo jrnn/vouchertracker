@@ -15,30 +15,30 @@ public class AccountService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public boolean isEmailReserved(String email) {
-        return accountRepository.findByEmailIgnoreCase(email.trim()) != null;
+    public boolean isEmailReserved(String id, String email) {
+        return accountRepository.countIdenticalEmails(id, email.trim()) > 0;
     }
 
-    public Account registerNewUser(AccountDto dto) {
-        if (isEmailReserved(dto.getEmail())) return null;
+    public AccountDto getDtoForAccount(String id) {
+        Account account = accountRepository.findByUuid(id);
 
-        Account account = writeDtoToAccount(new Account(), dto);
-        account.setPassword(passwordEncoder.encode("qwerty")); // <-- TEMPORARY
+        if (account == null) return new AccountDto();
 
-        return this.accountRepository.save(account);
+        return writeDtoFromAccount(account);
     }
 
-    public void changePassword(String accountId, String password) {
-        throw new UnsupportedOperationException();
-    }
+    public Account registerOrUpdateAccount(AccountDto dto) {
+        if (isEmailReserved(dto.getId(), dto.getEmail())) return null;
 
-    public void toggleAdmin(String accountId) {
-        Account account = accountRepository.getOne(accountId);
+        Account account = accountRepository.findByUuid(dto.getId());
 
-        if (account == null) return;
+        if (account == null) {
+            account = new Account();
+            account.setPassword(passwordEncoder.encode("qwerty")); // <-- TEMPORARY
+        }
 
-        account.setAdministrator(!account.isAdministrator());
-        accountRepository.save(account);
+        account = writeDtoToAccount(account, dto);
+        return accountRepository.save(account);
     }
 
     private Account writeDtoToAccount(Account account, AccountDto dto) {
@@ -48,6 +48,18 @@ public class AccountService {
         account.setAdministrator(dto.isAdministrator());
 
         return account;
+    }
+
+    private AccountDto writeDtoFromAccount(Account account) {
+        AccountDto dto = new AccountDto();
+
+        dto.setId(account.getId());
+        dto.setFirstName(account.getFirstName());
+        dto.setLastName(account.getLastName());
+        dto.setEmail(account.getEmail());
+        dto.setAdministrator(account.isAdministrator());
+
+        return dto;
     }
 
 }
