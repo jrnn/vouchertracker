@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,19 +37,25 @@ public class PasswordService {
                 UUID.randomUUID().toString().replace("-", ""));
     }
 
-    public void sendResetToken(String email) {
-        Account account = accountRepository.findByEmailIgnoreCase(email);
+    public boolean sendResetToken(String email) {
+        Account account = accountRepository.findByEmailIgnoreCase(email.trim());
         VerificationToken token = setTokenToAccount(account);
-        mailService.sendTokenByEmail(account, token);
+
+        try {
+            mailService.sendTokenByEmail(account, token);
+        } catch (MailException e) {
+            return false;
+        }
+
+        return true;
     }
 
-    public String verifyResetToken(String accountId, String tokenValue) {
+    public boolean verifyResetToken(String accountId, String tokenValue) {
         VerificationToken token = tokenRepository.findByToken(tokenValue);
 
-        // error msg would be nice FOR ALL OF THESE
-        if (token == null) return "Invalid token!";
-        if (!token.getAccount().getId().equals(accountId)) return "Invalid token!";
-        if (LocalDateTime.now().isAfter(token.getExpiresOn())) return "Token has expired!";
+        if (token == null) return false;
+        if (!token.getAccount().getId().equals(accountId) ||
+                LocalDateTime.now().isAfter(token.getExpiresOn())) return false;
 
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(
@@ -57,7 +64,7 @@ public class PasswordService {
                         Arrays.asList(new SimpleGrantedAuthority("RESET_PASSWORD"))));
 
         tokenRepository.delete(token);
-        return null;
+        return true;
     }
 
     private VerificationToken setTokenToAccount(Account account) {

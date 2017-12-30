@@ -1,5 +1,6 @@
 package vouchertracker.service;
 
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vouchertracker.domain.Account;
@@ -13,6 +14,10 @@ public class AccountService {
     private AccountRepository accountRepository;
     @Autowired
     private PasswordService passwordService;
+
+    public Collection<Account> findAll() {
+        return accountRepository.findAll();
+    }
 
     public boolean emailExists(String email) {
         return accountRepository.findByEmailIgnoreCase(email.trim()) != null;

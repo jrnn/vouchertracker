@@ -16,6 +16,8 @@
         </section>
 
         <section class="container">
+            <div th:if="${success != null}" th:text="${success}" class="alert alert-success" role="alert"></div>
+
             <table id="users-table" class="table">
                 <thead>
                     <tr>

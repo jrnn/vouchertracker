@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vouchertracker.domain.Account;
 import vouchertracker.domain.EmailDto;
 import vouchertracker.domain.PasswordDto;
@@ -32,25 +33,36 @@ public class PasswordController {
     @RequestMapping(value = "/login/forgot", method = RequestMethod.POST)
     public String requestPasswordReset(
             @ModelAttribute("dto") @Valid EmailDto dto,
-            BindingResult result
+            BindingResult result,
+            RedirectAttributes redirectAttrs
     ) {
         if (!result.hasErrors() && !accountService.emailExists(dto.getEmail())) result
                     .rejectValue("email", "", "No user has registered with this email");
 
         if (result.hasErrors()) return "password_forgot";
 
-        passwordService.sendResetToken(dto.getEmail().trim().toLowerCase());
-        return "redirect:/login"; // success msg would be nice ...
+        boolean mailSent = passwordService.sendResetToken(dto.getEmail());
+
+        if (mailSent) redirectAttrs.addFlashAttribute("success",
+                "Verification token for resetting password successfully sent");
+        else redirectAttrs.addFlashAttribute("failure",
+                "Something went wrong, please try again or contact system administrator");
+
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/login/reset", method = RequestMethod.GET)
     public String verifyResetToken(
             @RequestParam("id") String id,
-            @RequestParam("token") String token
+            @RequestParam("token") String token,
+            RedirectAttributes redirectAttrs
     ) {
-        String result = passwordService.verifyResetToken(id, token);
+        boolean isTokenValid = passwordService.verifyResetToken(id, token);
 
-        if (result != null) return "redirect:/"; // error msg would be nice ...
+        if (!isTokenValid) {
+            redirectAttrs.addFlashAttribute("failure", "Oops! Invalid or expired token!");
+            return "redirect:/login";
+        }
 
         return "redirect:/password/reset";
     }
@@ -65,15 +77,19 @@ public class PasswordController {
     @PreAuthorize("hasAuthority('RESET_PASSWORD')")
     public String resetPassword(
             @ModelAttribute("dto") @Valid PasswordDto dto,
-            BindingResult result
+            BindingResult result,
+            RedirectAttributes redirectAttrs
     ) {
         if (result.hasErrors()) return "password_reset";
 
         Account account = (Account) SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal();
-        passwordService.changePassword(account, dto.getNewPassword());
 
-        return "redirect:/login"; // success msg would be nice ...
+        passwordService.changePassword(account, dto.getNewPassword());
+        SecurityContextHolder.getContext().setAuthentication(null);
+        redirectAttrs.addFlashAttribute("success", "Hooray! Password successfully changed!");
+
+        return "redirect:/login";
     }
 
 }

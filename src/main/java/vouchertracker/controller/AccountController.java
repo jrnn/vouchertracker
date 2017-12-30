@@ -10,23 +10,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vouchertracker.domain.Account;
 import vouchertracker.domain.AccountDto;
-import vouchertracker.repository.AccountRepository;
 import vouchertracker.service.AccountService;
 
 @Controller
 public class AccountController {
 
     @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
     private AccountService accountService;
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('SUPERUSER')")
     public String listAccounts(Model model) {
-        model.addAttribute("users", accountRepository.findAll());
+        model.addAttribute("users", accountService.findAll());
 
         return "users";
     }
@@ -43,7 +41,8 @@ public class AccountController {
     @PreAuthorize("hasAuthority('SUPERUSER')")
     public String addOrUpdateAccount(
             @ModelAttribute("dto") @Valid AccountDto dto,
-            BindingResult result
+            BindingResult result,
+            RedirectAttributes redirectAttrs
     ) {
         if (!result.hasErrors()) {
             Account account = accountService.registerOrUpdateAccount(dto);
@@ -54,6 +53,7 @@ public class AccountController {
 
         if (result.hasErrors()) return "user";
 
+        redirectAttrs.addFlashAttribute("success", "Hooray! Operation successful!");
         return "redirect:/users";
     }
 

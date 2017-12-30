@@ -57,7 +57,7 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("superuser")
                 .password("superuser")
-                .authorities("ADMIN", "SUPERUSER");
+                .authorities("ADMIN", "SUPERUSER", "RESET_PASSWORD");
 
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
