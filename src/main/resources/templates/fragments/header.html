@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+  <head>
+    <title>fragment</title>
+    <meta charset="UTF-8"/>
+  </head>
+
+  <body>
+    <header th:fragment="header" class="sticky-top bg-black">
+      <div class="container" align="center">
+        <table>
+          <tr>
+            <td>Future link</td>
+            <td>&nbsp;|&nbsp;</td>
+            <td>Future link</td>
+            <td>&nbsp;|&nbsp;</td>
+            <td sec:authorize="hasAuthority('SUPERUSER')">
+              <a th:href="@{/users}" class="header">Users</a>
+            </td>
+            <td>&nbsp;|&nbsp;</td>
+            <td>
+              <form th:action="@{/logout}" method="POST">
+                <input type="submit" class="submit-link" id="logout" value="Log out"/>
+              </form>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </header>
+  </body>
+
+</html>

@@ -1,4 +1,83 @@
-html {
+* {
+    border-radius : 0 !important;
 }
 body {
+    background-color : #fdfdfd;
+    color : #17110d;
+    font-family : "Ubuntu", sans-serif;
+}
+header {
+    padding : 12px 0px;
+}
+footer {
+    padding-top : 12px;
+}
+h1 {
+    font-weight : bold;
+    padding : 30px 0px;
+}
+a:link, a:visited {
+    color : #7f3d11;
+}
+a:hover, a:active {
+    color : #ef7f17;
+    text-decoration : none;
+}
+a.header:link, a.header:visited {
+    color : #fdfdfd;
+}
+a.header:hover, a.header:active {
+    color : #ef7f17;
+    text-decoration : none;
+}
+
+.padded {
+    padding: 18px 0px;
+}
+.bg-black {
+    background-color : #17110d;
+    color : #fdfdfd;
+}
+.bg-dark {
+    background-color : #4f4947;
+    color : #fdfdfd;
+}
+.bg-orange {
+    background-color : #ef7f17;
+}
+.bg-gray {
+    background-color : #b8b5b3;
+}
+.button {
+    background-color : #17110d;
+    border : none;
+    color : #fdfdfd;
+    cursor : pointer;
+    padding : 8px 40px;
+}
+.button:hover {
+    background-color : #ef7f17;
+}
+
+.alert-danger {
+    background-color : #bf2b13;
+    border : none;
+    color : #fdfdfd;
+    font-weight : bold;
+}
+.alert-success {
+    background-color : #3ba353;
+    border : none;
+    color : #fdfdfd;
+    font-weight : bold;
+}
+.submit-link {
+    background-color : transparent;
+    border : none;
+    color : #fdfdfd;
+    cursor : pointer;
+    padding : 0;
+}
+.submit-link:hover {
+    color :#ef7f17;
 }

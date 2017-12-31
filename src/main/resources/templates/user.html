@@ -3,60 +3,84 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.springframework.org/security/tags">
 
-    <head>
-        <title>PvTracker | User management</title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
-        <meta th:replace="fragments/common_styles :: common_styles"/>
-    </head>
+  <head>
+    <title>PvTracker | User management</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta th:replace="fragments/common_styles :: common_styles"/>
+  </head>
 
-    <body>
-        <section class="container">
-            <h1>Add/edit user</h1>
-        </section>
+  <body>
+    <header th:replace="fragments/header :: header">Header</header>
 
-        <section class="container">
-            <form action="#" th:method="POST" th:action="@{/users}" th:object="${dto}">
-                <div th:if="${#fields.hasErrors('*')}" class='row'>
-                    <div class='col alert alert-danger' role='alert'>Oops! There's something fishy with the data you provided</div>
-                </div>
-                <div class="row">
-                    <div class="col form-group">
-                        <label for="firstName">First name</label>
-                        <input th:field="*{firstName}" type="text" class="form-control" th:errorclass="is-invalid" placeholder="Spongebob"/>
-                        <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="invalid-feedback">error msg</small>
-                    </div>
-                    <div class="col form-group">
-                        <label for="lastName">Last name</label>
-                        <input th:field="*{lastName}" type="text" class="form-control" th:errorclass="is-invalid" placeholder="Squarepants"/>
-                        <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="invalid-feedback">error msg</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col form-group">
-                        <label for="email">Email (for login)</label>
-                        <input th:field="*{email}" type="text" class="form-control" th:errorclass="is-invalid" placeholder="sponge.bob@square.pants"/>
-                        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback">error msg</small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col form-check">
-                        <label class="form-check-label">
-                            <input th:field="*{administrator}" type="checkbox" class="form-check-input"/>
-                            Has admin rights (can edit all vouchers and customers)
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <input th:field="*{id}" type="hidden"/>
-                        <input type="submit" value="Submit"/>
-                    </div>
-                </div>
-            </form>
-        </section>
+    <section class="bg-orange">
+      <div class="container">
+        <h1>Add/edit user</h1>
+      </div>
+    </section>
 
-        <script th:replace="fragments/common_scripts :: common_scripts"></script>
-    </body>
+    <section class="padded">
+      <div class="container">
+        <form action="#" th:method="POST" th:action="@{/users}" th:object="${dto}">
+          <input th:field="*{id}" type="hidden"/>
+          <div th:if="${#fields.hasErrors('*')}" class="row">
+            <div class="col alert alert-danger alert-dismissable">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                 Oops! There's something fishy with the data you provided
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-6 form-group">
+              <label for="firstName">First name</label>
+              <input th:field="*{firstName}" type="text" class="form-control"
+                     th:errorclass="is-invalid" placeholder="Spongebob"/>
+              <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                     class="invalid-feedback">Validation error message</small>
+            </div>
+            <div class="col-12 col-md-6 form-group">
+              <label for="lastName">Last name</label>
+              <input th:field="*{lastName}" type="text" class="form-control"
+                     th:errorclass="is-invalid" placeholder="Squarepants"/>
+              <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                     class="invalid-feedback">Validation error message</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col form-group">
+              <label for="email">Email (for login)</label>
+              <input th:field="*{email}" type="text" class="form-control"
+                     th:errorclass="is-invalid" placeholder="sponge.bob@square.pants"/>
+              <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                     class="invalid-feedback">Validation error message</small>
+            </div>
+          </div>
+          <div class="row padded">
+            <div class="col-12 col-md-6 form-check">
+              <label class="form-check-label">
+                <input th:field="*{administrator}" type="checkbox" class="form-check-input"/>
+                       Has admin rights (can edit all vouchers and customers)
+              </label>
+            </div>
+            <div class="col-12 col-md-6 form-check">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" disabled/>
+                       Has access rights (can log in only when this is checked)
+              </label>
+            </div>
+          </div>
+          <div class="row padded">
+            <div class="col">
+              <input type="submit" class="button" id="submit" value="Submit"/>
+              <input type="button" class="button" id="cancel" value="Cancel"
+                     onClick="window.location='/users'"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer th:replace="fragments/footer :: footer">Footer</footer>
+    <script th:replace="fragments/common_scripts :: common_scripts"></script>
+  </body>
 
 </html>

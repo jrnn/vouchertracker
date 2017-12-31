@@ -3,44 +3,64 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.springframework.org/security/tags">
 
-    <head>
-        <title>PvTracker | User management</title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
-        <meta th:replace="fragments/common_styles :: common_styles"/>
-    </head>
+  <head>
+    <title>PvTracker | User management</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta th:replace="fragments/common_styles :: common_styles"/>
+  </head>
 
-    <body>
-        <section class="container">
-            <h1>User management</h1>
-        </section>
+  <body>
+    <header th:replace="fragments/header :: header">Header</header>
 
-        <section class="container">
-            <div th:if="${success != null}" th:text="${success}" class="alert alert-success" role="alert"></div>
+    <section class="bg-orange">
+      <div class="container">
+        <h1>User management</h1>
+      </div>
+    </section>
 
-            <table id="users-table" class="table">
-                <thead>
-                    <tr>
-                        <th>Last name</th>
-                        <th>First name</th>
-                        <th>Email</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="user : ${users}">
-                        <td th:text="${user.lastName}">Last name</td>
-                        <td th:text="${user.firstName}">First name</td>
-                        <td th:text="${user.email}">Email</td>
-                        <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
-                    </tr>
-                </tbody>
+    <section class="padded">
+      <div class="container">
+        <div th:if="${success != null}" class="row">
+          <div class="col alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <span th:text="${success}">Success message</span>
+          </div>
+        </div>
+        <div class="row padded">
+          <div class="col">
+            <table id="table-users" class="table">
+              <thead>
+                <tr>
+                  <th>Last name</th>
+                  <th>First name</th>
+                  <th>Email</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="user : ${users}">
+                  <td th:text="${user.lastName}">Last name</td>
+                  <td th:text="${user.firstName}">First name</td>
+                  <td th:text="${user.email}">Email</td>
+                  <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
+                </tr>
+              </tbody>
             </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <form th:action="@{/users/new}" method="GET">
+              <input type="submit" class="button" id="addNew" value="Add new user"/>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <a th:href="@{/users/new}">Click HERE to add new user</a>
-        </section>
-
-        <script th:replace="fragments/common_scripts :: common_scripts"></script>
-    </body>
+    <footer th:replace="fragments/footer :: footer">Footer</footer>
+    <script th:replace="fragments/common_scripts :: common_scripts"></script>
+  </body>
 
 </html>

@@ -3,60 +3,80 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.springframework.org/security/tags">
 
-    <head>
-        <title>PvTracker | Login</title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
-        <meta th:replace="fragments/common_styles :: common_styles"/>
-    </head>
+  <head>
+    <title>PvTracker | Login</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta th:replace="fragments/common_styles :: common_styles"/>
+  </head>
 
-    <body>
-        <section class="container">
-            <h1>Prepaid Voucher Tracker</h1>
-        </section>
+  <body>
+    <header class="sticky-top bg-black">
+      <div class="container" align="center">&nbsp;</div>
+    </header>
 
-        <section class="container">
-            <form name="f" th:action="@{/login}" method="POST">
-                <div class="row">
-                    <div class="col">
-                        <h3>Please provide credentials</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div th:if="${param.error}" class="col alert alert-danger" role="alert">
-                        Invalid email or password!
-                    </div>
-                    <div th:if="${param.logout}" class="col alert alert-success" role="alert">
-                        You are now logged out
-                    </div>
-                    <div th:if="${failure != null}" th:text="${failure}" class="col alert alert-danger" role="alert"></div>
-                    <div th:if="${success != null}" th:text="${success}" class="col alert alert-success" role="alert"></div>
-                </div>
-                <div class="row">
-                    <div class="col form-group">
-                        <label for="username">Email</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="jane.doe@company.com"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="qwerty"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <input type="submit" value="Log in"/>
-                    </div>
-                </div>
-            </form>
+    <section class="bg-orange">
+      <div class="container">
+        <h1>Prepaid Voucher Tracker</h1>
+      </div>
+    </section>
 
-            <div align="middle">
-                <a th:href="@{/login/forgot}">Forgot password?</a>
+    <section class="padded">
+      <div class="container">
+        <form name="f" th:action="@{/login}" method="POST">
+          <div class="row">
+            <div th:if="${param.error}" class="col alert alert-danger alert-dismissable">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                 Invalid email or password!
             </div>
-        </section>
+            <div th:if="${param.logout}" class="col alert alert-success alert-dismissable">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                 You are now logged out
+            </div>
+            <div th:if="${failure != null}" class="col alert alert-danger alert-dismissable">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <span th:text="${failure}">Failure message</span>
+            </div>
+            <div th:if="${success != null}" class="col alert alert-success alert-dismissable">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <span th:text="${success}">Success message</span>
+            </div>
+          </div>
+          <div class="row padded">
+            <div class="col">
+              <h3>Please provide credentials</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col form-group">
+              <label for="username">Email</label>
+              <input type="text" class="form-control" id="username" name="username"
+                     placeholder="firstname.lastname@domain.com"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password"
+                     placeholder="qwerty"/>
+            </div>
+          </div>
+          <div class="row padded">
+            <div class="col">
+              <input type="submit" class="button" id="submit" value="Log in"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" align="center">
+              <a th:href="@{/login/forgot}">Forgot password?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
 
-        <script th:replace="fragments/common_scripts :: common_scripts"></script>
-    </body>
+    <footer th:replace="fragments/footer :: footer">Footer</footer>
+    <script th:replace="fragments/common_scripts :: common_scripts"></script>
+  </body>
 
 </html>
