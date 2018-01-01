@@ -7,14 +7,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class DefaultController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String hello() {
-        return "vouchers";
-    }
-
     @RequestMapping("*")
     public String defaultRedirect() {
-        return "redirect:/";
+        return "redirect:/vouchers";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

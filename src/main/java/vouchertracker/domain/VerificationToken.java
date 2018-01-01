@@ -31,7 +31,7 @@ public class VerificationToken implements Serializable {
     private LocalDateTime expiresOn = LocalDateTime.now().plusMinutes(VALIDITY);
 
     @OneToOne(targetEntity = Account.class, fetch = EAGER)
-    @JoinColumn(nullable = false, name = "account_id")
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
 }

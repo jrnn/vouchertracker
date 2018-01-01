@@ -89,7 +89,7 @@ public class PasswordController {
                 .getContext().getAuthentication().getPrincipal();
 
         passwordService.changePassword(account, dto.getNewPassword());
-        SecurityContextHolder.getContext().setAuthentication(null);
+        SecurityContextHolder.clearContext();
         redirectAttrs.addFlashAttribute("success", "Hooray! Password successfully changed!");
 
         return "redirect:/login";

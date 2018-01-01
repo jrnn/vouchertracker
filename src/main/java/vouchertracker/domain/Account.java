@@ -1,8 +1,10 @@
 package vouchertracker.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,5 +26,8 @@ public class Account extends UUIDPersistable {
 
     @Column(updatable = false)
     private LocalDate createdOn = LocalDate.now();
+
+    @OneToMany(mappedBy = "account")
+    private List<VoucherEntry> voucherEntries;
 
 }
