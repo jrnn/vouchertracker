@@ -19,8 +19,17 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public boolean emailExists(String email) {
-        return accountRepository.findByEmailIgnoreCase(email.trim()) != null;
+//    public boolean emailExists(String email) {
+//        return accountRepository.findByEmailIgnoreCase(email.trim()) != null;
+//    }
+
+    public String checkAccountStatus(String email) {
+        Account account = accountRepository.findByEmailIgnoreCase(email.trim());
+
+        if (account == null) return "No user has registered with this email";
+        if (!account.isEnabled()) return "The account tied to this email has been disabled";
+
+        return null;
     }
 
     public boolean anotherUserHasThisEmail(String id, String email) {
@@ -54,6 +63,7 @@ public class AccountService {
         account.setLastName(dto.getLastName().trim());
         account.setEmail(dto.getEmail().trim().toLowerCase());
         account.setAdministrator(dto.isAdministrator());
+        account.setEnabled(dto.isEnabled());
 
         return account;
     }
@@ -66,6 +76,8 @@ public class AccountService {
         dto.setLastName(account.getLastName());
         dto.setEmail(account.getEmail());
         dto.setAdministrator(account.isAdministrator());
+        dto.setEnabled(account.isEnabled());
+        dto.setCreatedOn(account.getCreatedOn());
 
         return dto;
     }

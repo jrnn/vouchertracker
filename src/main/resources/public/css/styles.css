@@ -58,6 +58,16 @@ a.header:hover, a.header:active {
 .button:hover {
     background-color : #ef7f17;
 }
+.submit-link {
+    background-color : transparent;
+    border : none;
+    color : #fdfdfd;
+    cursor : pointer;
+    padding : 0;
+}
+.submit-link:hover {
+    color :#ef7f17;
+}
 
 .alert-danger {
     background-color : #bf2b13;
@@ -71,13 +81,8 @@ a.header:hover, a.header:active {
     color : #fdfdfd;
     font-weight : bold;
 }
-.submit-link {
-    background-color : transparent;
-    border : none;
+a.close {
     color : #fdfdfd;
-    cursor : pointer;
-    padding : 0;
-}
-.submit-link:hover {
-    color :#ef7f17;
+    opacity : 1;
+    text-shadow : none;
 }

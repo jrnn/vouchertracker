@@ -21,32 +21,41 @@
       </div>
     </section>
 
+    <!-- Login form -->
     <section class="padded">
       <div class="container">
         <form name="f" th:action="@{/login}" method="POST">
+
+          <!-- Possible failure/success alerts -->
           <div class="row">
-            <div th:if="${param.error}" class="col alert alert-danger alert-dismissable">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                 Invalid email or password!
-            </div>
-            <div th:if="${param.logout}" class="col alert alert-success alert-dismissable">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                 You are now logged out
-            </div>
-            <div th:if="${failure != null}" class="col alert alert-danger alert-dismissable">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <span th:text="${failure}">Failure message</span>
-            </div>
-            <div th:if="${success != null}" class="col alert alert-success alert-dismissable">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <span th:text="${success}">Success message</span>
+            <div class="col form-group">
+              <div th:if="${param.error}" class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                   Invalid email or password!
+              </div>
+              <div th:if="${param.logout}" class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                   You are now logged out
+              </div>
+              <div th:if="${failure != null}" class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:text="${failure}">Failure message</span>
+              </div>
+              <div th:if="${success != null}" class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:text="${success}">Success message</span>
+              </div>
             </div>
           </div>
-          <div class="row padded">
-            <div class="col">
+
+          <!-- Form title -->
+          <div class="row">
+            <div class="col form-group">
               <h3>Please provide credentials</h3>
             </div>
           </div>
+
+          <!-- Form fields -->
           <div class="row">
             <div class="col form-group">
               <label for="username">Email</label>
@@ -61,16 +70,19 @@
                      placeholder="qwerty"/>
             </div>
           </div>
+
+          <!-- Form buttons, links -->
           <div class="row padded">
-            <div class="col">
+            <div class="col form-group">
               <input type="submit" class="button" id="submit" value="Log in"/>
             </div>
           </div>
           <div class="row">
-            <div class="col" align="center">
+            <div class="col form-group" align="center">
               <a th:href="@{/login/forgot}">Forgot password?</a>
             </div>
           </div>
+
         </form>
       </div>
     </section>

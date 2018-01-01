@@ -9,7 +9,7 @@ public class PasswordFormatValidator implements ConstraintValidator<PasswordForm
             "[A-Za-z0-9!#$%&'*+.:,;/=?@^_~-]+";
 
     private static final String MINIMUM_REQUIREMENTS =
-            "((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,})";
+            "((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,})";
 
     @Override
     public boolean isValid(String pw, ConstraintValidatorContext context) {

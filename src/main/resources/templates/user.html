@@ -19,15 +19,25 @@
       </div>
     </section>
 
+    <!-- User form -->
     <section class="padded">
       <div class="container">
         <form action="#" th:method="POST" th:action="@{/users}" th:object="${dto}">
-          <input th:field="*{id}" type="hidden"/>
-          <div th:if="${#fields.hasErrors('*')}" class="row">
-            <div class="col alert alert-danger alert-dismissable">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                 Oops! There's something fishy with the data you provided
+
+          <!-- Possible failure/success alerts -->
+          <div class="row">
+            <div class="col form-group">
+              <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                   Oops! There's something fishy with the data you provided
+              </div>
             </div>
+          </div>
+
+          <!-- Form fields -->
+          <div th:if="*{createdOn != null}" class="row">
+            <div th:text="${'User created on: ' + #temporals.format(dto.createdOn, 'yyyy-MM-dd')}"
+                 class="col form-group" align="right">Created on</div>
           </div>
           <div class="row">
             <div class="col-12 col-md-6 form-group">
@@ -55,26 +65,37 @@
             </div>
           </div>
           <div class="row padded">
-            <div class="col-12 col-md-6 form-check">
-              <label class="form-check-label">
-                <input th:field="*{administrator}" type="checkbox" class="form-check-input"/>
-                       Has admin rights (can edit all vouchers and customers)
-              </label>
+            <div class="col-12 col-md-6 form-group">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input th:field="*{enabled}" type="checkbox" class="form-check-input"/>
+                         Has access rights (can log in only when this is checked)
+                </label>
+              </div>
             </div>
-            <div class="col-12 col-md-6 form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" disabled/>
-                       Has access rights (can log in only when this is checked)
-              </label>
+            <div class="col-12 col-md-6 form-group">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input th:field="*{administrator}" type="checkbox" class="form-check-input"/>
+                         Has admin rights (can edit all vouchers and customers)
+                </label>
+              </div>
             </div>
           </div>
-          <div class="row padded">
-            <div class="col">
+
+          <!-- Form buttons, links -->
+          <div class="row">
+            <div class="col form-group">
               <input type="submit" class="button" id="submit" value="Submit"/>
               <input type="button" class="button" id="cancel" value="Cancel"
                      onClick="window.location='/users'"/>
             </div>
           </div>
+
+          <!-- Hidden uneditable attributes -->
+          <input th:field="*{id}" type="hidden"/>
+          <input th:field="*{createdOn}" type="hidden"/>
+
         </form>
       </div>
     </section>

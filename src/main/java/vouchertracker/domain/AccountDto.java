@@ -1,5 +1,6 @@
 package vouchertracker.domain;
 
+import java.time.LocalDate;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,10 @@ public class AccountDto {
     private String email;
 
     @NotNull
-    private boolean administrator;
+    private boolean administrator = false;
+
+    @NotNull
+    private boolean enabled = true;
+    private LocalDate createdOn;
 
 }

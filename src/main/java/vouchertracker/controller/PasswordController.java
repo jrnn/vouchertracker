@@ -36,8 +36,11 @@ public class PasswordController {
             BindingResult result,
             RedirectAttributes redirectAttrs
     ) {
-        if (!result.hasErrors() && !accountService.emailExists(dto.getEmail())) result
-                    .rejectValue("email", "", "No user has registered with this email");
+        if (!result.hasErrors()) {
+            String accountStatus = accountService.checkAccountStatus(dto.getEmail());
+
+            if (accountStatus != null) result.rejectValue("email", "", accountStatus);
+        }
 
         if (result.hasErrors()) return "password_forgot";
 

@@ -29,8 +29,17 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @PostConstruct // initialize a few fake users for sandbox
     public void init() {
-        accountService.registerOrUpdateAccount(new AccountDto(null, "Spongebob", "Squarepants", "sponge@bob.io", false));
-        accountService.registerOrUpdateAccount(new AccountDto(null, "Chuck", "Norris", "chuck@norr.is", true));
+        AccountDto dto = new AccountDto();
+        dto.setFirstName("Spongebob");
+        dto.setLastName("Squarepants");
+        dto.setEmail("sponge@bob.io");
+        accountService.registerOrUpdateAccount(dto);
+
+        dto = new AccountDto();
+        dto.setFirstName("Chuck");
+        dto.setLastName("Norris");
+        dto.setEmail("chuck@norr.is");
+        accountService.registerOrUpdateAccount(dto);
     }
 
     @Override
@@ -55,8 +64,8 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("superuser")
-                .password("superuser")
+                .withUser("su")
+                .password("su")
                 .authorities("ADMIN", "SUPERUSER", "RESET_PASSWORD");
 
         auth.userDetailsService(userDetailsService)

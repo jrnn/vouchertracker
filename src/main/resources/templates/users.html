@@ -19,36 +19,45 @@
       </div>
     </section>
 
+    <!-- Users table -->
     <section class="padded">
       <div class="container">
-        <div th:if="${success != null}" class="row">
-          <div class="col alert alert-success alert-dismissible">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <span th:text="${success}">Success message</span>
+
+        <!-- Possible failure/success alerts -->
+        <div class="row">
+          <div class="col">
+            <div th:if="${success != null}" class="alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <span th:text="${success}">Success message</span>
+            </div>
           </div>
         </div>
+
+        <!-- Table contents -->
         <div class="row padded">
           <div class="col">
             <table id="table-users" class="table">
               <thead>
                 <tr>
-                  <th>Last name</th>
-                  <th>First name</th>
-                  <th>Email</th>
+                  <th>User name</th>
+                  <th>Access</th>
+                  <th>Admin</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <tr th:each="user : ${users}">
-                  <td th:text="${user.lastName}">Last name</td>
-                  <td th:text="${user.firstName}">First name</td>
-                  <td th:text="${user.email}">Email</td>
+                  <td th:text="${user.lastName + ', ' + user.firstName}">User name</td>
+                  <td th:text="${user.enabled}">Enabled</td>
+                  <td th:text="${user.administrator}">Administrator</td>
                   <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+
+        <!-- Buttons, links -->
         <div class="row">
           <div class="col">
             <form th:action="@{/users/new}" method="GET">
@@ -56,6 +65,7 @@
             </form>
           </div>
         </div>
+
       </div>
     </section>
 
