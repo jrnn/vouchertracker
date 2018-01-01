@@ -3,7 +3,7 @@ package vouchertracker.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import vouchertracker.validation.EmailFormat;
+import vouchertracker.validation.constraint.EmailFormat;
 
 @NoArgsConstructor
 @AllArgsConstructor

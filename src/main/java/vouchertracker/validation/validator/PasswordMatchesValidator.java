@@ -1,8 +1,9 @@
-package vouchertracker.validation;
+package vouchertracker.validation.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import vouchertracker.domain.PasswordDto;
+import vouchertracker.validation.constraint.PasswordMatches;
 
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object> {
 

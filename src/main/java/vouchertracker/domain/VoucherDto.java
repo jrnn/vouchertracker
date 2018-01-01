@@ -5,13 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import vouchertracker.validation.NotEmpty;
+import vouchertracker.validation.constraint.IssuedBeforeReceived;
+import vouchertracker.validation.constraint.NotEmpty;
+import vouchertracker.validation.constraint.NotFuture;
+import vouchertracker.validation.constraint.ParsableAsDouble;
+import vouchertracker.validation.constraint.RefundLessThanPurchase;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-// validation needed : issuedOn cannot be later than receivedOn
-// validation needed : refundAmount cannot be greater than purchaseAmount
+@RefundLessThanPurchase
+@IssuedBeforeReceived
 public class VoucherDto {
 
     private String accountId = "new";
@@ -24,18 +28,18 @@ public class VoucherDto {
     private String issuedAt;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    // validation needed : cannot be a future date
+    @NotFuture
     private LocalDate issuedOn;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    // validation needed : cannot be a future date
+    @NotFuture
     private LocalDate receivedOn;
 
-    // validation needed : must be "parsable" as double
-    private Double purchaseAmount;
+    @ParsableAsDouble
+    private String purchaseAmount;
 
-    // validation needed : must be "parsable" as double
-    private Double refundAmount;
+    @ParsableAsDouble
+    private String refundAmount;
     private boolean stamped = false;
 
 }

@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import vouchertracker.validation.EmailFormat;
-import vouchertracker.validation.NotEmpty;
+import vouchertracker.validation.constraint.EmailFormat;
+import vouchertracker.validation.constraint.NotEmpty;
 
 @NoArgsConstructor
 @AllArgsConstructor

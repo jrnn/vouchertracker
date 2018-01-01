@@ -3,8 +3,8 @@ package vouchertracker.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import vouchertracker.validation.PasswordFormat;
-import vouchertracker.validation.PasswordMatches;
+import vouchertracker.validation.constraint.PasswordFormat;
+import vouchertracker.validation.constraint.PasswordMatches;
 
 @NoArgsConstructor
 @AllArgsConstructor

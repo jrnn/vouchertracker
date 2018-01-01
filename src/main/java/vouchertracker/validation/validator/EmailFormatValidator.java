@@ -1,7 +1,8 @@
-package vouchertracker.validation;
+package vouchertracker.validation.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import vouchertracker.validation.constraint.EmailFormat;
 
 public class EmailFormatValidator implements ConstraintValidator<EmailFormat, String> {
 

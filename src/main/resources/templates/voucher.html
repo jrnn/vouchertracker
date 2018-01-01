@@ -31,12 +31,10 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                    Oops! There's something fishy with the data you provided
               </div>
-            </div>
-          </div>
-          <div th:if="${#fields.hasGlobalErrors()}" class="row">
-            <div class="col form-group alert alert-danger alert-dismissable">
-              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <span th:errors="*{global}">Global validation error message(s)</span>
+              <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:errors="*{global}">Global validation error message(s)</span>
+              </div>
             </div>
           </div>
 
@@ -96,7 +94,7 @@
               <small th:if="${#fields.hasErrors('refundAmount')}" th:errors="*{refundAmount}"
                      class="invalid-feedback">Validation error message</small>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 form-group">
+            <div class="col-12 col-sm-6 col-md-4 form-group align-self-center">
               <div class="form-check">
                 <label class="form-check-label">
                   <input th:field="*{stamped}" type="checkbox" class="form-check-input"/>
