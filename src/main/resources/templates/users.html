@@ -20,7 +20,7 @@
     </section>
 
     <!-- Users table -->
-    <section class="padded">
+    <section sec:authorize="hasAuthority('SUPERUSER')" class="padded">
       <div class="container">
 
         <!-- Possible failure/success alerts -->
@@ -36,21 +36,21 @@
         <!-- Table contents -->
         <div class="row padded">
           <div class="col">
-            <table id="table-users" class="table">
+            <table id="table-users" class="table hover" data-page-length='10'>
               <thead>
                 <tr>
                   <th>User name</th>
                   <th>Access</th>
                   <th>Admin</th>
-                  <th></th>
+                  <th>Created on</th>
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="user : ${users}">
+                <tr th:each="user : ${users}" th:data-href="${user.id}">
                   <td th:text="${user.lastName + ', ' + user.firstName}">User name</td>
                   <td th:text="${user.enabled}">Enabled</td>
                   <td th:text="${user.administrator}">Administrator</td>
-                  <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
+                  <td th:text="${#temporals.format(user.createdOn, 'yyyy-MM-dd')}">Created on</td>
                 </tr>
               </tbody>
             </table>
@@ -71,6 +71,20 @@
 
     <footer th:replace="fragments/footer :: footer">Footer</footer>
     <script th:replace="fragments/common_scripts :: common_scripts"></script>
+
+    <script>
+    $(document).ready(function() {
+        $('#table-users').DataTable( {
+            'lengthChange': false,
+            'language' : {
+                'search' : 'Search'
+            }
+        });
+    });
+    $("#table-users").on("click", "tbody tr", function() {
+        window.location="/users/" + $(this).data("href");
+    });
+    </script>
   </body>
 
 </html>

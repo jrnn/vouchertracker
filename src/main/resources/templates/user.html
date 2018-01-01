@@ -20,7 +20,7 @@
     </section>
 
     <!-- User form -->
-    <section class="padded">
+    <section sec:authorize="hasAuthority('SUPERUSER')" class="padded">
       <div class="container">
         <form action="#" th:method="POST" th:action="@{/users}" th:object="${dto}">
 
