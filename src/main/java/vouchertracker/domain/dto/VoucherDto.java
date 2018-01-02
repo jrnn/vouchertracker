@@ -1,4 +1,4 @@
-package vouchertracker.domain;
+package vouchertracker.domain.dto;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import vouchertracker.validation.constraint.RefundLessThanPurchase;
 @IssuedBeforeReceived
 public class VoucherDto {
 
-    private String accountId = "new";
+    private String accountId;
 
     @NotEmpty
     private String voucherId;

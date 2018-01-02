@@ -10,8 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import vouchertracker.domain.Account;
-import vouchertracker.domain.VerificationToken;
+import vouchertracker.domain.entity.Account;
+import vouchertracker.domain.entity.VerificationToken;
 import vouchertracker.repository.AccountRepository;
 import vouchertracker.repository.VerificationTokenRepository;
 
@@ -64,6 +64,7 @@ public class PasswordService {
                         Arrays.asList(new SimpleGrantedAuthority("RESET_PASSWORD"))));
 
         tokenRepository.delete(token);
+
         return true;
     }
 
@@ -74,6 +75,7 @@ public class PasswordService {
 
         token = new VerificationToken();
         token.setAccount(account);
+
         return tokenRepository.save(token);
     }
 

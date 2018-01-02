@@ -3,8 +3,8 @@ package vouchertracker.service;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import vouchertracker.domain.Account;
-import vouchertracker.domain.AccountDto;
+import vouchertracker.domain.dto.AccountDto;
+import vouchertracker.domain.entity.Account;
 import vouchertracker.repository.AccountRepository;
 
 @Service
@@ -18,10 +18,6 @@ public class AccountService {
     public Collection<Account> findAll() {
         return accountRepository.findAll();
     }
-
-//    public boolean emailExists(String email) {
-//        return accountRepository.findByEmailIgnoreCase(email.trim()) != null;
-//    }
 
     public String checkAccountStatus(String email) {
         Account account = accountRepository.findByEmailIgnoreCase(email.trim());
@@ -55,6 +51,7 @@ public class AccountService {
         }
 
         account = writeDtoToAccount(account, dto);
+
         return accountRepository.save(account);
     }
 

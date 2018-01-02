@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import vouchertracker.domain.Account;
-import vouchertracker.domain.AccountDto;
+import vouchertracker.domain.dto.AccountDto;
+import vouchertracker.domain.entity.Account;
 import vouchertracker.service.AccountService;
 
 @Controller
@@ -54,6 +54,7 @@ public class AccountController {
         if (result.hasErrors()) return "user";
 
         redirectAttrs.addFlashAttribute("success", "Hooray! Operation successful!");
+
         return "redirect:/users";
     }
 

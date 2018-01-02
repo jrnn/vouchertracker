@@ -2,7 +2,7 @@ package vouchertracker.validation.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import vouchertracker.domain.VoucherDto;
+import vouchertracker.domain.dto.VoucherDto;
 import vouchertracker.validation.constraint.IssuedBeforeReceived;
 
 public class IssuedBeforeReceivedValidator

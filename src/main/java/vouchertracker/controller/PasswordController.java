@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import vouchertracker.domain.Account;
-import vouchertracker.domain.EmailDto;
-import vouchertracker.domain.PasswordDto;
+import vouchertracker.domain.dto.EmailDto;
+import vouchertracker.domain.dto.PasswordDto;
+import vouchertracker.domain.entity.Account;
 import vouchertracker.service.AccountService;
 import vouchertracker.service.PasswordService;
 
@@ -64,6 +64,7 @@ public class PasswordController {
 
         if (!isTokenValid) {
             redirectAttrs.addFlashAttribute("failure", "Oops! Invalid or expired token!");
+
             return "redirect:/login";
         }
 
@@ -89,8 +90,8 @@ public class PasswordController {
                 .getContext().getAuthentication().getPrincipal();
 
         passwordService.changePassword(account, dto.getNewPassword());
-        SecurityContextHolder.clearContext();
         redirectAttrs.addFlashAttribute("success", "Hooray! Password successfully changed!");
+        SecurityContextHolder.clearContext();
 
         return "redirect:/login";
     }

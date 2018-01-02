@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import vouchertracker.domain.Account;
+import vouchertracker.domain.entity.Account;
 import vouchertracker.repository.AccountRepository;
 
 @Service

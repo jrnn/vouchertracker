@@ -1,6 +1,5 @@
-package vouchertracker.domain;
+package vouchertracker.domain.entity;
 
-import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,10 +23,7 @@ public class Account extends UUIDPersistable {
     private boolean administrator;
     private boolean enabled;
 
-    @Column(updatable = false)
-    private LocalDate createdOn = LocalDate.now();
-
     @OneToMany(mappedBy = "account")
-    private List<VoucherEntry> voucherEntries;
+    private List<Voucher> vouchers;
 
 }

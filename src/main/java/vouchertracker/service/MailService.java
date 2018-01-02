@@ -6,8 +6,8 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import vouchertracker.domain.Account;
-import vouchertracker.domain.VerificationToken;
+import vouchertracker.domain.entity.Account;
+import vouchertracker.domain.entity.VerificationToken;
 
 @Service
 public class MailService {

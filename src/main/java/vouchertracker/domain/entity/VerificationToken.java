@@ -1,4 +1,4 @@
-package vouchertracker.domain;
+package vouchertracker.domain.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -30,7 +30,7 @@ public class VerificationToken implements Serializable {
 
     private LocalDateTime expiresOn = LocalDateTime.now().plusMinutes(VALIDITY);
 
-    @OneToOne(targetEntity = Account.class, fetch = EAGER)
+    @OneToOne(fetch = EAGER)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 

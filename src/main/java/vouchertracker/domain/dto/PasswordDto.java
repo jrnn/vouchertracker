@@ -1,4 +1,4 @@
-package vouchertracker.domain;
+package vouchertracker.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
