@@ -1,6 +1,7 @@
 package vouchertracker.domain.dto;
 
 import java.time.LocalDate;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,11 @@ import vouchertracker.validation.constraint.RefundLessThanPurchase;
 @IssuedBeforeReceived
 public class VoucherDto {
 
-    private String accountId;
+    // references
+    private String id = "new";
+    private String customerId = "new";
 
+    // Voucher fields
     @NotEmpty
     private String voucherId;
     private String voucherIdExt;
@@ -41,5 +45,16 @@ public class VoucherDto {
     @ParsableAsDouble
     private String refundAmount;
     private boolean stamped = false;
+
+    // Customer fields
+    @NotEmpty
+    private String firstName;
+
+    @NotEmpty
+    private String lastName;
+
+    @NotEmpty
+    @Size(max = 32, message = "Must not exceed 32 characters")
+    private String passport;
 
 }

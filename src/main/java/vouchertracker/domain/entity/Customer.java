@@ -1,6 +1,8 @@
 package vouchertracker.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,8 +23,9 @@ public class Customer extends UUIDPersistable {
     @Column(length = 32, nullable = false)
     private String passport;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "customer")
-    private List<Voucher> vouchers;
+    private List<Voucher> vouchers = new ArrayList<>();
 
     private String lastEditedBy;
     private LocalDateTime lastEditedOn;

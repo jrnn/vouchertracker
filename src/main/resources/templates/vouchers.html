@@ -19,8 +19,65 @@
       </div>
     </section>
 
+    <!-- Users table -->
+    <section sec:authorize="isAuthenticated()" class="padded">
+      <div class="container">
+
+        <!-- Possible failure/success alerts -->
+        <div class="row">
+          <div class="col">
+            <div th:if="${success != null}" class="alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <span th:text="${success}">Success message</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table contents -->
+        <div class="row padded">
+          <div class="col">
+            <table id="table-vouchers" class="table hover" data-page-length='10'>
+              <thead>
+                <tr>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="voucher : ${vouchers}" th:data-href="${voucher.id}">
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Buttons, links -->
+        <div class="row">
+          <div class="col">
+            <form th:action="@{/vouchers/edit/new}" method="GET">
+              <input type="submit" class="button" id="addNew" value="Add new voucher"/>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <footer th:replace="fragments/footer :: footer">Footer</footer>
     <script th:replace="fragments/common_scripts :: common_scripts"></script>
+    <script>
+    $(document).ready(function() {
+        $("#table-vouchers").DataTable( {
+            "lengthChange" : false,
+            "language" : {
+                "search" : "Search"
+            }
+        });
+    });
+    $("#table-vouchers").on("click", "tbody tr", function() {
+        window.location="/vouchers/" + $(this).data("href");
+    });
+    </script>
   </body>
 
 </html>

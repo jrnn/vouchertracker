@@ -2,6 +2,7 @@ package vouchertracker.service;
 
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vouchertracker.domain.dto.AccountDto;
 import vouchertracker.domain.entity.Account;
@@ -17,6 +18,12 @@ public class AccountService {
 
     public Collection<Account> findAll() {
         return accountRepository.findAll();
+    }
+
+    public Account getAccountByAuthentication() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return this.accountRepository.findByEmailIgnoreCase(email);
     }
 
     public String checkAccountStatus(String email) {

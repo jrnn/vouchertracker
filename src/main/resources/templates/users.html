@@ -71,13 +71,12 @@
 
     <footer th:replace="fragments/footer :: footer">Footer</footer>
     <script th:replace="fragments/common_scripts :: common_scripts"></script>
-
     <script>
     $(document).ready(function() {
-        $('#table-users').DataTable( {
-            'lengthChange': false,
-            'language' : {
-                'search' : 'Search'
+        $("#table-users").DataTable( {
+            "lengthChange" : false,
+            "language" : {
+                "search" : "Search"
             }
         });
     });

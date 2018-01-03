@@ -5,6 +5,7 @@ body {
     background-color : #fdfdfd;
     color : #17110d;
     font-family : "Ubuntu", sans-serif;
+    margin-bottom : 6rem;
 }
 header {
     padding : 12px 0px;
@@ -36,6 +37,10 @@ a.header:hover, a.header:active {
  */
 .padded {
     padding: 18px 0px;
+}
+.divider {
+    border-bottom : 1px solid #b8b5b3;
+    margin : 36px 0px;
 }
 .bg-black {
     background-color : #17110d;

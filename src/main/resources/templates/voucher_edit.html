@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+  <head>
+    <title>PvTracker | Vouchers</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta th:replace="fragments/common_styles :: common_styles"/>
+  </head>
+
+  <body>
+    <header th:replace="fragments/header :: header">Header</header>
+
+    <section class="bg-orange">
+      <div class="container">
+        <h1>Add/edit voucher</h1>
+      </div>
+    </section>
+
+    <!-- Voucher form -->
+    <section sec:authorize="isAuthenticated()" class="padded">
+      <div class="container">
+        <form action="#" th:method="POST" th:action="@{/vouchers/edit}" th:object="${dto}">
+
+          <!-- Possible failure/success alerts -->
+          <div class="row">
+            <div class="col form-group">
+              <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                   Oops! There's something fishy with the data you provided
+              </div>
+              <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:errors="*{global}">Global validation error message(s)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer details section -->
+          <section id="customer-form">
+            <div class="row">
+              <div class="col form-group">
+                <h3>Customer details</h3>
+              </div>
+            </div>
+
+            <!-- Form fields -->
+            <div class="row">
+              <div class="col-12 col-md-6 form-group">
+                <label for="customerId">Pick customer</label>
+                <select th:field="*{customerId}" class="form-control">
+                  <option value="new">(New customer)</option>
+                  <option th:each="customer : ${customers}" th:value=${customer.id}
+                          th:text="${customer.lastName + ', ' + customer.firstName}">
+                          Customer name</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6 form-group">
+                <label for="passport">Passport number</label>
+                <input th:field="*{passport}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="PP1234567" readonly/>
+                <small th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6 form-group">
+                <label for="firstName">First name</label>
+                <input th:field="*{firstName}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="Spongebob" readonly/>
+                <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+              <div class="col-12 col-md-6 form-group">
+                <label for="lastName">Last name</label>
+                <input th:field="*{lastName}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="Squarepants" readonly/>
+                <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+            </div>
+          </section>
+
+          <section class="divider"></section>
+
+          <!-- Voucher details section -->
+          <section id="voucher-form">
+            <div class="row">
+              <div class="col form-group">
+                <h3>Voucher details</h3>
+              </div>
+            </div>
+
+            <!-- Form fields -->
+            <div class="row">
+              <div class="col form-group">
+                <label for="voucherId">Voucher ID</label>
+                <input th:field="*{voucherId}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="First line"/>
+                <small th:if="${#fields.hasErrors('voucherId')}" th:errors="*{voucherId}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col form-group">
+                <input th:field="*{voucherIdExt}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="Second line (optional)"/>
+                <small th:if="${#fields.hasErrors('voucherIdExt')}" th:errors="*{voucherIdExt}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-4 form-group">
+                <label for="issuedOn">Date of issue</label>
+                <input th:field="*{issuedOn}" type="date" class="form-control"
+                       th:errorclass="is-invalid"/>
+                <small th:if="${#fields.hasErrors('issuedOn')}" th:errors="*{issuedOn}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+              <div class="col-12 col-md-8 form-group">
+                <label for="issuedAt">Place of issue</label>
+                <input th:field="*{issuedAt}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="Country(?)"/>
+                <small th:if="${#fields.hasErrors('issuedAt')}" th:errors="*{issuedAt}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-4 form-group">
+                <label for="receivedOn">Received on</label>
+                <input th:field="*{receivedOn}" type="date" class="form-control"
+                       th:errorclass="is-invalid"/>
+                <small th:if="${#fields.hasErrors('receivedOn')}" th:errors="*{receivedOn}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 form-group">
+                <label for="purchaseAmount">Purchase amount</label>
+                <input th:field="*{purchaseAmount}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="0.00"/>
+                <small th:if="${#fields.hasErrors('purchaseAmount')}" th:errors="*{purchaseAmount}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 form-group">
+                <label for="refundAmount">Refund amount</label>
+                <input th:field="*{refundAmount}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="0.00"/>
+                <small th:if="${#fields.hasErrors('refundAmount')}" th:errors="*{refundAmount}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 form-group align-self-center">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input th:field="*{stamped}" type="checkbox" class="form-check-input"/>
+                           Customs stamp
+                  </label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Form buttons, links -->
+          <div class="row padded">
+            <div class="col form-group">
+              <input type="submit" class="button" id="submit" value="Submit"/>
+              <input type="button" class="button" id="cancel" value="Cancel"
+                     onClick="window.location='/vouchers'"/>
+
+                     <!-- MAKE THIS REDIRECT TO THE CORRECT PLACE -->
+
+            </div>
+          </div>
+
+          <!-- Hidden uneditable attributes -->
+          <input th:field="*{id}" type="hidden"/>
+
+        </form>
+      </div>
+    </section>
+
+    <footer th:replace="fragments/footer :: footer">Footer</footer>
+    <script th:replace="fragments/common_scripts :: common_scripts"></script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+        if ($("#customerId option:selected").val() == "new") {
+            $("#customer-form input").prop("readonly", false);
+        }
+    });
+    $("#customerId").change(function() {
+        if ($(this).val() == "new") {
+            $("#customer-form input").prop("readonly", false).val("");
+        } else {
+            $("#customer-form input").prop("readonly", true);
+
+            var customers = /*[[${customers}]]*/ null;
+            var i = $("#customerId option:selected").index() - 1;
+
+            $("#passport").val(customers[i].passport);
+            $("#firstName").val(customers[i].firstName);
+            $("#lastName").val(customers[i].lastName);
+        }
+    });
+    /*]]>*/
+    </script>
+  </body>
+
+</html>

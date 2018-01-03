@@ -1,6 +1,6 @@
 package vouchertracker.domain.entity;
 
-import java.math.BigInteger;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
@@ -20,14 +20,16 @@ public class Voucher extends UUIDPersistable {
     private String issuedAt;
     private LocalDate issuedOn;
     private LocalDate receivedOn;
-    private BigInteger purchaseAmount; // use integer to avoid floating-point rounding error
-    private BigInteger refundAmount;   // use integer to avoid floating-point rounding error
+    private Long purchaseAmount; // use integer to avoid floating-point rounding error
+    private Long refundAmount;   // use integer to avoid floating-point rounding error
     private boolean stamped;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;

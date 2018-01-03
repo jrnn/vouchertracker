@@ -1,5 +1,7 @@
 package vouchertracker.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +25,8 @@ public class Account extends UUIDPersistable {
     private boolean administrator;
     private boolean enabled;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "account")
-    private List<Voucher> vouchers;
+    private List<Voucher> vouchers = new ArrayList<>();;
 
 }
