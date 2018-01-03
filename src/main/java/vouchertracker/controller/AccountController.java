@@ -23,7 +23,7 @@ public class AccountController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    public String listAccounts(Model model) {
+    public String listAll(Model model) {
         model.addAttribute("users", accountService.findAll());
 
         return "users";
@@ -31,7 +31,7 @@ public class AccountController {
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    public String editAccount(Model model, @PathVariable("id") String id) {
+    public String viewOne(Model model, @PathVariable("id") String id) {
         model.addAttribute("dto", accountService.getDtoForAccount(id));
 
         return "user";
@@ -39,7 +39,7 @@ public class AccountController {
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    public String addOrUpdateAccount(
+    public String createOrUpdate(
             @ModelAttribute("dto") @Valid AccountDto dto,
             BindingResult result,
             RedirectAttributes redirectAttrs

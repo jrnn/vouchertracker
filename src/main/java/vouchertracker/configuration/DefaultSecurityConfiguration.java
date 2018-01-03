@@ -1,6 +1,5 @@
 package vouchertracker.configuration;
 
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import vouchertracker.domain.dto.AccountDto;
-import vouchertracker.service.AccountService;
 import vouchertracker.service.CustomUserDetailsService;
 
 @Configuration
@@ -23,24 +20,7 @@ import vouchertracker.service.CustomUserDetailsService;
 public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AccountService accountService;
-    @Autowired
     private CustomUserDetailsService userDetailsService;
-
-    @PostConstruct // initialize a few fake users for sandbox
-    public void init() {
-        AccountDto dto = new AccountDto();
-        dto.setFirstName("Spongebob");
-        dto.setLastName("Squarepants");
-        dto.setEmail("sponge@bob.io");
-        accountService.registerOrUpdateAccount(dto);
-
-        dto = new AccountDto();
-        dto.setFirstName("Chuck");
-        dto.setLastName("Norris");
-        dto.setEmail("chuck@norr.is");
-        accountService.registerOrUpdateAccount(dto);
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

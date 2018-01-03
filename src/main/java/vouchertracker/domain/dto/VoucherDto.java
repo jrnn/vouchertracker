@@ -37,7 +37,7 @@ public class VoucherDto {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotFuture
-    private LocalDate receivedOn;
+    private LocalDate receivedOn = LocalDate.now();
 
     @ParsableAsDouble
     private String purchaseAmount;

@@ -26,6 +26,10 @@
         <!-- Possible failure/success alerts -->
         <div class="row">
           <div class="col">
+            <div th:if="${failure != null}" class="alert alert-danger alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <span th:text="${failure}">Failure message</span>
+            </div>
             <div th:if="${success != null}" class="alert alert-success alert-dismissible">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <span th:text="${success}">Success message</span>
@@ -39,12 +43,16 @@
             <table id="table-vouchers" class="table hover" data-page-length='10'>
               <thead>
                 <tr>
-                  <th></th>
+                  <th>Voucher Id</th>
+                  <th>Passport</th>
+                  <th>Customs stamp</th>
                 </tr>
               </thead>
               <tbody>
                 <tr th:each="voucher : ${vouchers}" th:data-href="${voucher.id}">
-                  <td></td>
+                  <td th:text=${voucher.voucherId}>Voucher Id</td>
+                  <td th:text=${voucher.customer.passport}>Passport</td>
+                  <td th:text=${voucher.stamped}>Customs stamp</td>
                 </tr>
               </tbody>
             </table>
@@ -52,9 +60,9 @@
         </div>
 
         <!-- Buttons, links -->
-        <div class="row">
+        <div sec:authorize="hasAuthority('USER')" class="row">
           <div class="col">
-            <form th:action="@{/vouchers/edit/new}" method="GET">
+            <form th:action="@{/vouchers/new}" method="GET">
               <input type="submit" class="button" id="addNew" value="Add new voucher"/>
             </form>
           </div>

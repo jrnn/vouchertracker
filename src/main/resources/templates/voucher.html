@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+  <head>
+    <title>PvTracker | Vouchers</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta th:replace="fragments/common_styles :: common_styles"/>
+  </head>
+
+  <body>
+    <header th:replace="fragments/header :: header">Header</header>
+
+    <div>TODO : show voucher details + who owns it + last edited by/on</div>
+    <div>Voucher owner's account id: <span th:text="${voucher.account.id}">uuid</span></div>
+    <div>Let's use that to authorize editing. You should see the edit button only if you're ADMIN or voucher owner. Also, let's pass that as a request parameter when clicking the button, so authorization can be done also serverside.</div>
+    <div sec:authorize="hasAuthority(#vars.voucher.account.id) OR hasAuthority('ADMIN')">
+      <form th:method="GET" th:action="@{/vouchers/{id}/edit(id=${voucher.id})}">
+        <input type="submit" class="button" value="Edit"/>
+        <input type="hidden" name="ownerId" th:value="${voucher.account.id}"/>
+      </form>
+    </div>
+
+    <footer th:replace="fragments/footer :: footer">Footer</footer>
+    <script th:replace="fragments/common_scripts :: common_scripts"></script>
+  </body>
+
+</html>

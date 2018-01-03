@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vouchertracker.domain.dto.CustomerDto;
+import vouchertracker.domain.dto.VoucherDto;
 import vouchertracker.domain.entity.Account;
 import vouchertracker.domain.entity.Customer;
 import vouchertracker.repository.CustomerRepository;
@@ -21,13 +22,12 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    // simplify? (i.e. 'if dto.getId().equals("new")' ...)
-    public Customer handleCustomerInVoucher(CustomerDto dto) {
-        Customer customer = customerRepository.findByUuid(dto.getId());
+    public Customer handleCustomerInVoucherDto(VoucherDto vDto) {
+        CustomerDto cDto = detachCustomerFromVoucher(vDto);
 
-        if (customer == null) return saveOrUpdateCustomer(dto);
-
-        return customer;
+        return (cDto.getId().equals("new")
+                ? saveOrUpdateCustomer(cDto)
+                : customerRepository.findByUuid(cDto.getId()));
     }
 
     public Customer saveOrUpdateCustomer(CustomerDto dto) {
@@ -45,12 +45,47 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
+    public CustomerDto detachCustomerFromVoucher(VoucherDto vDto) {
+        CustomerDto cDto = new CustomerDto();
+
+        cDto.setId(vDto.getCustomerId());
+        cDto.setFirstName(vDto.getFirstName());
+        cDto.setLastName(vDto.getLastName());
+        cDto.setPassport(vDto.getPassport());
+
+        return cDto;
+    }
+
+    public VoucherDto attachCustomerToVoucher(VoucherDto dto, String customerId) {
+        Customer customer = customerRepository.findByUuid(customerId);
+
+        if (customer != null) {
+            dto.setCustomerId(customer.getId());
+            dto.setFirstName(customer.getFirstName());
+            dto.setLastName(customer.getLastName());
+            dto.setPassport(customer.getPassport());
+        }
+
+        return dto;
+    }
+
     private Customer writeDtoToCustomer(Customer customer, CustomerDto dto) {
         customer.setFirstName(dto.getFirstName().trim());
         customer.setLastName(dto.getLastName().trim());
         customer.setPassport(dto.getPassport().trim());
 
         return customer;
+    }
+
+    private CustomerDto writeDtoFromCustomer(Customer customer) {
+        CustomerDto dto = new CustomerDto();
+
+        dto.setId(customer.getId());
+        dto.setFirstName(customer.getFirstName());
+        dto.setLastName(customer.getLastName());
+        dto.setPassport(customer.getPassport());
+
+        return null;
     }
 
 }

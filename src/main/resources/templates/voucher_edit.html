@@ -22,7 +22,7 @@
     <!-- Voucher form -->
     <section sec:authorize="isAuthenticated()" class="padded">
       <div class="container">
-        <form action="#" th:method="POST" th:action="@{/vouchers/edit}" th:object="${dto}">
+        <form action="#" th:method="POST" th:action="@{/vouchers}" th:object="${dto}">
 
           <!-- Possible failure/success alerts -->
           <div class="row">
@@ -52,8 +52,9 @@
                 <label for="customerId">Pick customer</label>
                 <select th:field="*{customerId}" class="form-control">
                   <option value="new">(New customer)</option>
-                  <option th:each="customer : ${customers}" th:value=${customer.id}
-                          th:text="${customer.lastName + ', ' + customer.firstName}">
+                  <option th:each="customer : ${customers}" th:value="${customer.id}"
+                          th:text="${customer.lastName + ', ' + customer.firstName}"
+                          th:selected="${customer.id == dto.customerId}">
                           Customer name</option>
                 </select>
               </div>
@@ -121,8 +122,11 @@
               </div>
               <div class="col-12 col-md-8 form-group">
                 <label for="issuedAt">Place of issue</label>
-                <input th:field="*{issuedAt}" type="text" class="form-control"
-                       th:errorclass="is-invalid" placeholder="Country(?)"/>
+                <select th:field="*{issuedAt}" class="form-control" th:errorclass="is-invalid"/>
+                  <option th:each="country : ${countries}" th:value="${country}"
+                          th:text="${country}" th:selected="${country == dto.issuedAt}">
+                          Country</option>
+                </select>
                 <small th:if="${#fields.hasErrors('issuedAt')}" th:errors="*{issuedAt}"
                        class="invalid-feedback">Validation error message</small>
               </div>
@@ -165,10 +169,7 @@
             <div class="col form-group">
               <input type="submit" class="button" id="submit" value="Submit"/>
               <input type="button" class="button" id="cancel" value="Cancel"
-                     onClick="window.location='/vouchers'"/>
-
-                     <!-- MAKE THIS REDIRECT TO THE CORRECT PLACE -->
-
+                     onClick="goBack();"/>
             </div>
           </div>
 
@@ -183,6 +184,15 @@
     <script th:replace="fragments/common_scripts :: common_scripts"></script>
     <script th:inline="javascript">
     /*<![CDATA[*/
+    function goBack() {
+        var id = /*[[${dto.id}]]*/ "new";
+
+        if (id == "new") {
+            window.location.href="/vouchers";
+        } else {
+            window.location.href="/vouchers/" + id;
+        }
+    };
     $(document).ready(function() {
         if ($("#customerId option:selected").val() == "new") {
             $("#customer-form input").prop("readonly", false);
