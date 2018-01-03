@@ -1,4 +1,5 @@
 /target/
 /nbactions.xml
 /sandbox.mv.db
+/sandbox.trace.db
 /src/main/resources/application-default.properties

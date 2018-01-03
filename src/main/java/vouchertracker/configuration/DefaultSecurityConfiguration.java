@@ -28,11 +28,11 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
 
-        // note that RESET_PASSWORD now can access everything not explicitly restricted to a role
         http.authorizeRequests()
                 .antMatchers("/h2-console/", "/h2-console/**").permitAll()
                 .antMatchers("/css/**", "/login/**").permitAll()
                 .antMatchers("/password/reset").hasAuthority("RESET_PASSWORD")
+                .antMatchers("/vouchers/", "/vouchers/**").hasAuthority("USER")
                 .antMatchers("/users/", "/users/**").hasAuthority("SUPERUSER")
                 .anyRequest().authenticated();
 
@@ -46,7 +46,7 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("su")
                 .password("su")
-                .authorities("ADMIN", "SUPERUSER", "RESET_PASSWORD");
+                .authorities("USER", "ADMIN", "SUPERUSER", "RESET_PASSWORD");
 
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());

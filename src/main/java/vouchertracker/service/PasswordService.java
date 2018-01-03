@@ -54,12 +54,15 @@ public class PasswordService {
         VerificationToken token = tokenRepository.findByToken(tokenValue);
 
         if (token == null) return false;
-        if (!token.getAccount().getId().equals(accountId) ||
+
+        Account account = token.getAccount(); // trying to get around LazyInitializationException
+
+        if (!account.getId().equals(accountId) ||
                 LocalDateTime.now().isAfter(token.getExpiresOn())) return false;
 
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(
-                        token.getAccount(),
+                        account,
                         null,
                         Arrays.asList(new SimpleGrantedAuthority("RESET_PASSWORD"))));
 

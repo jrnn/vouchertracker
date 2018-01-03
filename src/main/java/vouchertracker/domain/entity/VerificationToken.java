@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import static javax.persistence.FetchType.EAGER;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.AUTO;
 import javax.persistence.Id;
@@ -30,7 +29,7 @@ public class VerificationToken implements Serializable {
 
     private LocalDateTime expiresOn = LocalDateTime.now().plusMinutes(VALIDITY);
 
-    @OneToOne(fetch = EAGER)
+    @OneToOne
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 

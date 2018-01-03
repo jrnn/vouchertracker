@@ -20,7 +20,7 @@
     </section>
 
     <!-- Users table -->
-    <section sec:authorize="isAuthenticated()" class="padded">
+    <section sec:authorize="hasAuthority('USER')" class="padded">
       <div class="container">
 
         <!-- Possible failure/success alerts -->
@@ -60,7 +60,7 @@
         </div>
 
         <!-- Buttons, links -->
-        <div sec:authorize="hasAuthority('USER')" class="row">
+        <div sec:authorize="hasAuthority('VOUCHER_OWNER')" class="row">
           <div class="col">
             <form th:action="@{/vouchers/new}" method="GET">
               <input type="submit" class="button" id="addNew" value="Add new voucher"/>
@@ -83,7 +83,7 @@
         });
     });
     $("#table-vouchers").on("click", "tbody tr", function() {
-        window.location="/vouchers/" + $(this).data("href");
+        window.location.href="/vouchers/" + $(this).data("href");
     });
     </script>
   </body>

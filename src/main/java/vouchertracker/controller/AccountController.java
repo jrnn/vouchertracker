@@ -16,13 +16,13 @@ import vouchertracker.domain.entity.Account;
 import vouchertracker.service.AccountService;
 
 @Controller
+@PreAuthorize("hasAuthority('SUPERUSER')")
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('SUPERUSER')")
     public String listAll(Model model) {
         model.addAttribute("users", accountService.findAll());
 
@@ -30,7 +30,6 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('SUPERUSER')")
     public String viewOne(Model model, @PathVariable("id") String id) {
         model.addAttribute("dto", accountService.getDtoForAccount(id));
 
@@ -38,7 +37,6 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('SUPERUSER')")
     public String createOrUpdate(
             @ModelAttribute("dto") @Valid AccountDto dto,
             BindingResult result,

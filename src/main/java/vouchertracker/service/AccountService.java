@@ -20,7 +20,7 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public Account getAccountByAuthentication() {
+    public Account getAccountByAuthentication() { // this probably belongs elsewhere?
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         return this.accountRepository.findByEmailIgnoreCase(email);
@@ -42,9 +42,7 @@ public class AccountService {
     public AccountDto getDtoForAccount(String id) {
         Account account = accountRepository.findByUuid(id);
 
-        if (account == null) return new AccountDto();
-
-        return writeDtoFromAccount(account);
+        return (account == null ? new AccountDto() : writeDtoFromAccount(account));
     }
 
     public Account registerOrUpdateAccount(AccountDto dto) {

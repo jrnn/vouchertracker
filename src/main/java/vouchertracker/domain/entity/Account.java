@@ -27,6 +27,11 @@ public class Account extends UUIDPersistable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "account")
-    private List<Voucher> vouchers = new ArrayList<>();;
+    private List<Voucher> vouchers = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return getId();
+    }
 
 }

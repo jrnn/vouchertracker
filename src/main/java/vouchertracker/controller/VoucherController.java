@@ -26,7 +26,7 @@ public class VoucherController {
     private VoucherService voucherService;
 
     @RequestMapping(value = "/vouchers", method = RequestMethod.GET)
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('USER')")
     public String listAll(Model model) {
         model.addAttribute("vouchers", voucherService.findAll());
 
@@ -34,7 +34,7 @@ public class VoucherController {
     }
 
     @RequestMapping(value = "/vouchers/{id}", method = RequestMethod.GET)
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('USER')")
     public String viewOne(Model model, @PathVariable("id") String id) {
         model.addAttribute("voucher", voucherService.getOne(id));
 
@@ -42,7 +42,7 @@ public class VoucherController {
     }
 
     @RequestMapping(value = "/vouchers/new", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('VOUCHER_OWNER')")
     public String addNew(Model model) {
         model.addAttribute("dto", new VoucherDto());
         model.addAttribute("customers", customerService.findAll());
@@ -66,7 +66,7 @@ public class VoucherController {
     }
 
     @RequestMapping(value = "/vouchers", method = RequestMethod.POST)
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('USER')")
     public String createOrUpdate(
             @ModelAttribute("dto") @Valid VoucherDto dto,
             BindingResult result,

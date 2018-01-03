@@ -38,6 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add(new SimpleGrantedAuthority("USER"));
+        authorities.add(new SimpleGrantedAuthority("VOUCHER_OWNER"));
         authorities.add(new SimpleGrantedAuthority(account.getId()));
 
         if (account.isAdministrator()) authorities.add(new SimpleGrantedAuthority("ADMIN"));

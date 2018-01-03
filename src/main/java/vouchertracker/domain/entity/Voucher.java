@@ -37,4 +37,9 @@ public class Voucher extends UUIDPersistable {
     private String lastEditedBy;
     private LocalDateTime lastEditedOn;
 
+    @Override
+    public String toString() {
+        return getId();
+    }
+
 }

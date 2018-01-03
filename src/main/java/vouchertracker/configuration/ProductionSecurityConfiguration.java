@@ -24,10 +24,10 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // note that RESET_PASSWORD now can access everything not explicitly restricted to a role
         http.authorizeRequests()
                 .antMatchers("/css/**", "/login/**").permitAll()
                 .antMatchers("/password/reset").hasAuthority("RESET_PASSWORD")
+                .antMatchers("/vouchers/", "/vouchers/**").hasAuthority("USER")
                 .antMatchers("/users/", "/users/**").hasAuthority("SUPERUSER")
                 .anyRequest().authenticated();
 
@@ -41,7 +41,7 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
         auth.inMemoryAuthentication()
                 .withUser("DungeonMaster")
                 .password(System.getenv().get("SU_PASSWORD")) // heroku config var
-                .authorities("ADMIN", "SUPERUSER", "RESET_PASSWORD");
+                .authorities("USER", "ADMIN", "SUPERUSER", "RESET_PASSWORD");
 
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());

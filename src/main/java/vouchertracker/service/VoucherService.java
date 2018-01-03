@@ -33,9 +33,7 @@ public class VoucherService {
     public VoucherDto getDtoForVoucher(String id) {
         Voucher voucher = voucherRepository.findByUuid(id);
 
-        if (voucher == null) return new VoucherDto();
-
-        return writeDtoFromVoucher(voucher);
+        return (voucher == null ? new VoucherDto() : writeDtoFromVoucher(voucher));
     }
 
     public Voucher saveOrUpdateVoucher(VoucherDto dto) {
