@@ -81,7 +81,9 @@
         });
     });
     $("#table-users").on("click", "tbody tr", function() {
-        window.location.href="/users/" + $(this).data("href");
+        if($(this).data("href") != null) {
+            window.location.href="/users/" + $(this).data("href");
+        }
     });
     </script>
   </body>

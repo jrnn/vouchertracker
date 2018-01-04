@@ -13,6 +13,7 @@ import vouchertracker.validation.constraint.NotEmpty;
 public class AccountDto {
 
     private String id = "new";
+    private LocalDate createdOn;
 
     @NotEmpty
     private String firstName;
@@ -24,6 +25,5 @@ public class AccountDto {
     private String email;
     private boolean administrator = false;
     private boolean enabled = true;
-    private LocalDate createdOn;
 
 }

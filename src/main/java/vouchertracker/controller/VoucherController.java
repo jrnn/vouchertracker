@@ -1,5 +1,6 @@
 package vouchertracker.controller;
 
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +17,7 @@ import vouchertracker.domain.dto.VoucherDto;
 import vouchertracker.domain.entity.Voucher;
 import vouchertracker.service.CustomerService;
 import vouchertracker.service.VoucherService;
+import vouchertracker.utility.Librarian;
 
 @Controller
 public class VoucherController {
@@ -24,6 +26,11 @@ public class VoucherController {
     private CustomerService customerService;
     @Autowired
     private VoucherService voucherService;
+
+    @ModelAttribute("countries")
+    public List<String> getCountries() {
+        return Librarian.listEEACountries();
+    }
 
     @RequestMapping(value = "/vouchers", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('USER')")
@@ -46,7 +53,6 @@ public class VoucherController {
     public String addNew(Model model) {
         model.addAttribute("dto", new VoucherDto());
         model.addAttribute("customers", customerService.findAll());
-        model.addAttribute("countries", voucherService.getCountries());
 
         return "voucher_edit";
     }
@@ -60,7 +66,6 @@ public class VoucherController {
     ) {
         model.addAttribute("dto", voucherService.getDtoForVoucher(id));
         model.addAttribute("customers", customerService.findAll());
-        model.addAttribute("countries", voucherService.getCountries());
 
         return "voucher_edit";
     }

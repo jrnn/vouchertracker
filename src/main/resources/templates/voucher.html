@@ -13,6 +13,57 @@
   <body>
     <header th:replace="fragments/header :: header">Header</header>
 
+    <section class="bg-orange">
+      <div class="container">
+        <h1>Vouchers</h1>
+      </div>
+    </section>
+
+    <!-- Voucher form -->
+    <section sec:authorize="hasAuthority('USER')" class="padded">
+      <div class="container">
+        <form th:object="${voucher}">
+
+          <!-- Possible failure/success alerts -->
+          <div class="row">
+            <div class="col">
+              <div th:if="${failure != null}" class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:text="${failure}">Failure message</span>
+              </div>
+              <div th:if="${success != null}" class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:text="${success}">Success message</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Meta -->
+          owner
+          created on
+          last edited on/by
+          <div th:if="*{createdOn}" class="row">
+<!--        <div th:text="${'User created on: ' + #temporals.format(dto.createdOn, 'yyyy-MM-dd')}"
+                 class="col form-group" align="right">Created on</div>-->
+
+          <!-- Customer details -->
+          passport
+          firstname
+          lastname
+
+          <!-- Voucher details -->
+          voucherId
+          issuedAt
+          issuedOn
+          receivedOn
+          purchaseAmount
+          refundAmount
+          stamped
+
+        </form>
+      </div>
+    </section>
+
     <div>TODO : show voucher details + who owns it + last edited by/on</div>
     <div>Voucher owner's account id: <span th:text="${voucher.account.id}">uuid</span></div>
     <div>Let's use that to authorize editing. You should see the edit button only if you're ADMIN or voucher owner. Also, let's pass that as a request parameter when clicking the button, so authorization can be done also serverside.</div>

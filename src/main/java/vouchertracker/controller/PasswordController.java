@@ -90,6 +90,8 @@ public class PasswordController {
                 .getContext().getAuthentication().getPrincipal();
 
         passwordService.changePassword(account, dto.getNewPassword());
+        passwordService.deleteTokenForAccount(account.getId());
+
         redirectAttrs.addFlashAttribute("success", "Hooray! Password successfully changed!");
         SecurityContextHolder.clearContext();
 

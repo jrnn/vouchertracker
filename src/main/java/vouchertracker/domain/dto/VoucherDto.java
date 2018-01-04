@@ -19,9 +19,11 @@ import vouchertracker.validation.constraint.RefundLessThanPurchase;
 @IssuedBeforeReceived
 public class VoucherDto {
 
-    // references
     private String id = "new";
     private String customerId = "new";
+    private LocalDate createdOn;
+    // private String lastEditedBy;
+    // private LocalDateTime lastEditedOn;
 
     // Voucher fields
     @NotEmpty

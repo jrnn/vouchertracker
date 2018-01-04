@@ -29,6 +29,10 @@ public class Account extends UUIDPersistable {
     @OneToMany(mappedBy = "account")
     private List<Voucher> vouchers = new ArrayList<>();
 
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
+
     @Override
     public String toString() {
         return getId();

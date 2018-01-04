@@ -7,6 +7,4 @@ public interface VerificationTokenRepository extends JpaRepository<VerificationT
 
     VerificationToken findByAccountId(String accountId);
 
-    VerificationToken findByToken(String token);
-
 }

@@ -1,5 +1,6 @@
 package vouchertracker.domain.dto;
 
+import java.time.LocalDate;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,10 @@ import vouchertracker.validation.constraint.NotEmpty;
 @Data
 public class CustomerDto {
 
-    private String id;
+    private String id; // = "new" ?
+    private LocalDate createdOn;
+    // private String lastEditedBy;
+    // private LocalDateTime lastEditedOn;
 
     @NotEmpty
     private String firstName;

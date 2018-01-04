@@ -83,7 +83,9 @@
         });
     });
     $("#table-vouchers").on("click", "tbody tr", function() {
-        window.location.href="/vouchers/" + $(this).data("href");
+        if($(this).data("href") != null) {
+            window.location.href="/vouchers/" + $(this).data("href");
+        }
     });
     </script>
   </body>

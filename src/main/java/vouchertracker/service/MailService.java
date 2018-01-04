@@ -23,7 +23,7 @@ public class MailService {
         if (appUrl == null) this.appUrl = "http://localhost:8080";
     }
 
-    public void sendTokenByEmail(Account account, VerificationToken token) throws MailException {
+    public boolean sendTokenByEmail(Account account, VerificationToken token) {
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setTo(account.getEmail());
@@ -33,7 +33,13 @@ public class MailService {
                 appUrl + "/login/reset?id=" + account.getId() + "&token=" + token.getToken() +
                 "\r\n\r\nIf you have not requested a password reset, please disregard this email.");
 
-        mailSender.send(message);
+        try {
+            mailSender.send(message);
+        } catch (MailException e) {
+            return false;
+        }
+
+        return true;
     }
 
 }

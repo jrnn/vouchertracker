@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,32 +40,21 @@ public class PasswordService {
         Account account = accountRepository.findByEmailIgnoreCase(email.trim());
         VerificationToken token = setTokenToAccount(account);
 
-        try {
-            mailService.sendTokenByEmail(account, token);
-        } catch (MailException e) {
-            return false;
-        }
-
-        return true;
+        return mailService.sendTokenByEmail(account, token);
     }
 
     public boolean verifyResetToken(String accountId, String tokenValue) {
-        VerificationToken token = tokenRepository.findByToken(tokenValue);
+        VerificationToken token = tokenRepository.findByAccountId(accountId);
 
         if (token == null) return false;
-
-        Account account = token.getAccount(); // trying to get around LazyInitializationException
-
-        if (!account.getId().equals(accountId) ||
+        if (!token.getToken().equals(tokenValue) ||
                 LocalDateTime.now().isAfter(token.getExpiresOn())) return false;
 
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(
-                        account,
+                        token.getAccount(),
                         null,
                         Arrays.asList(new SimpleGrantedAuthority("RESET_PASSWORD"))));
-
-        tokenRepository.delete(token);
 
         return true;
     }
@@ -80,6 +68,11 @@ public class PasswordService {
         token.setAccount(account);
 
         return tokenRepository.save(token);
+    }
+
+    public void deleteTokenForAccount(String accountId) {
+        VerificationToken token = tokenRepository.findByAccountId(accountId);
+        tokenRepository.delete(token);
     }
 
 }

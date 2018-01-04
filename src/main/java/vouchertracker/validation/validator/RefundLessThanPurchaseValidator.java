@@ -3,6 +3,7 @@ package vouchertracker.validation.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import vouchertracker.domain.dto.VoucherDto;
+import vouchertracker.utility.CustomParser;
 import vouchertracker.validation.constraint.RefundLessThanPurchase;
 
 public class RefundLessThanPurchaseValidator
@@ -13,13 +14,11 @@ public class RefundLessThanPurchaseValidator
         VoucherDto dto = (VoucherDto) o;
 
         try {
-            Double p = Double.parseDouble(dto.getPurchaseAmount().trim().replace(",", "."));
-            Double r = Double.parseDouble(dto.getRefundAmount().trim().replace(",", "."));
+            Double p = CustomParser.parseDouble(dto.getPurchaseAmount());
+            Double r = CustomParser.parseDouble(dto.getRefundAmount());
 
-            if (r < 0 || p < 0) return true;
-
-            return r <= p;
-        } catch (NumberFormatException e) {
+            return (r < 0 || p < 0 ? true : r <= p);
+        } catch (Exception e) {
         }
 
         return true;

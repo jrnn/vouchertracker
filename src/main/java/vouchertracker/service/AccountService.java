@@ -6,11 +6,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vouchertracker.domain.dto.AccountDto;
 import vouchertracker.domain.entity.Account;
+import vouchertracker.domain.mapper.AccountMapper;
 import vouchertracker.repository.AccountRepository;
 
 @Service
 public class AccountService {
 
+    @Autowired
+    private AccountMapper accountMapper;
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
@@ -20,33 +23,35 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public Account getAccountByAuthentication() { // this probably belongs elsewhere?
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        return this.accountRepository.findByEmailIgnoreCase(email);
+    public Account getAccountByAuthentication() {
+        return accountRepository.findByEmailIgnoreCase(
+                SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     public String checkAccountStatus(String email) {
         Account account = accountRepository.findByEmailIgnoreCase(email.trim());
 
         if (account == null) return "No user has registered with this email";
-        if (!account.isEnabled()) return "The account tied to this email has been disabled";
 
-        return null;
+        return (!account.isEnabled()
+                ? "The account tied to this email has been disabled"
+                : null);
     }
 
-    public boolean anotherUserHasThisEmail(String id, String email) {
+    public boolean emailReserved(String id, String email) {
         return accountRepository.countIdenticalEmails(id, email.trim()) > 0;
     }
 
     public AccountDto getDtoForAccount(String id) {
         Account account = accountRepository.findByUuid(id);
 
-        return (account == null ? new AccountDto() : writeDtoFromAccount(account));
+        return (account == null
+                ? new AccountDto()
+                : accountMapper.mapEntityToDto(new AccountDto(), account));
     }
 
     public Account registerOrUpdateAccount(AccountDto dto) {
-        if (anotherUserHasThisEmail(dto.getId(), dto.getEmail())) return null;
+        if (emailReserved(dto.getId(), dto.getEmail())) return null;
 
         Account account = accountRepository.findByUuid(dto.getId());
 
@@ -55,33 +60,9 @@ public class AccountService {
             account.setPassword(passwordService.getRandomPassword());
         }
 
-        account = writeDtoToAccount(account, dto);
+        account = accountMapper.mapDtoToEntity(dto, account, null);
 
         return accountRepository.save(account);
-    }
-
-    private Account writeDtoToAccount(Account account, AccountDto dto) {
-        account.setFirstName(dto.getFirstName().trim());
-        account.setLastName(dto.getLastName().trim());
-        account.setEmail(dto.getEmail().trim().toLowerCase());
-        account.setAdministrator(dto.isAdministrator());
-        account.setEnabled(dto.isEnabled());
-
-        return account;
-    }
-
-    private AccountDto writeDtoFromAccount(Account account) {
-        AccountDto dto = new AccountDto();
-
-        dto.setId(account.getId());
-        dto.setFirstName(account.getFirstName());
-        dto.setLastName(account.getLastName());
-        dto.setEmail(account.getEmail());
-        dto.setAdministrator(account.isAdministrator());
-        dto.setEnabled(account.isEnabled());
-        dto.setCreatedOn(account.getCreatedOn());
-
-        return dto;
     }
 
 }
