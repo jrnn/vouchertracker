@@ -20,7 +20,7 @@ public class AccountService {
     private PasswordService passwordService;
 
     public Collection<Account> findAll() {
-        return accountRepository.findAll();
+        return accountRepository.findAllByOrderByLastNameAsc();
     }
 
     public Account getAccountByAuthentication() {
@@ -33,9 +33,9 @@ public class AccountService {
 
         if (account == null) return "No user has registered with this email";
 
-        return (!account.isEnabled()
-                ? "The account tied to this email has been disabled"
-                : null);
+        return (account.isEnabled()
+                ? null
+                : "The account tied to this email has been disabled");
     }
 
     public boolean emailReserved(String id, String email) {

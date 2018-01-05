@@ -17,8 +17,11 @@ h1 {
     font-weight : bold;
     padding : 30px 0px;
 }
+h3 {
+    padding-bottom : 12px;
+}
 a:link, a:visited {
-    color : #7f3d11;
+    color : #17110d; /*#7f3d11;*/
 }
 a:hover, a:active {
     color : #ef7f17;
@@ -76,6 +79,15 @@ a.header:hover, a.header:active {
 .submit-link:hover {
     color :#ef7f17;
 }
+.submit-x {
+    color : #17110d;
+    font-size : 1.5rem;
+    font-weight : 700;
+}
+label.file-input-hack input[type="file"] {
+    position : fixed;
+    top : -9999px;
+}
 
 /*
  * selectively override Bootstrap default styling
@@ -110,11 +122,11 @@ a.close {
     -webkit-user-select : none;
 }
 table.dataTable thead th, table.dataTable thead td {
-    border-bottom : 1px solid #17110d;
+    border-bottom : 1px solid #4f4947;
     padding : 9px 0px;
 }
 table.dataTable tfoot th, table.dataTable tfoot td {
-    border-top : 1px solid #17110d;
+    border-top : 1px solid #4f4947;
     padding : 9px 6px 9px 3px;
 }
 table.dataTable tbody tr {
@@ -132,7 +144,7 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
     background-color : #fbe3cc;
 }
 table.dataTable.no-footer {
-    border-bottom : 1px solid #17110d;
+    border-bottom : 1px solid #4f4947;
 }
 .dataTables_wrapper .dataTables_paginate {
     padding-top : 18px;

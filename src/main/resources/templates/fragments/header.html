@@ -13,10 +13,6 @@
       <div class="container" align="center">
         <table>
           <tr>
-            <td>Future link</td>
-            <td>&nbsp;|&nbsp;</td>
-            <td>Future link</td>
-            <td>&nbsp;|&nbsp;</td>
             <td sec:authorize="hasAuthority('USER')">
               <a th:href="@{/vouchers}" class="header">Vouchers</a>&nbsp;|&nbsp;
             </td>
@@ -25,7 +21,7 @@
             </td>
             <td>
               <form th:action="@{/logout}" method="POST">
-                <input type="submit" class="submit-link" id="logout" value="Log out"/>
+                <input type="submit" class="submit-link" value="Log out"/>
               </form>
             </td>
           </tr>

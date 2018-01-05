@@ -84,7 +84,7 @@
             </div>
           </section>
 
-          <section class="divider"></section>
+          <div class="divider"></div>
 
           <!-- Voucher details section -->
           <section id="voucher-form">
@@ -113,15 +113,15 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-12 col-md-4 form-group">
+              <div class="col-12 col-sm-4 form-group">
                 <label for="issuedOn">Date of issue</label>
                 <input th:field="*{issuedOn}" type="date" class="form-control"
                        th:errorclass="is-invalid"/>
                 <small th:if="${#fields.hasErrors('issuedOn')}" th:errors="*{issuedOn}"
                        class="invalid-feedback">Validation error message</small>
               </div>
-              <div class="col-12 col-md-8 form-group">
-                <label for="issuedAt">Place of issue</label>
+              <div class="col-12 col-sm-8 form-group">
+                <label for="issuedAt">Country of issue</label>
                 <select th:field="*{issuedAt}" class="form-control" th:errorclass="is-invalid"/>
                   <option th:each="country : ${countries}" th:value="${country}"
                           th:text="${country}" th:selected="${country == dto.issuedAt}">
@@ -165,13 +165,15 @@
           </section>
 
           <!-- Form buttons, links -->
-          <div class="row padded">
-            <div class="col form-group">
-              <input type="submit" class="button" id="submit" value="Submit"/>
-              <input type="button" class="button" id="cancel" value="Cancel"
-                     onClick="goBack();"/>
+          <section>
+            <div class="row padded">
+              <div class="col form-group">
+                <input type="submit" class="button" id="submit" value="Submit"/>
+                <input type="button" class="button" id="cancel" value="Cancel"
+                       onClick="goBack();"/>
+              </div>
             </div>
-          </div>
+          </section>
 
           <!-- Hidden uneditable attributes -->
           <input th:field="*{id}" type="hidden"/>

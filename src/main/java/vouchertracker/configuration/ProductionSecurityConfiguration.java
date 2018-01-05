@@ -41,7 +41,7 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
         auth.inMemoryAuthentication()
                 .withUser("DungeonMaster")
                 .password(System.getenv().get("SU_PASSWORD")) // heroku config var
-                .authorities("USER", "ADMIN", "SUPERUSER", "RESET_PASSWORD");
+                .authorities("USER", "SUPERUSER", "RESET_PASSWORD");
 
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());

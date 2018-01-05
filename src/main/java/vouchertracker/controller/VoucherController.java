@@ -43,7 +43,8 @@ public class VoucherController {
     @RequestMapping(value = "/vouchers/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('USER')")
     public String viewOne(Model model, @PathVariable("id") String id) {
-        model.addAttribute("voucher", voucherService.getOne(id));
+        model.addAttribute("dto", voucherService.getDtoForVoucher(id));
+        model.addAttribute("attachments", voucherService.getAttachments(id));
 
         return "voucher";
     }

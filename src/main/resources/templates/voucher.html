@@ -22,7 +22,7 @@
     <!-- Voucher form -->
     <section sec:authorize="hasAuthority('USER')" class="padded">
       <div class="container">
-        <form th:object="${voucher}">
+        <form th:object="${dto}">
 
           <!-- Possible failure/success alerts -->
           <div class="row">
@@ -39,40 +39,176 @@
           </div>
 
           <!-- Meta -->
-          owner
-          created on
-          last edited on/by
-          <div th:if="*{createdOn}" class="row">
-<!--        <div th:text="${'User created on: ' + #temporals.format(dto.createdOn, 'yyyy-MM-dd')}"
-                 class="col form-group" align="right">Created on</div>-->
+          <section>
+            <div class="row">
+              <div class="col form-group">
+                <h3>General information</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-8 col-lg-4 form-group">
+                <label for="accountName">Voucher owner</label>
+                <input th:field="*{accountName}" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-4 col-lg-2 form-group">
+                <label for="createdOn">Created on</label>
+                <input th:value="${#temporals.format(dto.createdOn, 'yyyy-MM-dd')}"
+                       id="createdOn" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-8 col-lg-4 form-group">
+                <label for="lastEditedBy">Last edited by</label>
+                <input th:field="*{lastEditedBy}" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-4 col-lg-2 form-group">
+                <label for="lastEditedOn">Last edited on</label>
+                <input th:value="${#temporals.format(dto.lastEditedOn, 'yyyy-MM-dd HH:mm')}"
+                       id="lastEditedOn" type="text" class="form-control" readonly/>
+              </div>
+            </div>
+          </section>
+
+          <div class="divider"></div>
 
           <!-- Customer details -->
-          passport
-          firstname
-          lastname
+          <section>
+            <div class="row">
+              <div class="col form-group">
+                <h3>Customer details</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-4 form-group">
+                <label for="passport">Passport number</label>
+                <input th:field="*{passport}" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 form-group">
+                <label for="firstName">First name</label>
+                <input th:field="*{firstName}" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 form-group">
+                <label for="lastName">Last name</label>
+                <input th:field="*{lastName}" type="text" class="form-control" readonly/>
+              </div>
+            </div>
+          </section>
+
+          <div class="divider"></div>
 
           <!-- Voucher details -->
-          voucherId
-          issuedAt
-          issuedOn
-          receivedOn
-          purchaseAmount
-          refundAmount
-          stamped
-
+          <section>
+            <div class="row">
+              <div class="col form-group">
+                <h3>Voucher details</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col form-group">
+                <label for="voucherId">Voucher Id</label>
+                <input th:field="*{voucherId}" type="text" class="form-control" readonly/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col form-group">
+                <input th:field="*{voucherIdExt}" type="text" class="form-control" readonly/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-4 form-group">
+                <label for="issuedOn">Date of issue</label>
+                <input th:value="${#temporals.format(dto.issuedOn, 'yyyy-MM-dd')}"
+                       id="issuedOn" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-8 form-group">
+                <label for="issuedAt">Country of issue</label>
+                <input th:field="*{issuedAt}" type="text" class="form-control" readonly/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <label for="receivedOn">Received on</label>
+                <input th:value="${#temporals.format(dto.receivedOn, 'yyyy-MM-dd')}"
+                       id="receivedOn" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <label for="purchaseAmount">Purchase amount</label>
+                <input th:field="*{purchaseAmount}" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <label for="refundAmount">Refund amount</label>
+                <input th:field="*{refundAmount}" type="text" class="form-control" readonly/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-6 form group">
+                <label for="stamped">Customs stamp</label>
+                <input th:value="${dto.stamped} ? 'Yes' : 'No'"
+                       id="stamped" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-6 form group">
+                <label for="status">Status</label>
+                <input id="status" type="text" class="form-control" value="(TBA)" readonly/>
+              </div>
+            </div>
+          </section>
         </form>
+
+        <div class="divider"></div>
+
+        <!-- Attachments -->
+        <section th:unless="${#lists.isEmpty(attachments)}">
+          <div class="row">
+            <div class="col form-group">
+              <h3>Attachments</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <table>
+                <tr th:each="attachment : ${attachments}">
+                  <td style="padding-right : 48px;">
+                    <a th:href="@{/vouchers/files/{id}(id=${attachment.id})}"
+                       th:text="${attachment.fileName}" target="_blank">File name</a>
+                  </td>
+                  <td sec:authorize="hasAuthority(#vars.dto.accountId) OR hasAuthority('ADMIN')">
+                    <form th:method="DELETE" th:action="@{/vouchers/files/{id}(id=${attachment.id})}">
+                      <input type="submit" class="submit-link submit-x" value="&times;"/>
+                      <input type="hidden" name="ownerId" th:value="${dto.accountId}"/>
+                    </form>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="divider"></div>
+        </section>
+
+        <!-- Form buttons, links -->
+        <section>
+          <div class="row">
+            <div class="col">
+              <span sec:authorize="hasAuthority(#vars.dto.accountId) OR hasAuthority('ADMIN')">
+                <form method="GET" th:action="@{/vouchers/{id}/edit(id=${dto.id})}"
+                      style="display : inline;">
+                  <input type="submit" class="button" value="Edit voucher"/>
+                  <input type="hidden" name="ownerId" th:value="${dto.accountId}"/>
+                </form>
+                <form method="POST" th:action="@{/vouchers/{id}/files(id=${dto.id})}"
+                      enctype="multipart/form-data" style="display : inline;">
+                  <label class="file-input-hack">
+                    <input type="file" name="file" class="button" onChange="this.form.submit();"/>
+                    <input type="hidden" name="ownerId" th:value="${dto.accountId}"/>
+                    <span class="button" style="padding : 11px 40px;">Add attachment</span>
+                  </label>
+                </form>
+              </span>
+              <input type="button" class="button" id="cancel" value="Cancel"
+                     onClick="window.location.href='/vouchers'"/>
+            </div>
+          </div>
+        </section>
+
       </div>
     </section>
-
-    <div>TODO : show voucher details + who owns it + last edited by/on</div>
-    <div>Voucher owner's account id: <span th:text="${voucher.account.id}">uuid</span></div>
-    <div>Let's use that to authorize editing. You should see the edit button only if you're ADMIN or voucher owner. Also, let's pass that as a request parameter when clicking the button, so authorization can be done also serverside.</div>
-    <div sec:authorize="hasAuthority(#vars.voucher.account.id) OR hasAuthority('ADMIN')">
-      <form th:method="GET" th:action="@{/vouchers/{id}/edit(id=${voucher.id})}">
-        <input type="submit" class="button" value="Edit"/>
-        <input type="hidden" name="ownerId" th:value="${voucher.account.id}"/>
-      </form>
-    </div>
 
     <footer th:replace="fragments/footer :: footer">Footer</footer>
     <script th:replace="fragments/common_scripts :: common_scripts"></script>

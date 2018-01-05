@@ -35,62 +35,71 @@
           </div>
 
           <!-- Form fields -->
-          <div th:if="*{createdOn != null}" class="row">
-            <div th:text="${'User created on: ' + #temporals.format(dto.createdOn, 'yyyy-MM-dd')}"
-                 class="col form-group" align="right">Created on</div>
-          </div>
-          <div class="row">
-            <div class="col-12 col-md-6 form-group">
-              <label for="firstName">First name</label>
-              <input th:field="*{firstName}" type="text" class="form-control"
-                     th:errorclass="is-invalid" placeholder="Spongebob"/>
-              <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                     class="invalid-feedback">Validation error message</small>
-            </div>
-            <div class="col-12 col-md-6 form-group">
-              <label for="lastName">Last name</label>
-              <input th:field="*{lastName}" type="text" class="form-control"
-                     th:errorclass="is-invalid" placeholder="Squarepants"/>
-              <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-                     class="invalid-feedback">Validation error message</small>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col form-group">
-              <label for="email">Email (for login)</label>
-              <input th:field="*{email}" type="text" class="form-control"
-                     th:errorclass="is-invalid" placeholder="sponge.bob@square.pants"/>
-              <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                     class="invalid-feedback">Validation error message</small>
-            </div>
-          </div>
-          <div class="row padded">
-            <div class="col-12 col-md-6 form-group align-self-center">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input th:field="*{enabled}" type="checkbox" class="form-check-input"/>
-                         Has access rights (can log in only when this is checked)
-                </label>
+          <section>
+            <div class="row">
+              <div class="col form-group">
+                <h3>User details</h3>
               </div>
             </div>
-            <div class="col-12 col-md-6 form-group align-self-center">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input th:field="*{administrator}" type="checkbox" class="form-check-input"/>
-                         Has admin rights (can edit all vouchers and customers)
-                </label>
+            <div th:if="*{createdOn != null}" class="row">
+              <div th:text="${'User created on: ' + #temporals.format(dto.createdOn, 'yyyy-MM-dd')}"
+                   class="col form-group" align="right">Created on</div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6 form-group">
+                <label for="firstName">First name</label>
+                <input th:field="*{firstName}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="Spongebob"/>
+                <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+              <div class="col-12 col-md-6 form-group">
+                <label for="lastName">Last name</label>
+                <input th:field="*{lastName}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="Squarepants"/>
+                <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                       class="invalid-feedback">Validation error message</small>
               </div>
             </div>
-          </div>
+            <div class="row">
+                <div class="col form-group">
+                <label for="email">Email (for login)</label>
+                <input th:field="*{email}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="sponge.bob@square.pants"/>
+                <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+            </div>
+            <div class="row padded">
+              <div class="col-12 col-md-6 form-group align-self-center">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input th:field="*{enabled}" type="checkbox" class="form-check-input"/>
+                           Has access rights (can log in only when this is checked)
+                  </label>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 form-group align-self-center">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input th:field="*{administrator}" type="checkbox" class="form-check-input"/>
+                           Has admin rights (can edit all vouchers and customers)
+                  </label>
+                </div>
+              </div>
+            </div>
+          </section>
 
           <!-- Form buttons, links -->
-          <div class="row">
-            <div class="col form-group">
-              <input type="submit" class="button" id="submit" value="Submit"/>
-              <input type="button" class="button" id="cancel" value="Cancel"
-                     onClick="window.location.href='/users'"/>
+          <section>
+            <div class="row padded">
+              <div class="col form-group">
+                <input type="submit" class="button" id="submit" value="Submit"/>
+                <input type="button" class="button" id="cancel" value="Cancel"
+                       onClick="window.location.href='/users'"/>
+              </div>
             </div>
-          </div>
+          </section>
 
           <!-- Hidden uneditable attributes -->
           <input th:field="*{id}" type="hidden"/>

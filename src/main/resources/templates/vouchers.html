@@ -50,9 +50,10 @@
               </thead>
               <tbody>
                 <tr th:each="voucher : ${vouchers}" th:data-href="${voucher.id}">
-                  <td th:text=${voucher.voucherId}>Voucher Id</td>
-                  <td th:text=${voucher.customer.passport}>Passport</td>
-                  <td th:text=${voucher.stamped}>Customs stamp</td>
+                  <td th:text="${voucher.voucherId}">Voucher Id</td>
+                  <td th:text="${voucher.customer.passport}">Passport</td>
+                  <td th:text="${voucher.stamped} ? 'Yes' : 'No'">
+                      Customs stamp</td>
                 </tr>
               </tbody>
             </table>

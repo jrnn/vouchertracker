@@ -1,6 +1,7 @@
 package vouchertracker.domain.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,10 +21,13 @@ import vouchertracker.validation.constraint.RefundLessThanPurchase;
 public class VoucherDto {
 
     private String id = "new";
-    private String customerId = "new";
     private LocalDate createdOn;
-    // private String lastEditedBy;
-    // private LocalDateTime lastEditedOn;
+    private String lastEditedBy;
+    private LocalDateTime lastEditedOn;
+
+    private String customerId = "new";
+    private String accountId;
+    private String accountName;
 
     // Voucher fields
     @NotEmpty

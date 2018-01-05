@@ -17,8 +17,8 @@ public class DefaultConfiguration {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("noreply.pvtracker@gmail.com");
-        mailSender.setPassword("bdfDF12BFB34A49A94bf31e703D1907b");
+        mailSender.setUsername("");
+        mailSender.setPassword("");
 
         mailSender.getJavaMailProperties().put("mail.transport.protocol", "smtp");
         mailSender.getJavaMailProperties().put("mail.smtp.auth", "true");

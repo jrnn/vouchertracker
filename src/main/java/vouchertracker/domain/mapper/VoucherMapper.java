@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 import vouchertracker.domain.dto.CustomerDto;
 import vouchertracker.domain.dto.VoucherDto;
+import vouchertracker.domain.entity.Account;
 import vouchertracker.domain.entity.Customer;
 import vouchertracker.domain.entity.Voucher;
 import vouchertracker.utility.CustomParser;
@@ -31,22 +32,32 @@ public class VoucherMapper implements EntityDtoMapper<Voucher, VoucherDto> {
     public VoucherDto mapEntityToDto(VoucherDto dto, Voucher voucher) {
         dto.setId(voucher.getId());
         dto.setCreatedOn(voucher.getCreatedOn());
-        // dto.setLastEditedBy(voucher.getLastEditedBy());  <-- ??
-        // dto.setLastEditedOn(voucher.getLastEditedOn());  <-- ??
+        dto.setLastEditedBy(voucher.getLastEditedBy());
+        dto.setLastEditedOn(voucher.getLastEditedOn());
 
         dto.setVoucherId(disjoinVoucherId(voucher, 0));
         dto.setVoucherIdExt(disjoinVoucherId(voucher, 1));
         dto.setIssuedAt(voucher.getIssuedAt());
         dto.setIssuedOn(voucher.getIssuedOn());
         dto.setReceivedOn(voucher.getReceivedOn());
-        dto.setPurchaseAmount("" + (1.0 * voucher.getPurchaseAmount() / 100));
-        dto.setRefundAmount("" + (1.0 * voucher.getRefundAmount() / 100));
+        dto.setPurchaseAmount(CustomParser.parseCurrency(voucher.getPurchaseAmount()));
+        dto.setRefundAmount(CustomParser.parseCurrency(voucher.getRefundAmount()));
         dto.setStamped(voucher.isStamped());
+
+        attachCustomer(dto, voucher.getCustomer());
+        attachAccount(dto, voucher.getAccount());
 
         return dto;
     }
 
-    public VoucherDto attachCustomer(VoucherDto dto, Customer customer) {
+    private VoucherDto attachAccount(VoucherDto dto, Account account) {
+        dto.setAccountId(account.getId());
+        dto.setAccountName(account.getFullName());
+
+        return dto;
+    }
+
+    private VoucherDto attachCustomer(VoucherDto dto, Customer customer) {
         if (customer != null) {
             dto.setCustomerId(customer.getId());
             dto.setFirstName(customer.getFirstName());

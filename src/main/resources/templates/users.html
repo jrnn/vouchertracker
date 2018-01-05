@@ -48,8 +48,8 @@
               <tbody>
                 <tr th:each="user : ${users}" th:data-href="${user.id}">
                   <td th:text="${user.lastName + ', ' + user.firstName}">User name</td>
-                  <td th:text="${user.enabled}">Enabled</td>
-                  <td th:text="${user.administrator}">Administrator</td>
+                  <td th:text="${user.enabled} ? 'Yes' : 'No'">Enabled</td>
+                  <td th:text="${user.administrator} ? 'Yes' : 'No'">Administrator</td>
                   <td th:text="${#temporals.format(user.createdOn, 'yyyy-MM-dd')}">Created on</td>
                 </tr>
               </tbody>

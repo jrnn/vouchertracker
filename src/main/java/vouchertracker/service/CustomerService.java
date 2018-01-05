@@ -1,6 +1,6 @@
 package vouchertracker.service;
 
-import java.util.List;
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vouchertracker.domain.dto.CustomerDto;
@@ -19,8 +19,8 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
+    public Collection<Customer> findAll() {
+        return customerRepository.findAllByOrderByLastNameAsc();
     }
 
     public Customer saveOrUpdateCustomer(CustomerDto dto) {

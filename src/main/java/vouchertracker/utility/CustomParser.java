@@ -20,4 +20,12 @@ public class CustomParser {
         return null;
     }
 
+    public static String parseCurrency(Long l) {
+        String s = "" + (1.0 * l / 100);
+
+        return (s.substring(s.indexOf(".")).length() == 2
+                ? s += "0"
+                : s);
+    }
+
 }
