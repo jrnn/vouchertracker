@@ -51,9 +51,17 @@ public class AttachmentController {
     @PreAuthorize("hasAuthority(#ownerId) OR hasAuthority('ADMIN')")
     public String delete(
             @PathVariable("id") String id,
-            @RequestParam("ownerId") String ownerId
+            @RequestParam("ownerId") String ownerId,
+            RedirectAttributes redirectAttrs
     ) {
-        String voucherId = attachmentService.delete(id);
+        String voucherId = "";
+
+        try {
+            voucherId = attachmentService.delete(id);
+            redirectAttrs.addFlashAttribute("success", "Attachment successfully removed");
+        } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("failure", "Erhmagerd! Something went kaputt");
+        }
 
         return "redirect:/vouchers/" + voucherId;
     }

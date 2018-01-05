@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vouchertracker.domain.dto.VoucherDto;
 import vouchertracker.domain.entity.Account;
+import vouchertracker.domain.entity.Attachment;
 import vouchertracker.domain.entity.Customer;
-import vouchertracker.domain.entity.FileObject;
 import vouchertracker.domain.entity.Voucher;
 import vouchertracker.domain.mapper.VoucherMapper;
 import vouchertracker.repository.VoucherRepository;
@@ -28,8 +28,8 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public List<FileObject> getAttachments(String id) {
-        return voucherRepository.findByUuid(id).getFileObjects();
+    public List<Attachment> getAttachments(String id) {
+        return voucherRepository.findByUuid(id).getAttachments();
     }
 
     public VoucherDto getDtoForVoucher(String id) {

@@ -31,10 +31,14 @@ public class VoucherDto {
 
     // Voucher fields
     @NotEmpty
+    @Size(max = 128, message = "Must not exceed 128 characters")
     private String voucherId;
+
+    @Size(max = 128, message = "Must not exceed 128 characters")
     private String voucherIdExt;
 
     @NotEmpty
+    @Size(max = 255, message = "Must not exceed 255 characters")
     private String issuedAt;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -54,9 +58,11 @@ public class VoucherDto {
 
     // Customer fields
     @NotEmpty
+    @Size(max = 255, message = "Must not exceed 255 characters")
     private String firstName;
 
     @NotEmpty
+    @Size(max = 255, message = "Must not exceed 255 characters")
     private String lastName;
 
     @NotEmpty

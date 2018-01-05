@@ -14,6 +14,8 @@ public class PasswordDto {
 
     @PasswordFormat
     private String newPassword;
+
+    @PasswordFormat
     private String confirmPassword;
 
 }

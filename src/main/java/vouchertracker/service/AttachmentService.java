@@ -14,8 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import vouchertracker.domain.entity.Attachment;
 import vouchertracker.domain.entity.FileObject;
 import vouchertracker.domain.entity.Voucher;
+import vouchertracker.repository.AttachmentRepository;
 import vouchertracker.repository.FileObjectRepository;
 import vouchertracker.repository.VoucherRepository;
 
@@ -25,6 +27,8 @@ public class AttachmentService {
     private static final List<String> ACCEPTED_MEDIA_TYPES = Arrays.asList(
             "application/pdf", "image/bmp", "image/gif", "image/jpeg", "image/png");
 
+    @Autowired
+    private AttachmentRepository attachmentRepository;
     @Autowired
     private FileObjectRepository fileObjectRepository;
     @Autowired
@@ -41,12 +45,13 @@ public class AttachmentService {
     }
 
     public ResponseEntity<byte[]> get(String id) {
-        FileObject fo = fileObjectRepository.findByUuid(id);
+        Attachment attachment = attachmentRepository.findByUuid(id);
+        FileObject fo = fileObjectRepository.getOne(attachment.getFileObject().getId());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(fo.getMediaType()));
-        headers.setContentLength(fo.getFileSize());
-        headers.add("content-disposition", "inline;filename=" + fo.getFileName());
+        headers.setContentType(MediaType.parseMediaType(attachment.getMediaType()));
+        headers.setContentLength(attachment.getFileSize());
+        headers.add("content-disposition", "inline;filename=" + attachment.getFileName());
 
         return new ResponseEntity<>(fo.getContent(), headers, HttpStatus.CREATED);
     }
@@ -61,7 +66,8 @@ public class AttachmentService {
             return "Dang. That filetype isn't supported.";
 
         try {
-            FileObject fo = convertToFileObject(file, voucher);
+            Attachment attachment = createAttachment(file, voucher);
+            writeContentToAttachment(file, attachment);
         } catch (IOException e) {
             return "Oh noes! The file could not be read for some reason";
         }
@@ -69,26 +75,40 @@ public class AttachmentService {
         return null;
     }
 
-    public String delete(String id) {
-        FileObject fo = fileObjectRepository.findByUuid(id);
-        String voucherId = fo.getVoucher().getId();
+    @Transactional
+    public String delete(String id) throws Exception {
+        Attachment attachment = attachmentRepository.findByUuid(id);
+        FileObject fo = fileObjectRepository.getOne(attachment.getFileObject().getId());
+
+        String voucherId = attachment.getVoucher().getId();
+
+        attachmentRepository.delete(attachment);
         fileObjectRepository.delete(fo);
 
         return voucherId;
     }
 
     @Transactional
-    private FileObject convertToFileObject(
+    private Attachment createAttachment(MultipartFile file, Voucher voucher) {
+        Attachment attachment = new Attachment();
+
+        attachment.setFileName(file.getOriginalFilename());
+        attachment.setFileSize(file.getSize());
+        attachment.setMediaType(file.getContentType());
+        attachment.setVoucher(voucher);
+
+        return attachmentRepository.save(attachment);
+    }
+
+    @Transactional
+    private FileObject writeContentToAttachment(
             MultipartFile file,
-            Voucher voucher) throws IOException
+            Attachment attachment) throws IOException
     {
         FileObject fo = new FileObject();
 
-        fo.setFileName(file.getOriginalFilename());
-        fo.setFileSize(file.getSize());
-        fo.setMediaType(file.getContentType());
         fo.setContent(file.getBytes());
-        fo.setVoucher(voucher);
+        fo.setAttachment(attachment);
 
         return fileObjectRepository.save(fo);
     }

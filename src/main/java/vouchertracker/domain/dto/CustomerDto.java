@@ -18,9 +18,11 @@ public class CustomerDto {
     // private LocalDateTime lastEditedOn;
 
     @NotEmpty
+    @Size(max = 255, message = "Must not exceed 255 characters")
     private String firstName;
 
     @NotEmpty
+    @Size(max = 255, message = "Must not exceed 255 characters")
     private String lastName;
 
     @NotEmpty

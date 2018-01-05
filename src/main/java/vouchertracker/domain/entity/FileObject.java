@@ -1,13 +1,15 @@
 package vouchertracker.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.LAZY;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.AUTO;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,26 +18,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class FileObject extends UUIDPersistable {
+public class FileObject implements Serializable {
 
-    private String fileName;
-    private Long fileSize;
-
-    @Column(length = 32)
-    private String mediaType;
+    @Id
+    @GeneratedValue(strategy = AUTO)
+    private Long id;
 
     @Lob
     @Basic(fetch = LAZY)
     private byte[] content;
 
-    @JsonIgnore
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "voucher_id", nullable = false)
-    private Voucher voucher;
-
-    @Override
-    public String toString() {
-        return getId();
-    }
+    @OneToOne
+    @JoinColumn(name = "attachment_id")
+    private Attachment attachment;
 
 }

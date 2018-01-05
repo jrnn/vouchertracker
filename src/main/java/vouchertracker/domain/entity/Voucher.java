@@ -39,7 +39,7 @@ public class Voucher extends UUIDPersistable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "voucher")
-    private List<FileObject> fileObjects = new ArrayList<>();
+    private List<Attachment> attachments = new ArrayList<>();
 
     private String lastEditedBy;
     private LocalDateTime lastEditedOn;
