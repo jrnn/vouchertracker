@@ -28,6 +28,10 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public List<Voucher> findAllForCustomer(String customerId) {
+        return voucherRepository.findByCustomerId(customerId);
+    }
+
     public List<Attachment> getAttachments(String id) {
         return voucherRepository.findByUuid(id).getAttachments();
     }

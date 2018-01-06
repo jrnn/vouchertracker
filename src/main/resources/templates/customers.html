@@ -4,7 +4,7 @@
       xmlns:sec="http://www.springframework.org/security/tags">
 
   <head>
-    <title>PvTracker | Vouchers</title>
+    <title>PvTracker | Customers</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
     <meta th:replace="fragments/common_styles :: common_styles"/>
@@ -15,11 +15,11 @@
 
     <section class="bg-orange">
       <div class="container">
-        <h1>Vouchers</h1>
+        <h1>Customers</h1>
       </div>
     </section>
 
-    <!-- Vouchers table -->
+    <!-- Customers table -->
     <section sec:authorize="hasAuthority('USER')" class="padded">
       <div class="container">
 
@@ -40,32 +40,22 @@
         <!-- Table contents -->
         <div class="row padded">
           <div class="col">
-            <table id="table-vouchers" class="table hover" data-page-length='10'>
+            <table id="table-customers" class="table hover" data-page-length='10'>
               <thead>
                 <tr>
-                  <th>Voucher Id</th>
                   <th>Passport</th>
-                  <th>Customs stamp</th>
+                  <th>Name</th>
+                  <th>Vouchers</th>
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="voucher : ${vouchers}" th:data-href="${voucher.id}">
-                  <td th:text="${voucher.voucherId}">Voucher Id</td>
-                  <td th:text="${voucher.customer.passport}">Passport</td>
-                  <td th:text="${voucher.stamped} ? 'Yes' : 'No'">
-                      Customs stamp</td>
+                <tr th:each="customer : ${customers}" th:data-href="${customer.id}">
+                  <td th:text="${customer.passport}">Passport</td>
+                  <td th:text="${customer.lastName + ', ' + customer.firstName}">Name</td>
+                  <td th:text="${customer.vouchersCount}">No. of vouchers</td>
                 </tr>
               </tbody>
             </table>
-          </div>
-        </div>
-
-        <!-- Buttons, links -->
-        <div sec:authorize="hasAuthority('VOUCHER_OWNER')" class="row">
-          <div class="col">
-            <form th:action="@{/vouchers/new}" method="GET">
-              <input type="submit" class="button" id="addNew" value="Add new voucher"/>
-            </form>
           </div>
         </div>
 
@@ -76,16 +66,16 @@
     <script th:replace="fragments/common_scripts :: common_scripts"></script>
     <script>
     $(document).ready(function() {
-        $("#table-vouchers").DataTable( {
+        $("#table-customers").DataTable( {
             "lengthChange" : false,
             "language" : {
                 "search" : "Search"
             }
         });
     });
-    $("#table-vouchers").on("click", "tbody tr", function() {
+    $("#table-customers").on("click", "tbody tr", function() {
         if($(this).data("href") != null) {
-            window.location.href="/vouchers/" + $(this).data("href");
+            window.location.href="/customers/" + $(this).data("href");
         }
     });
     </script>

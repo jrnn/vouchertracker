@@ -30,6 +30,10 @@ public class Customer extends UUIDPersistable {
     private String lastEditedBy;
     private LocalDateTime lastEditedOn;
 
+    public int getVouchersCount() {
+        return getVouchers().size();
+    }
+
     @Override
     public String toString() {
         return getId();

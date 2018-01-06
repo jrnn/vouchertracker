@@ -1,6 +1,6 @@
 package vouchertracker.repository;
 
-import java.util.Collection;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +11,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     @Query("SELECT a FROM Account a WHERE a.id = :id")
     Account findByUuid(@Param("id") String id);
 
-    Collection<Account> findAllByOrderByLastNameAsc();
+    List<Account> findAllByOrderByLastNameAsc();
 
     @Query("SELECT a FROM Account a WHERE LOWER(a.email) = LOWER(:email)")
     Account findByEmailIgnoreCase(@Param("email") String email);

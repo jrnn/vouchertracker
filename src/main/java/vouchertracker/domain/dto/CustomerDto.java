@@ -1,6 +1,7 @@
 package vouchertracker.domain.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,10 +13,10 @@ import vouchertracker.validation.constraint.NotEmpty;
 @Data
 public class CustomerDto {
 
-    private String id; // = "new" ?
+    private String id;
     private LocalDate createdOn;
-    // private String lastEditedBy;
-    // private LocalDateTime lastEditedOn;
+    private String lastEditedBy;
+    private LocalDateTime lastEditedOn;
 
     @NotEmpty
     @Size(max = 255, message = "Must not exceed 255 characters")

@@ -24,8 +24,8 @@ public class CustomerMapper implements EntityDtoMapper<Customer, CustomerDto> {
     public CustomerDto mapEntityToDto(CustomerDto dto, Customer customer) {
         dto.setId(customer.getId());
         dto.setCreatedOn(customer.getCreatedOn());
-        // dto.setLastEditedBy(customer.getLastEditedBy());  <-- ??
-        // dto.setLastEditedOn(customer.getLastEditedOn());  <-- ??
+        dto.setLastEditedBy(customer.getLastEditedBy());
+        dto.setLastEditedOn(customer.getLastEditedOn());
 
         dto.setFirstName(customer.getFirstName());
         dto.setLastName(customer.getLastName());

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+  <head>
+    <title>PvTracker | Customers</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta th:replace="fragments/common_styles :: common_styles"/>
+  </head>
+
+  <body>
+    <header th:replace="fragments/header :: header">Header</header>
+
+    <section class="bg-orange">
+      <div class="container">
+        <h1>Customers</h1>
+      </div>
+    </section>
+
+    <!-- Customer form -->
+    <section sec:authorize="hasAuthority('USER')" class="padded">
+      <div class="container">
+        <form th:object="${dto}">
+
+          <!-- Possible failure/success alerts -->
+          <div class="row">
+            <div class="col">
+              <div th:if="${failure != null}" class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:text="${failure}">Failure message</span>
+              </div>
+              <div th:if="${success != null}" class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:text="${success}">Success message</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer details -->
+          <section>
+            <div class="row">
+              <div class="col form-group">
+                <h3>Customer details</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-8 form-group">
+                <label for="lastEditedBy">Last edited by</label>
+                <input th:field="*{lastEditedBy}" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-4 form-group">
+                <label for="lastEditedOn">Last edited on</label>
+                <input th:value="${#temporals.format(dto.lastEditedOn, 'yyyy-MM-dd HH:mm')}"
+                       id="lastEditedOn" type="text" class="form-control" readonly/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-4 form-group">
+                <label for="passport">Passport number</label>
+                <input th:field="*{passport}" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 form-group">
+                <label for="firstName">First name</label>
+                <input th:field="*{firstName}" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 form-group">
+                <label for="lastName">Last name</label>
+                <input th:field="*{lastName}" type="text" class="form-control" readonly/>
+              </div>
+            </div>
+          </section>
+        </form>
+
+        <!-- Form buttons, links -->
+        <section>
+          <div class="row padded">
+            <div class="col">
+              <form sec:authorize="hasAuthority('ADMIN')" style="display : inline;"
+                    method="GET" th:action="@{/customers/{id}/edit(id=${dto.id})}">
+                <input type="submit" class="button" value="Edit customer"/>
+              </form>
+              <input type="button" class="button" id="cancel" value="Cancel"
+                     onClick="window.location.href='/customers'"/>
+            </div>
+          </div>
+        </section>
+
+        <!-- Vouchers table -->
+        <section>
+          <div class="divider"></div>
+
+          <div class="row padded">
+            <div class="col">
+              <table id="table-vouchers" class="table hover" data-page-length='10'>
+                <thead>
+                  <tr>
+                    <th>Voucher Id</th>
+                    <th>Customs stamp</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="voucher : ${vouchers}" th:data-href="${voucher.id}">
+                    <td th:text="${voucher.voucherId}">Voucher Id</td>
+                    <td th:text="${voucher.stamped} ? 'Yes' : 'No'">
+                        Customs stamp</td>
+                    <td>Kekkukekki</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <footer th:replace="fragments/footer :: footer">Footer</footer>
+    <script th:replace="fragments/common_scripts :: common_scripts"></script>
+    <script>
+    $(document).ready(function() {
+        $("#table-vouchers").DataTable( {
+            "lengthChange" : false,
+            "language" : {
+                "search" : "Search"
+            }
+        });
+    });
+    $("#table-vouchers").on("click", "tbody tr", function() {
+        if($(this).data("href") != null) {
+            window.location.href="/vouchers/" + $(this).data("href");
+        }
+    });
+    </script>
+  </body>
+
+</html>

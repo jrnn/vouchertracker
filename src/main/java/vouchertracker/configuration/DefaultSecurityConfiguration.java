@@ -33,6 +33,7 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**", "/login/**").permitAll()
                 .antMatchers("/password/reset").hasAuthority("RESET_PASSWORD")
                 .antMatchers("/vouchers/", "/vouchers/**").hasAuthority("USER")
+                .antMatchers("/customers/", "/customers/**").hasAuthority("USER")
                 .antMatchers("/users/", "/users/**").hasAuthority("SUPERUSER")
                 .anyRequest().authenticated();
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+  <head>
+    <title>PvTracker | Customers</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta th:replace="fragments/common_styles :: common_styles"/>
+  </head>
+
+  <body>
+    <header th:replace="fragments/header :: header">Header</header>
+
+    <section class="bg-orange">
+      <div class="container">
+        <h1>Edit customer</h1>
+      </div>
+    </section>
+
+    <!-- Customer form -->
+    <section sec:authorize="hasAuthority('ADMIN')" class="padded">
+      <div class="container">
+        <form action="#" th:method="POST" th:action="@{/customers}" th:object="${dto}">
+
+          <!-- Possible failure/success alerts -->
+          <div class="row">
+            <div class="col form-group">
+              <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                   Oops! There's something fishy with the data you provided
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer details section -->
+          <section id="customer-form">
+            <div class="row">
+              <div class="col form-group">
+                <h3>Customer details</h3>
+              </div>
+            </div>
+
+            <!-- Form fields -->
+            <div class="row">
+              <div class="col-12 col-md-4 form-group">
+                <label for="passport">Passport number</label>
+                <input th:field="*{passport}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="PP1234567"/>
+                <small th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 form-group">
+                <label for="firstName">First name</label>
+                <input th:field="*{firstName}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="Spongebob"/>
+                <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+              <div class="col-12 col-sd-6 col-md-4 form-group">
+                <label for="lastName">Last name</label>
+                <input th:field="*{lastName}" type="text" class="form-control"
+                       th:errorclass="is-invalid" placeholder="Squarepants"/>
+                <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+            </div>
+          </section>
+
+          <!-- Form buttons, links -->
+          <section>
+            <div class="row padded">
+              <div class="col form-group">
+                <input type="submit" class="button" id="submit" value="Submit"/>
+                <input type="button" class="button" id="cancel" value="Cancel"
+                       onClick="goBack();"/>
+              </div>
+            </div>
+          </section>
+
+          <!-- Hidden uneditable attributes -->
+          <input th:field="*{id}" type="hidden"/>
+
+        </form>
+      </div>
+    </section>
+
+    <footer th:replace="fragments/footer :: footer">Footer</footer>
+    <script th:replace="fragments/common_scripts :: common_scripts"></script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    function goBack() {
+        var id = /*[[${dto.id}]]*/ "new";
+        window.location.href="/customers/" + id;
+    };
+    /*]]>*/
+    </script>
+  </body>
+
+</html>

@@ -24,8 +24,8 @@ public class FileObject implements Serializable {
     @GeneratedValue(strategy = AUTO)
     private Long id;
 
-    //@Lob
-    //@Basic(fetch = LAZY)
+    @Lob
+    @Basic(fetch = LAZY)
     private byte[] content;
 
     @OneToOne

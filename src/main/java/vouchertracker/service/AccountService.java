@@ -1,6 +1,6 @@
 package vouchertracker.service;
 
-import java.util.Collection;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class AccountService {
     @Autowired
     private PasswordService passwordService;
 
-    public Collection<Account> findAll() {
+    public List<Account> findAll() {
         return accountRepository.findAllByOrderByLastNameAsc();
     }
 
