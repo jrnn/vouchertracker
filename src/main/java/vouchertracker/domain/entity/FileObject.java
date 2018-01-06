@@ -24,8 +24,8 @@ public class FileObject implements Serializable {
     @GeneratedValue(strategy = AUTO)
     private Long id;
 
-    @Lob
-    @Basic(fetch = LAZY)
+    //@Lob                 <-- Postgres hurr durr
+    //@Basic(fetch = LAZY) <-- Postgres hurr durr
     private byte[] content;
 
     @OneToOne
