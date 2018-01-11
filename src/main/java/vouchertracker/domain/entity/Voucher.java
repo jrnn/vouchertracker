@@ -38,6 +38,11 @@ public class Voucher extends UUIDPersistable {
     private Customer customer;
 
     @JsonIgnore
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "shipment_id", nullable = true)
+    private Shipment shipment = null;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "voucher")
     private List<Attachment> attachments = new ArrayList<>();
 

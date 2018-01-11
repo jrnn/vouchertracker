@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+  <head>
+    <title>PvTracker | UPS shipments</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta th:replace="fragments/common_styles :: common_styles"/>
+  </head>
+
+  <body>
+    <header th:replace="fragments/header :: header">Header</header>
+
+    <section class="bg-orange">
+      <div class="container">
+        <h1>Add UPS shipment</h1>
+      </div>
+    </section>
+
+    <!-- Shipment form -->
+    <section sec:authorize="hasAuthority('USER')" class="padded">
+      <div class="container">
+        <form action="#" th:method="POST" th:action="@{/ups}" th:object="${dto}">
+
+          <!-- Possible failure/success alerts -->
+          <div class="row">
+            <div class="col form-group">
+              <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:errors="*{*}">Validation error message(s)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipment details section -->
+          <section id="shipment-details">
+            <div class="row">
+              <div class="col form-group">
+                <h3>Shipment details</h3>
+              </div>
+            </div>
+
+            <!-- Form fields -->
+            <div class="row">
+              <div class="col-12 col-sm-8 form-group">
+                <label for="trackingNo">UPS tracking number</label>
+                <input th:field="*{trackingNo}" type="text" class="form-control"
+                       th:errorclass="is-invalid"/>
+                <small th:if="${#fields.hasErrors('trackingNo')}" th:errors="*{trackingNo}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+              <div class="col-12 col-sm-4 form-group">
+                <label for="shippedOn">Sending date</label>
+                <input th:field="*{shippedOn}" type="date" class="form-control"
+                       th:errorclass="is-invalid"/>
+                <small th:if="${#fields.hasErrors('shippedOn')}" th:errors="*{shippedOn}"
+                       class="invalid-feedback">Validation error message</small>
+              </div>
+            </div>
+          </section>
+
+          <!-- Vouchers section -->
+          <div class="divider"></div>
+
+          <section id="vouchers-list" th:if="${#lists.isEmpty(vouchers)}">
+            <div class="row">
+              <div class="col form-group">
+                <h3>(Oh snap! No shippable vouchers!)</h3>
+              </div>
+            </div>
+          </section>
+
+          <section id="vouchers-list" th:unless="${#lists.isEmpty(vouchers)}">
+            <div class="row">
+              <div class="col form-group">
+                <h3>Select vouchers</h3>
+              </div>
+            </div>
+
+            <!-- Vouchers list -->
+            <div class="row">
+              <div class="col form-group">
+                <table id="table-vouchers" class="table hover">
+                  <thead>
+                    <tr>
+                      <th>Voucher Id</th>
+                      <th>Passport</th>
+                      <th>Received on</th>
+                      <th class="no-sort"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="v : ${vouchers}" th:id="${'tr-' + v.id}" th:data-href="${v.id}">
+                      <td th:text="${v.voucherId}"></td>
+                      <td th:text="${v.customer.passport}"></td>
+                      <td th:text="${v.receivedOn}"></td>
+                      <td>
+                        <input type="checkbox" name="voucherIds" th:value="${v.id}"
+                               th:id="${v.id}" style="visibility : hidden;"/>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- Form buttons, links -->
+          <section>
+            <div class="row padded">
+              <div class="col form-group">
+                <input type="submit" class="button" id="submit" value="Submit"
+                       th:unless="${#lists.isEmpty(vouchers)}"/>
+                <input type="button" class="button" id="cancel" value="Cancel"
+                       onClick="window.location.href='/ups'"/>
+              </div>
+            </div>
+          </section>
+
+        </form>
+      </div>
+    </section>
+
+    <footer th:replace="fragments/footer :: footer">Footer</footer>
+    <script th:replace="fragments/common_scripts :: common_scripts"></script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+        $("#table-vouchers").DataTable( {
+            "info" : false,
+            "paging" : false,
+            "searching" : false,
+            columnDefs : [
+                { targets : "no-sort", orderable : false }
+            ]
+        });
+
+        var ids = /*[[${dto.voucherIds}]]*/ null;
+
+        jQuery.each(ids, function(index, id) {
+            $("#" + id).click();
+        });
+    });
+    $("#table-vouchers").on("click", "tbody tr", function() {
+        var id = $(this).data("href");
+        $("#" + id).click();
+    });
+    $("input:checkbox").change(function() {
+        var id = $(this).val();
+        $("#tr-" + id).toggleClass("selected");
+    });
+    /*]]>*/
+    </script>
+  </body>
+
+</html>

@@ -32,6 +32,10 @@ public class VoucherService {
         return voucherRepository.findByCustomerId(customerId);
     }
 
+    public List<Voucher> findShippable() {
+        return voucherRepository.findShippable();
+    }
+
     public List<Attachment> getAttachments(String id) {
         return voucherRepository.findByUuid(id).getAttachments();
     }

@@ -19,6 +19,9 @@
             <td sec:authorize="hasAuthority('USER')">
               <a th:href="@{/customers}" class="header">Customers</a>&nbsp;|&nbsp;
             </td>
+            <td sec:authorize="hasAuthority('USER')">
+              <a th:href="@{/ups}" class="header">UPS</a>&nbsp;|&nbsp;
+            </td>
             <td sec:authorize="hasAuthority('SUPERUSER')">
               <a th:href="@{/users}" class="header">Users</a>&nbsp;|&nbsp;
             </td>

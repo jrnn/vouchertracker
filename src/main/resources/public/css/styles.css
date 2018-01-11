@@ -133,6 +133,12 @@ table.dataTable tbody tr {
     cursor : pointer;
     *cursor : hand;
 }
+table.dataTable tbody tr.selected,
+table.dataTable.hover tbody tr:hover.selected,
+table.dataTable.display tbody tr:hover.selected {
+    background-color : #ef7f17;
+    color : #fdfdfd;
+}
 table.dataTable tbody th, table.dataTable tbody td {
     padding : 9px 6px 9px 3px;
 }
