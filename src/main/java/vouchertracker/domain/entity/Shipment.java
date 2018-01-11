@@ -20,10 +20,15 @@ public class Shipment extends UUIDPersistable {
     @Column(length = 64, nullable = false)
     private String trackingNo;
     private LocalDate shippedOn;
+    private String addedBy;
 
     @JsonIgnore
     @OneToMany(mappedBy = "shipment")
     List<Voucher> vouchers = new ArrayList<>();
+
+    public int getVouchersCount() {
+        return getVouchers().size();
+    }
 
     @Override
     public String toString() {

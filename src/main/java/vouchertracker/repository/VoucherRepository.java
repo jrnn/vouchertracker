@@ -14,7 +14,6 @@ public interface VoucherRepository extends JpaRepository<Voucher, String> {
     @Query("SELECT v FROM Voucher v JOIN v.customer c WHERE c.id = :id")
     List<Voucher> findByCustomerId(@Param("id")String id);
 
-    //@Query("SELECT v FROM Voucher v WHERE v.stamped = true")
     @Query("SELECT v FROM Voucher v WHERE v.stamped = true AND v.shipment = null")
     List<Voucher> findShippable();
 

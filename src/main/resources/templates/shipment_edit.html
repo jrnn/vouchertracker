@@ -62,24 +62,19 @@
           </section>
 
           <!-- Vouchers section -->
-          <div class="divider"></div>
+          <section>
+            <div class="divider"></div>
 
-          <section id="vouchers-list" th:if="${#lists.isEmpty(vouchers)}">
             <div class="row">
               <div class="col form-group">
-                <h3>(Oh snap! No shippable vouchers!)</h3>
+                <h3 th:unless="${#lists.isEmpty(vouchers)}">Select vouchers</h3>
+                <h3 th:if="${#lists.isEmpty(vouchers)}">(Oh snap! No shippable vouchers!)</h3>
               </div>
             </div>
           </section>
 
+          <!-- Vouchers list -->
           <section id="vouchers-list" th:unless="${#lists.isEmpty(vouchers)}">
-            <div class="row">
-              <div class="col form-group">
-                <h3>Select vouchers</h3>
-              </div>
-            </div>
-
-            <!-- Vouchers list -->
             <div class="row">
               <div class="col form-group">
                 <table id="table-vouchers" class="table hover">

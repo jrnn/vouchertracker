@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+  <head>
+    <title>PvTracker | UPS shipments</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta th:replace="fragments/common_styles :: common_styles"/>
+  </head>
+
+  <body>
+    <header th:replace="fragments/header :: header">Header</header>
+
+    <section class="bg-orange">
+      <div class="container">
+        <h1>UPS shipments</h1>
+      </div>
+    </section>
+
+    <!-- Shipment form -->
+    <section sec:authorize="hasAuthority('USER')" class="padded">
+      <div class="container">
+        <form th:object="${shipment}">
+
+          <!-- Possible failure/success alerts -->
+          <div class="row">
+            <div class="col">
+              <div th:if="${failure != null}" class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:text="${failure}">Failure message</span>
+              </div>
+              <div th:if="${success != null}" class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span th:text="${success}">Success message</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipment details -->
+          <section>
+            <div class="row">
+              <div class="col form-group">
+                <h3>Shipment details</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col form-group">
+                <label for="trackingNo">Tracking number</label>
+                <input th:field="*{trackingNo}" type="text" class="form-control" readonly/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-6 form-group">
+                <label for="shippedOn">Sent on</label>
+                <input th:value="${#temporals.format(shipment.shippedOn, 'yyyy-MM-dd')}"
+                       id="shippedOn" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-sm-6 form-group">
+                <label for="addedBy">Added by</label>
+                <input th:field="*{addedBy}" type="text" class="form-control" readonly/>
+              </div>
+            </div>
+          </section>
+        </form>
+
+        <!-- Vouchers table -->
+        <section>
+          <div class="row padded">
+            <div class="col">
+              <table id="table-vouchers" class="table hover" data-page-length='10'>
+                <thead>
+                  <tr>
+                    <th>Voucher Id</th>
+                    <th>Passport</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="v : ${shipment.vouchers}" th:data-href="${v.id}">
+                    <td th:text="${v.voucherId}">Voucher Id</td>
+                    <td th:text="${v.customer.passport}">Passport</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Form buttons, links -->
+        <section>
+          <div class="row padded">
+            <div class="col form-group">
+              <input type="button" class="button" id="cancel" value="Cancel"
+                     onClick="window.location.href='/ups'"/>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <footer th:replace="fragments/footer :: footer">Footer</footer>
+    <script th:replace="fragments/common_scripts :: common_scripts"></script>
+    <script>
+    $(document).ready(function() {
+        $("#table-vouchers").DataTable( {
+            "info" : false,
+            "paging" : false,
+            "searching" : false
+        });
+    });
+    $("#table-vouchers").on("click", "tbody tr", function() {
+        if($(this).data("href") != null) {
+            window.location.href="/vouchers/" + $(this).data("href");
+        }
+    });
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+  <head>
+    <title>PvTracker | UPS shipments</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta th:replace="fragments/common_styles :: common_styles"/>
+  </head>
+
+  <body>
+    <header th:replace="fragments/header :: header">Header</header>
+
+    <section class="bg-orange">
+      <div class="container">
+        <h1>UPS shipments</h1>
+      </div>
+    </section>
+
+    <!-- Shipments table -->
+    <section sec:authorize="hasAuthority('USER')" class="padded">
+      <div class="container">
+
+        <!-- Possible failure/success alerts -->
+        <div class="row">
+          <div class="col">
+            <div th:if="${failure != null}" class="alert alert-danger alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <span th:text="${failure}">Failure message</span>
+            </div>
+            <div th:if="${success != null}" class="alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <span th:text="${success}">Success message</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table contents -->
+        <div class="row padded">
+          <div class="col">
+            <table id="table-ups" class="table hover" data-page-length='10'>
+              <thead>
+                <tr>
+                  <th>Tracking number</th>
+                  <th>Sent on</th>
+                  <th>Added by</th>
+                  <th>Vouchers</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="s : ${shipments}" th:data-href="${s.id}">
+                  <td th:text="${s.trackingNo}">Tracking number</td>
+                  <td th:text="${s.shippedOn}">Sent on</td>
+                  <td th:text="${s.addedBy}">Added by</td>
+                  <td th:text="${s.vouchersCount}">No. of vouchers</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Buttons, links -->
+        <div class="row">
+          <div class="col">
+            <form th:action="@{/ups/new}" method="GET">
+              <input type="submit" class="button" id="addNew" value="Add new shipment"/>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer th:replace="fragments/footer :: footer">Footer</footer>
+    <script th:replace="fragments/common_scripts :: common_scripts"></script>
+    <script>
+    $(document).ready(function() {
+        $("#table-ups").DataTable( {
+            "lengthChange" : false,
+            "language" : {
+                "search" : "Search"
+            }
+        });
+    });
+    $("#table-ups").on("click", "tbody tr", function() {
+        if ($(this).data("href") != null) {
+            window.location.href="/ups/" + $(this).data("href");
+        }
+    });
+    </script>
+  </body>
+
+</html>

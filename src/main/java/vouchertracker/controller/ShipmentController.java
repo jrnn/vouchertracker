@@ -5,8 +5,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -29,17 +31,23 @@ public class ShipmentController {
         return voucherService.findShippable();
     }
 
-    public String listAll() {
-        return "not yet supported";
-    }
-
-    public String viewOne() {
-        return "not yet supported";
-    }
-
     @RequestMapping(value = "/ups", method = RequestMethod.GET)
+    public String listAll(Model model) {
+        model.addAttribute("shipments", shipmentService.findAll());
+
+        return "shipments";
+    }
+
+    @RequestMapping(value = "/ups/{id}", method = RequestMethod.GET)
+    public String viewOne(Model model, @PathVariable("id") String id) {
+        model.addAttribute("shipment", shipmentService.getOne(id));
+
+        return "shipment";
+    }
+
+    @RequestMapping(value = "/ups/new", method = RequestMethod.GET)
     public String addNew(@ModelAttribute("dto") ShipmentDto dto) {
-        return "ups_edit";
+        return "shipment_edit";
     }
 
     @RequestMapping(value = "/ups", method = RequestMethod.POST)
@@ -48,7 +56,7 @@ public class ShipmentController {
             BindingResult result,
             RedirectAttributes redirectAttrs
     ) {
-        if (result.hasErrors()) return "ups_edit";
+        if (result.hasErrors()) return "shipment_edit";
 
         shipmentService.create(dto);
         redirectAttrs.addFlashAttribute(
