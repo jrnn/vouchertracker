@@ -6,6 +6,7 @@ import vouchertracker.domain.dto.CustomerDto;
 import vouchertracker.domain.dto.VoucherDto;
 import vouchertracker.domain.entity.Account;
 import vouchertracker.domain.entity.Customer;
+import vouchertracker.domain.entity.Shipment;
 import vouchertracker.domain.entity.Voucher;
 import vouchertracker.utility.CustomParser;
 
@@ -46,6 +47,7 @@ public class VoucherMapper implements EntityDtoMapper<Voucher, VoucherDto> {
 
         attachCustomer(dto, voucher.getCustomer());
         attachAccount(dto, voucher.getAccount());
+        attachShipment(dto, voucher.getShipment());
 
         return dto;
     }
@@ -53,6 +55,12 @@ public class VoucherMapper implements EntityDtoMapper<Voucher, VoucherDto> {
     private VoucherDto attachAccount(VoucherDto dto, Account account) {
         dto.setAccountId(account.getId());
         dto.setAccountName(account.getFullName());
+
+        return dto;
+    }
+
+    private VoucherDto attachShipment(VoucherDto dto, Shipment shipment) {
+        if (shipment != null) dto.setTrackingNo(shipment.getTrackingNo());
 
         return dto;
     }

@@ -35,7 +35,8 @@ public class VoucherController {
     @RequestMapping(value = "/vouchers", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('USER')")
     public String listAll(Model model) {
-        model.addAttribute("vouchers", voucherService.findAll());
+        model.addAttribute("open", voucherService.findOpen());
+        model.addAttribute("closed", voucherService.findClosed());
 
         return "vouchers";
     }

@@ -24,8 +24,12 @@ public class VoucherService {
     @Autowired
     private VoucherRepository voucherRepository;
 
-    public List<Voucher> findAll() {
-        return voucherRepository.findAll();
+    public List<Voucher> findOpen() {
+        return voucherRepository.findNonShipped();
+    }
+
+    public List<Voucher> findClosed() {
+        return voucherRepository.findShipped();
     }
 
     public List<Voucher> findAllForCustomer(String customerId) {

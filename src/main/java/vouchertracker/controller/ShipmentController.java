@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vouchertracker.domain.dto.ShipmentDto;
+import vouchertracker.domain.entity.Shipment;
 import vouchertracker.domain.entity.Voucher;
 import vouchertracker.service.ShipmentService;
 import vouchertracker.service.VoucherService;
@@ -58,10 +59,15 @@ public class ShipmentController {
     ) {
         if (result.hasErrors()) return "shipment_edit";
 
-        shipmentService.create(dto);
-        redirectAttrs.addFlashAttribute(
-                "success", "Hooray! UPS shipment successfully created!");
+        Shipment shipment = shipmentService.create(dto);
 
+        if (shipment != null) {
+            redirectAttrs.addFlashAttribute(
+                    "success", "Hooray! UPS shipment successfully created!");
+            return "redirect:/ups/" + shipment.getId();
+        }
+
+        redirectAttrs.addFlashAttribute("failure", "Oh snap! Something went wrong.");
         return "redirect:/ups";
     }
 
