@@ -56,10 +56,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="customer : ${customers}" th:data-href="${customer.id}">
-                  <td th:text="${customer.passport}">Passport</td>
-                  <td th:text="${customer.lastName + ', ' + customer.firstName}">Name</td>
-                  <td th:text="${customer.vouchersCount}">No. of vouchers</td>
+                <tr th:each="c : ${customers}" th:data-href="${c.id}">
+                  <td th:text="${c.passport}">Passport</td>
+                  <td th:text="${c.lastName + ', ' + c.firstName}">Name</td>
+                  <td th:text="${c.vouchersCount}">No. of vouchers</td>
                 </tr>
               </tbody>
             </table>
@@ -77,21 +77,8 @@
             integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
             crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        $("#table-customers").DataTable( {
-            "lengthChange" : false,
-            "language" : {
-                "search" : "Search"
-            }
-        });
-    });
-    $("#table-customers").on("click", "tbody tr", function() {
-        if ($(this).data("href") != null) {
-            window.location.href="/customers/" + $(this).data("href");
-        }
-    });
-    </script>
+    <script type="text/javascript" th:src="@{/js/datatable-common.js}"
+            data-tableId="table-customers" data-hrefRoot="/customers/"></script>
   </body>
 
 </html>

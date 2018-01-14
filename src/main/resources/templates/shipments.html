@@ -88,21 +88,8 @@
             integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
             crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        $("#table-ups").DataTable( {
-            "lengthChange" : false,
-            "language" : {
-                "search" : "Search"
-            }
-        });
-    });
-    $("#table-ups").on("click", "tbody tr", function() {
-        if ($(this).data("href") != null) {
-            window.location.href="/ups/" + $(this).data("href");
-        }
-    });
-    </script>
+    <script type="text/javascript" th:src="@{/js/datatable-common.js}"
+            data-tableId="table-ups" data-hrefRoot="/ups/"></script>
   </body>
 
 </html>

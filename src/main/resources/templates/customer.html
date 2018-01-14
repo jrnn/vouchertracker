@@ -105,15 +105,14 @@
                   <tr>
                     <th>Voucher Id</th>
                     <th>Customs stamp</th>
-                    <th>Status</th>
+                    <th>Shipped</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="voucher : ${vouchers}" th:data-href="${voucher.id}">
-                    <td th:text="${voucher.voucherId}">Voucher Id</td>
-                    <td th:text="${voucher.stamped} ? 'Yes' : 'No'">
-                        Customs stamp</td>
-                    <td>Kekkukekki</td>
+                  <tr th:each="v : ${vouchers}" th:data-href="${v.id}">
+                    <td th:text="${v.voucherId}">Voucher Id</td>
+                    <td th:text="${v.stamped} ? 'Yes' : 'No'"></td>
+                    <td th:text="${v.shipment == null} ? 'No' : 'Yes'">Shipped</td>
                   </tr>
                 </tbody>
               </table>
@@ -132,21 +131,8 @@
             integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
             crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        $("#table-vouchers").DataTable( {
-            "lengthChange" : false,
-            "language" : {
-                "search" : "Search"
-            }
-        });
-    });
-    $("#table-vouchers").on("click", "tbody tr", function() {
-        if($(this).data("href") != null) {
-            window.location.href="/vouchers/" + $(this).data("href");
-        }
-    });
-    </script>
+    <script type="text/javascript" th:src="@{/js/datatable-common.js}"
+            data-tableId="table-vouchers" data-hrefRoot="/vouchers/"></script>
   </body>
 
 </html>

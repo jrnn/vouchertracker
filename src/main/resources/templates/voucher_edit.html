@@ -196,36 +196,11 @@
             crossorigin="anonymous"></script>
     <script th:inline="javascript">
     /*<![CDATA[*/
-    function goBack() {
-        var id = /*[[${dto.id}]]*/ "new";
-
-        if (id == "new") {
-            window.location.href="/vouchers";
-        } else {
-            window.location.href="/vouchers/" + id;
-        }
-    };
-    $(document).ready(function() {
-        if ($("#customerId option:selected").val() == "new") {
-            $("#customer-form input").prop("readonly", false);
-        }
-    });
-    $("#customerId").change(function() {
-        if ($(this).val() == "new") {
-            $("#customer-form input").prop("readonly", false).val("");
-        } else {
-            $("#customer-form input").prop("readonly", true);
-
-            var customers = /*[[${customers}]]*/ null;
-            var i = $("#customerId option:selected").index() - 1;
-
-            $("#passport").val(customers[i].passport);
-            $("#firstName").val(customers[i].firstName);
-            $("#lastName").val(customers[i].lastName);
-        }
-    });
+        var voucherId = /*[[${dto.id}]]*/ "new";
+        var customers = /*[[${customers}]]*/ null;
     /*]]>*/
     </script>
+    <script type="text/javascript" th:src="@{/js/voucher.js}"></script>
   </body>
 
 </html>

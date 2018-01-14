@@ -137,39 +137,10 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script th:inline="javascript">
     /*<![CDATA[*/
-    $(document).ready(function() {
-        $("#table-vouchers").DataTable( {
-            "info" : false,
-            "paging" : false,
-            "searching" : false,
-            columnDefs : [
-                { targets : "no-sort", orderable : false }
-            ]
-        });
-
-        var ids = /*[[${dto.voucherIds}]]*/ null;
-
-        jQuery.each(ids, function(index, id) {
-            $("#" + id).click();
-        });
-    });
-    $("#table-vouchers").on("click", "tbody tr", function() {
-        var id = $(this).data("href");
-        $("#" + id).click();
-    });
-    $("input:checkbox").change(function() {
-        var id = $(this).val();
-        $("#tr-" + id).toggleClass("selected");
-    });
-    $("#selectAll").click(function() {
-        $("#table-vouchers > tbody > tr").each(function() {
-            if (!$("input", this).prop("checked")) {
-                $(this).click();
-            }
-        });
-    });
+        var voucherIds = /*[[${dto.voucherIds}]]*/ null;
     /*]]>*/
     </script>
+    <script type="text/javascript" th:src="@{/js/shipment.js}"></script>
   </body>
 
 </html>

@@ -53,11 +53,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="user : ${users}" th:data-href="${user.id}">
-                  <td th:text="${user.lastName + ', ' + user.firstName}">User name</td>
-                  <td th:text="${user.enabled} ? 'Yes' : 'No'">Enabled</td>
-                  <td th:text="${user.administrator} ? 'Yes' : 'No'">Administrator</td>
-                  <td th:text="${#temporals.format(user.createdOn, 'yyyy-MM-dd')}">Created on</td>
+                <tr th:each="u : ${users}" th:data-href="${u.id}">
+                  <td th:text="${u.lastName + ', ' + u.firstName}">User name</td>
+                  <td th:text="${u.enabled} ? 'Yes' : 'No'">Enabled</td>
+                  <td th:text="${u.administrator} ? 'Yes' : 'No'">Administrator</td>
+                  <td th:text="${#temporals.format(u.createdOn, 'yyyy-MM-dd')}">Created on</td>
                 </tr>
               </tbody>
             </table>
@@ -84,21 +84,8 @@
             integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
             crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        $("#table-users").DataTable( {
-            "lengthChange" : false,
-            "language" : {
-                "search" : "Search"
-            }
-        });
-    });
-    $("#table-users").on("click", "tbody tr", function() {
-        if($(this).data("href") != null) {
-            window.location.href="/users/" + $(this).data("href");
-        }
-    });
-    </script>
+    <script type="text/javascript" th:src="@{/js/datatable-common.js}"
+            data-tableId="table-users" data-hrefRoot="/users/"></script>
   </body>
 
 </html>
