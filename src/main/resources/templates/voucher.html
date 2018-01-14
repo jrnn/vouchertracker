@@ -193,7 +193,7 @@
             <div class="col">
               <span sec:authorize="hasAuthority(#vars.dto.accountId) OR hasAuthority('ADMIN')">
                 <form method="GET" th:action="@{/vouchers/{id}/edit(id=${dto.id})}"
-                      style="display : inline;">
+                      th:if="${dto.trackingNo == null}" style="display : inline;">
                   <input type="submit" class="button" value="Edit voucher"/>
                   <input type="hidden" name="ownerId" th:value="${dto.accountId}"/>
                 </form>
