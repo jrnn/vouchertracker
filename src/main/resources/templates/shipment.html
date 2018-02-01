@@ -98,6 +98,8 @@
         <section>
           <div class="row padded">
             <div class="col form-group">
+              <input type="button" class="button" id="track" value="Track"
+                     onClick="track();"/>
               <input type="button" class="button" id="cancel" value="Cancel"
                      onClick="window.location.href='/ups'"/>
             </div>
@@ -115,8 +117,14 @@
             integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
             crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        var trackingNo = /*[[${shipment.trackingNo}]]*/ "n/a";
+    /*]]>*/
+    </script>
     <script type="text/javascript" th:src="@{/js/datatable-common.js}"
             data-tableId="table-vouchers" data-hrefRoot="/vouchers/"></script>
+    <script type="text/javascript" th:src="@{/js/ups-track.js}"></script>
   </body>
 
 </html>

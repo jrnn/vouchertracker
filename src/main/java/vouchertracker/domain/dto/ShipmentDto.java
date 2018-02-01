@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import vouchertracker.validation.constraint.NotEmpty;
-import vouchertracker.validation.constraint.NotFuture;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +19,6 @@ public class ShipmentDto {
     private String trackingNo;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @NotFuture(message = "Sending date cannot be in the future")
     private LocalDate shippedOn = LocalDate.now();
 
     @NotNull(message = "Must select at least one voucher")
