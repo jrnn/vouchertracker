@@ -1,6 +1,7 @@
 package vouchertracker.domain.mapper;
 
 import java.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import vouchertracker.domain.dto.CustomerDto;
 import vouchertracker.domain.dto.VoucherDto;
@@ -8,10 +9,14 @@ import vouchertracker.domain.entity.Account;
 import vouchertracker.domain.entity.Customer;
 import vouchertracker.domain.entity.Shipment;
 import vouchertracker.domain.entity.Voucher;
+import vouchertracker.service.VoucherService;
 import vouchertracker.utility.CustomParser;
 
 @Component
-public class VoucherMapper implements EntityDtoMapper<Voucher, VoucherDto> {
+public class VoucherMapper implements EntityMapper<Voucher, VoucherDto> {
+
+    @Autowired
+    private VoucherService voucherService;
 
     @Override
     public Voucher mapDtoToEntity(VoucherDto dto, Voucher voucher, String user) {
@@ -50,6 +55,23 @@ public class VoucherMapper implements EntityDtoMapper<Voucher, VoucherDto> {
         attachShipment(dto, voucher.getShipment());
 
         return dto;
+    }
+
+    @Override
+    public String writeToCsv(String separator) {
+        StringBuilder sb = new StringBuilder();
+        sb
+                .append("\nVOUCHERS\n")
+                .append(getCsvHeaders())
+                .append("\n");
+
+        voucherService
+                .findAll()
+                .stream()
+                .map(v -> mapEntityToCsv(v, separator))
+                .forEach(v -> sb.append(v).append("\n"));
+
+        return sb.toString();
     }
 
     private VoucherDto attachAccount(VoucherDto dto, Account account) {
@@ -103,6 +125,37 @@ public class VoucherMapper implements EntityDtoMapper<Voucher, VoucherDto> {
         }
 
         return null;
+    }
+
+    private String mapEntityToCsv(Voucher v, String s) {
+        StringBuilder sb = new StringBuilder();
+        sb
+                .append(v.getId()).append(s)
+                .append(v.getCreatedOn()).append(s)
+                .append(v.getLastEditedBy()).append(s)
+                .append(v.getLastEditedOn()).append(s)
+                .append(v.getVoucherId().replace("\n", "//")).append(s)
+                .append(v.getIssuedAt()).append(s)
+                .append(v.getIssuedOn()).append(s)
+                .append(v.getReceivedOn()).append(s)
+                .append(CustomParser.parseCurrency(v.getPurchaseAmount())).append(s)
+                .append(CustomParser.parseCurrency(v.getRefundAmount())).append(s)
+                .append(v.isStamped()).append(s)
+                .append(v.getAccount().getId()).append(s)
+                .append(v.getCustomer().getId()).append(s);
+
+        if (v.getShipment() != null) sb
+                .append(v.getShipment().getId()).append(s);
+        else sb
+                .append("null").append(s);
+
+        return sb.toString();
+    }
+
+    private String getCsvHeaders() {
+        return "id;created_on;last_edited_by;last_edited_on;voucher_id;issued_at;" +
+                "issued_on;received_on;purchase_amount;refund_amount;customs_stamp;" +
+                "owner_id;customer_id;shipment_id;";
     }
 
 }

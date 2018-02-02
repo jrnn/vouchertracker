@@ -35,7 +35,7 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/vouchers/", "/vouchers/**").hasAuthority("USER")
                 .antMatchers("/customers/", "/customers/**").hasAuthority("USER")
                 .antMatchers("/ups/", "/ups/**").hasAuthority("USER")
-                .antMatchers("/users/", "/users/**").hasAuthority("SUPERUSER")
+                .antMatchers("/users/", "/users/**", "/csv/").hasAuthority("SUPERUSER")
                 .anyRequest().authenticated();
 
         http.formLogin()

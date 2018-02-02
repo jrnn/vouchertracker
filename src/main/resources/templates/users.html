@@ -67,8 +67,12 @@
         <!-- Buttons, links -->
         <div class="row">
           <div class="col">
-            <form th:action="@{/users/new}" method="GET">
+            <form th:action="@{/users/new}" method="GET" style="display : inline;">
               <input type="submit" class="button" id="addNew" value="Add new user"/>
+            </form>
+            <form th:action="@{/csv}" method="GET" style="display : inline;">
+              <input type="submit" class="button" id="csv" value="Export CSV"
+                     target="_blank"/>
             </form>
           </div>
         </div>

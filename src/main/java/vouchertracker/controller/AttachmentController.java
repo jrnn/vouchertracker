@@ -11,18 +11,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vouchertracker.service.AttachmentService;
+import vouchertracker.service.CsvService;
 
 @Controller
 public class AttachmentController {
 
     @Autowired
     private AttachmentService attachmentService;
+    @Autowired
+    private CsvService csvService;
 
     @RequestMapping(value = "/vouchers/files/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<byte[]> serve(@PathVariable("id") String id) {
         try {
             return attachmentService.get(id);
+        } catch (Exception e) {
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/csv", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public ResponseEntity<byte[]> csv() {
+        try {
+            return csvService.exportCsv();
         } catch (Exception e) {
         }
 
