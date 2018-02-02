@@ -9,6 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"/>
     <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
+          integrity="sha256-I4gvabvvRivuPAYFqevVhZl88+vNf2NksupoBxMQi04="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
           integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
           crossorigin="anonymous"/>
@@ -60,8 +64,8 @@
               </div>
               <div class="col-12 col-sm-4 form-group">
                 <label for="shippedOn">Sending date</label>
-                <input th:field="*{shippedOn}" type="date" class="form-control"
-                       th:errorclass="is-invalid"/>
+                <input th:field="*{shippedOn}" type="text" class="form-control datepicker"
+                       th:errorclass="is-invalid" placeholder="yyyy-mm-dd"/>
                 <small th:if="${#fields.hasErrors('shippedOn')}" th:errors="*{shippedOn}"
                        class="invalid-feedback">Validation error message</small>
               </div>
@@ -135,12 +139,16 @@
             integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
             crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"
+            integrity="sha256-TueWqYu0G+lYIimeIcMI8x1m14QH/DQVt4s9m/uuhPw="
+            crossorigin="anonymous"></script>
     <script th:inline="javascript">
     /*<![CDATA[*/
         var voucherIds = /*[[${dto.voucherIds}]]*/ null;
     /*]]>*/
     </script>
     <script type="text/javascript" th:src="@{/js/shipment.js}"></script>
+    <script type="text/javascript" th:src="@{/js/datepicker.js}"></script>
   </body>
 
 </html>
