@@ -51,12 +51,20 @@
               <h3>Open vouchers</h3>
             </div>
           </div>
+          <div sec:authorize="hasAuthority('VOUCHER_OWNER')" class="row padded">
+            <div class="col-1" style="z-index : 1000;">
+              <form th:action="@{/vouchers/new}" method="GET">
+                <input type="submit" class="button" id="addNew" value="Add new voucher"/>
+              </form>
+            </div>
+          </div>
           <div class="row padded">
-            <div class="col">
+            <div class="col" style="margin-top : -4em;">
               <table id="table-open" class="table hover" data-page-length='10'>
                 <thead>
                   <tr>
                     <th>Voucher Id</th>
+                    <th>Added on</th>
                     <th>Passport</th>
                     <th>Customs stamp</th>
                   </tr>
@@ -64,6 +72,7 @@
                 <tbody>
                   <tr th:each="v : ${open}" th:data-href="${v.id}">
                     <td th:text="${v.voucherId}">Voucher Id</td>
+                    <td th:text="${v.createdOn}">Added on</td>
                     <td th:text="${v.customer.passport}">Passport</td>
                     <td th:text="${v.stamped} ? 'Yes' : 'No'">Customs stamp</td>
                   </tr>
@@ -71,16 +80,6 @@
               </table>
             </div>
           </div>
-
-          <!-- Buttons, links -->
-          <div sec:authorize="hasAuthority('VOUCHER_OWNER')" class="row">
-            <div class="col">
-              <form th:action="@{/vouchers/new}" method="GET">
-                <input type="submit" class="button" id="addNew" value="Add new voucher"/>
-              </form>
-            </div>
-          </div>
-        </section>
 
         <!-- Table contents : closed vouchers -->
         <section th:unless="${#lists.isEmpty(closed)}">

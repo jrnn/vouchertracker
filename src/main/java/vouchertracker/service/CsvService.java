@@ -22,7 +22,7 @@ public class CsvService {
     public ResponseEntity<byte[]> exportCsv() {
         StringBuilder sb = new StringBuilder();
         String now = LocalDate.now() + "";
-        String filename = "db_pvtracker_" + now.replaceAll("-", "");
+        String filename = "db_pvtracker_" + now.replaceAll("-", "") + ".csv";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("text/csv"));
