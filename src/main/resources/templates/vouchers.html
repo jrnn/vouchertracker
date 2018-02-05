@@ -51,9 +51,10 @@
               <h3>Open vouchers</h3>
             </div>
           </div>
-          <div sec:authorize="hasAuthority('VOUCHER_OWNER')" class="row padded">
+          <div class="row padded">
             <div class="col-1" style="z-index : 1000;">
-              <form th:action="@{/vouchers/new}" method="GET">
+              <form sec:authorize="hasAuthority('VOUCHER_OWNER')"
+                    th:action="@{/vouchers/new}" method="GET">
                 <input type="submit" class="button" id="addNew" value="Add new voucher"/>
               </form>
             </div>

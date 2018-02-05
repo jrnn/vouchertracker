@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vouchertracker.domain.dto.VoucherDto;
+import vouchertracker.domain.entity.Customer;
 import vouchertracker.domain.entity.Voucher;
 import vouchertracker.service.CustomerService;
 import vouchertracker.service.VoucherService;
@@ -30,6 +31,11 @@ public class VoucherController {
     @ModelAttribute("countries")
     public List<String> getCountries() {
         return Librarian.listEEACountries();
+    }
+
+    @ModelAttribute("customers")
+    public List<Customer> getCustomers() {
+        return customerService.findAll();
     }
 
     @RequestMapping(value = "/vouchers", method = RequestMethod.GET)
@@ -54,7 +60,6 @@ public class VoucherController {
     @PreAuthorize("hasAuthority('VOUCHER_OWNER')")
     public String addNew(Model model) {
         model.addAttribute("dto", new VoucherDto());
-        model.addAttribute("customers", customerService.findAll());
 
         return "voucher_edit";
     }
@@ -67,7 +72,6 @@ public class VoucherController {
             @RequestParam("ownerId") String ownerId
     ) {
         model.addAttribute("dto", voucherService.getDtoForVoucher(id));
-        model.addAttribute("customers", customerService.findAll());
 
         return "voucher_edit";
     }
