@@ -26,6 +26,7 @@ public class Voucher extends UUIDPersistable {
     private Long purchaseAmount;
     private Long refundAmount;
     private boolean stamped;
+    private boolean prepaid;
 
     @JsonIgnore
     @ManyToOne(optional = false)

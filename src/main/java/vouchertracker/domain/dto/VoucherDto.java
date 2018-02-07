@@ -55,6 +55,7 @@ public class VoucherDto {
     @ParsableAsDouble
     private String refundAmount;
     private boolean stamped = false;
+    private boolean prepaid = false;
     private String trackingNo = null;
 
     // Customer fields

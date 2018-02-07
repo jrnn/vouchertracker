@@ -118,12 +118,12 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-12 col-sm-4 form-group">
+              <div class="col-12 col-sm-6 col-lg-4 form-group">
                 <label for="issuedOn">Date of issue</label>
                 <input th:value="${#temporals.format(dto.issuedOn, 'yyyy-MM-dd')}"
                        id="issuedOn" type="text" class="form-control" readonly/>
               </div>
-              <div class="col-12 col-sm-8 form-group">
+              <div class="col-12 col-sm-6 col-lg-8 form-group">
                 <label for="issuedAt">Country of issue</label>
                 <input th:field="*{issuedAt}" type="text" class="form-control" readonly/>
               </div>
@@ -138,18 +138,23 @@
                 <label for="purchaseAmount">Purchase amount</label>
                 <input th:field="*{purchaseAmount}" type="text" class="form-control" readonly/>
               </div>
-              <div class="col-12 col-sm-6 col-lg-4 form-group">
+              <div class="col-12 col-lg-4 form-group">
                 <label for="refundAmount">Refund amount</label>
                 <input th:field="*{refundAmount}" type="text" class="form-control" readonly/>
               </div>
             </div>
             <div class="row">
-              <div class="col-12 col-sm-6 form-group">
+              <div class="col-12 col-sm-6 col-lg-2 form-group">
                 <label for="stamped">Customs stamp</label>
                 <input th:value="${dto.stamped} ? 'Yes' : 'No'"
                        id="stamped" type="text" class="form-control" readonly/>
               </div>
-              <div class="col-12 col-sm-6 form-group">
+              <div class="col-12 col-sm-6 col-lg-2 form-group">
+                <label for="prepaid">Prepaid</label>
+                <input th:value="${dto.prepaid} ? 'Yes' : 'No'"
+                        id="prepaid" type="text" class="form-control" readonly/>
+              </div>
+              <div class="col-12 col-lg-8 form-group">
                 <label for="trackingNo">Shipment tracking number</label>
                 <input th:value="*{trackingNo}" type="text" class="form-control" readonly/>
               </div>

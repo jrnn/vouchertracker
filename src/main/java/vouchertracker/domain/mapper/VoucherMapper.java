@@ -27,6 +27,7 @@ public class VoucherMapper implements EntityMapper<Voucher, VoucherDto> {
         voucher.setPurchaseAmount(CustomParser.parseCurrency(dto.getPurchaseAmount()));
         voucher.setRefundAmount(CustomParser.parseCurrency(dto.getRefundAmount()));
         voucher.setStamped(dto.isStamped());
+        voucher.setPrepaid(dto.isPrepaid());
 
         voucher.setLastEditedBy(user);
         voucher.setLastEditedOn(LocalDateTime.now());
@@ -49,6 +50,7 @@ public class VoucherMapper implements EntityMapper<Voucher, VoucherDto> {
         dto.setPurchaseAmount(CustomParser.parseCurrency(voucher.getPurchaseAmount()));
         dto.setRefundAmount(CustomParser.parseCurrency(voucher.getRefundAmount()));
         dto.setStamped(voucher.isStamped());
+        dto.setPrepaid(voucher.isPrepaid());
 
         attachCustomer(dto, voucher.getCustomer());
         attachAccount(dto, voucher.getAccount());
@@ -141,6 +143,7 @@ public class VoucherMapper implements EntityMapper<Voucher, VoucherDto> {
                 .append(CustomParser.parseCurrency(v.getPurchaseAmount())).append(s)
                 .append(CustomParser.parseCurrency(v.getRefundAmount())).append(s)
                 .append(v.isStamped()).append(s)
+                .append(v.isPrepaid()).append(s)
                 .append(v.getAccount().getId()).append(s)
                 .append(v.getCustomer().getId()).append(s);
 
@@ -155,7 +158,7 @@ public class VoucherMapper implements EntityMapper<Voucher, VoucherDto> {
     private String getCsvHeaders() {
         return "id;created_on;last_edited_by;last_edited_on;voucher_id;issued_at;" +
                 "issued_on;received_on;purchase_amount;refund_amount;customs_stamp;" +
-                "owner_id;customer_id;shipment_id;";
+                "prepaid;owner_id;customer_id;shipment_id;";
     }
 
 }
