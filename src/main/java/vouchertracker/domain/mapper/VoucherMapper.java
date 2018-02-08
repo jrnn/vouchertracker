@@ -112,8 +112,8 @@ public class VoucherMapper implements EntityMapper<Voucher, VoucherDto> {
     }
 
     private String concatenateVoucherId(VoucherDto dto) {
-        String id = dto.getVoucherId().trim();
-        String idExt = dto.getVoucherIdExt().trim();
+        String id = CustomParser.trim(dto.getVoucherId());
+        String idExt = CustomParser.trim(dto.getVoucherIdExt());
 
         return (idExt.isEmpty()
                 ? id

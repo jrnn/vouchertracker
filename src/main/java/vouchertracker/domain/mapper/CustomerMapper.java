@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import vouchertracker.domain.dto.CustomerDto;
 import vouchertracker.domain.entity.Customer;
 import vouchertracker.service.CustomerService;
+import vouchertracker.utility.CustomParser;
 
 @Component
 public class CustomerMapper implements EntityMapper<Customer, CustomerDto> {
@@ -17,7 +18,7 @@ public class CustomerMapper implements EntityMapper<Customer, CustomerDto> {
     public Customer mapDtoToEntity(CustomerDto dto, Customer customer, String user) {
         customer.setFirstName(dto.getFirstName().trim());
         customer.setLastName(dto.getLastName().trim());
-        customer.setPassport(dto.getPassport().trim());
+        customer.setPassport(CustomParser.trim(dto.getPassport()));
 
         customer.setLastEditedBy(user);
         customer.setLastEditedOn(LocalDateTime.now());

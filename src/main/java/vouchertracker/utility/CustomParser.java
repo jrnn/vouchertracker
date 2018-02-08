@@ -4,6 +4,12 @@ import java.time.LocalDateTime;
 
 public class CustomParser {
 
+    public static String trim(String s) {
+        return s.trim()
+                .replace(" ", "")
+                .toUpperCase();
+    }
+
     public static Double parseDouble(String s) {
         try {
             return Double.parseDouble(s.trim().replace(",", "."));
@@ -31,9 +37,7 @@ public class CustomParser {
     }
 
     public static String parseTimestamp(LocalDateTime d) {
-        int n;
-
-        n = d.getMonthValue();
+        int n = d.getMonthValue();
         String mo = n < 10 ? "0" + n : "" + n;
         n = d.getDayOfMonth();
         String da = n < 10 ? "0" + n : "" + n;

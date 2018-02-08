@@ -11,6 +11,7 @@ import vouchertracker.domain.entity.Shipment;
 import vouchertracker.domain.entity.Voucher;
 import vouchertracker.repository.ShipmentRepository;
 import vouchertracker.repository.VoucherRepository;
+import vouchertracker.utility.CustomParser;
 
 @Service
 public class ShipmentService {
@@ -44,7 +45,7 @@ public class ShipmentService {
         Shipment shipment = new Shipment();
         Account account = accountService.getAccountByAuthentication();
 
-        shipment.setTrackingNo(dto.getTrackingNo().trim());
+        shipment.setTrackingNo(CustomParser.trim(dto.getTrackingNo()));
         shipment.setShippedOn(dto.getShippedOn());
         shipment.setAddedBy(account.getFullName());
 
