@@ -35,6 +35,7 @@ public class DefaultSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/vouchers/", "/vouchers/**").hasAuthority("USER")
                 .antMatchers("/customers/", "/customers/**").hasAuthority("USER")
                 .antMatchers("/ups/", "/ups/**").hasAuthority("USER")
+                .antMatchers("/comments/", "/comments/**").hasAuthority("USER")
                 .antMatchers("/users/", "/users/**", "/csv/").hasAuthority("SUPERUSER")
                 .anyRequest().authenticated();
 

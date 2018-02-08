@@ -24,7 +24,11 @@ public class Shipment extends UUIDPersistable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "shipment")
-    List<Voucher> vouchers = new ArrayList<>();
+    private List<Voucher> vouchers = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "shipment")
+    private List<Comment> comments = new ArrayList<>();
 
     public int getVouchersCount() {
         return getVouchers().size();

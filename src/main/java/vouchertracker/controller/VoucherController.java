@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vouchertracker.domain.dto.VoucherDto;
 import vouchertracker.domain.entity.Customer;
 import vouchertracker.domain.entity.Voucher;
+import vouchertracker.service.CommentService;
 import vouchertracker.service.CustomerService;
 import vouchertracker.service.VoucherService;
 import vouchertracker.utility.Librarian;
@@ -23,6 +24,8 @@ import vouchertracker.utility.Librarian;
 @Controller
 public class VoucherController {
 
+    @Autowired
+    private CommentService commentService;
     @Autowired
     private CustomerService customerService;
     @Autowired
@@ -52,6 +55,7 @@ public class VoucherController {
     public String viewOne(Model model, @PathVariable("id") String id) {
         model.addAttribute("dto", voucherService.getDtoForVoucher(id));
         model.addAttribute("attachments", voucherService.getAttachments(id));
+        model.addAttribute("comments", commentService.findAllForVoucher(id));
 
         return "voucher";
     }

@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vouchertracker.domain.dto.CustomerDto;
 import vouchertracker.domain.entity.Customer;
+import vouchertracker.service.CommentService;
 import vouchertracker.service.CustomerService;
 import vouchertracker.service.VoucherService;
 
 @Controller
 public class CustomerController {
 
+    @Autowired
+    private CommentService commentService;
     @Autowired
     private CustomerService customerService;
     @Autowired
@@ -37,6 +40,7 @@ public class CustomerController {
     public String viewOne(Model model, @PathVariable("id") String id) {
         model.addAttribute("dto", customerService.getDtoForCustomer(id));
         model.addAttribute("vouchers", voucherService.findAllForCustomer(id));
+        model.addAttribute("comments", commentService.findAllForCustomer(id));
 
         return "customer";
     }

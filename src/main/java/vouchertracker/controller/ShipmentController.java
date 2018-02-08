@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vouchertracker.domain.dto.ShipmentDto;
 import vouchertracker.domain.entity.Shipment;
 import vouchertracker.domain.entity.Voucher;
+import vouchertracker.service.CommentService;
 import vouchertracker.service.ShipmentService;
 import vouchertracker.service.VoucherService;
 
@@ -22,6 +23,8 @@ import vouchertracker.service.VoucherService;
 @PreAuthorize("hasAuthority('USER')")
 public class ShipmentController {
 
+    @Autowired
+    private CommentService commentService;
     @Autowired
     private ShipmentService shipmentService;
     @Autowired
@@ -42,6 +45,7 @@ public class ShipmentController {
     @RequestMapping(value = "/ups/{id}", method = RequestMethod.GET)
     public String viewOne(Model model, @PathVariable("id") String id) {
         model.addAttribute("shipment", shipmentService.getOne(id));
+        model.addAttribute("comments", commentService.findAllForShipment(id));
 
         return "shipment";
     }

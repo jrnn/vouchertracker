@@ -69,6 +69,10 @@ a.header:hover, a.header:active {
 .button:hover {
     background-color : #ef7f17;
 }
+.button:disabled {
+    background-color : #b8b5b3;
+    cursor : default;
+}
 .submit-link {
     background-color : transparent;
     border : none;

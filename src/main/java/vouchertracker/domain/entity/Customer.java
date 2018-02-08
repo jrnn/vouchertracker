@@ -27,6 +27,10 @@ public class Customer extends UUIDPersistable {
     @OneToMany(mappedBy = "customer")
     private List<Voucher> vouchers = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    private List<Comment> comments = new ArrayList<>();
+
     private String lastEditedBy;
     private LocalDateTime lastEditedOn;
 

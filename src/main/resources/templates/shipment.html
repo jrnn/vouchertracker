@@ -104,6 +104,42 @@
                      onClick="window.location.href='/ups'"/>
             </div>
           </div>
+          <div class="divider"></div>
+        </section>
+
+        <!-- Comments -->
+        <section>
+          <div class="row">
+            <div class="col form-group">
+              <h3>Comments</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <form method="POST" th:action="@{/comments}">
+                <div class="form-group">
+                  <textarea id="comment" name="comment" class="form-control" rows="2"
+                            placeholder="Write new comment here (max 1000 characters)"></textarea>
+                  <small id="commentHelp">0 out of 1000 characters used</small>
+                </div>
+                <div class="form-group">
+                  <input type="submit" class="button" id="addComment" value="Add comment"/>
+                </div>
+                <input type="hidden" name="id" th:value="${shipment.id}"/>
+                <input type="hidden" name="src" value="ups"/>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div th:each="c : ${comments}" class="media">
+                <div class="media-body">
+                  <small th:text="${c.meta}">meta</small>
+                  <p th:text="${c.content}">content</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
       </div>
@@ -125,6 +161,7 @@
     <script type="text/javascript" th:src="@{/js/datatable-common.js}"
             data-tableId="table-vouchers" data-hrefRoot="/vouchers/"></script>
     <script type="text/javascript" th:src="@{/js/ups-track.js}"></script>
+    <script th:src="@{/js/comment.js}"></script>
   </body>
 
 </html>
