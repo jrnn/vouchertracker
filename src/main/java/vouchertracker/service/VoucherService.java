@@ -48,6 +48,13 @@ public class VoucherService {
         return voucherRepository.findByUuid(id).getAttachments();
     }
 
+    public boolean doesVoucherIdExist(VoucherDto dto) {
+        List<Voucher> v = voucherRepository
+                .findIdenticalIds(dto.getId(), voucherMapper.concatenateVoucherId(dto));
+
+        return !v.isEmpty();
+    }
+
     public VoucherDto getDtoForVoucher(String id) {
         VoucherDto dto = new VoucherDto();
         Voucher voucher = voucherRepository.findByUuid(id);

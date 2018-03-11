@@ -87,6 +87,13 @@ public class VoucherController {
             BindingResult result,
             RedirectAttributes redirectAttrs
     ) {
+        String c = customerService.doesPassportExist(dto.getCustomerId(), dto.getPassport());
+        if (c != null) result.rejectValue("passport", "",
+                "Passport already reserved to customer by name " + c);
+
+        if (voucherService.doesVoucherIdExist(dto)) result.rejectValue("voucherId", "",
+                "Voucher with this exact ID exists already");
+
         if (result.hasErrors()) return "voucher_edit";
 
         Voucher voucher = voucherService.saveOrUpdateVoucher(dto);

@@ -13,4 +13,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     List<Customer> findAllByOrderByLastNameAsc();
 
+    @Query("SELECT c FROM Customer c WHERE c.id != :id AND c.passport = :passport")
+    List<Customer> findIdenticalPassports(@Param("id") String id, @Param("passport") String passport);
+
 }
