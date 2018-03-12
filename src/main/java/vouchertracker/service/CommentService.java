@@ -32,6 +32,10 @@ public class CommentService {
     @Autowired
     private VoucherRepository voucherRepository;
 
+    public List<Comment> findAll() {
+        return commentRepository.findAll();
+    }
+
     public List<Comment> findAllForVoucher(String id) {
         return commentRepository.findByVoucherId(id);
     }

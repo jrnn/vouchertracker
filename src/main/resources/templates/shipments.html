@@ -50,16 +50,16 @@
             <table id="table-ups" class="table hover" data-page-length='10'>
               <thead>
                 <tr>
-                  <th>Tracking number</th>
                   <th>Sent on</th>
+                  <th>Tracking number</th>
                   <th>Added by</th>
                   <th>Vouchers</th>
                 </tr>
               </thead>
               <tbody>
                 <tr th:each="s : ${shipments}" th:data-href="${s.id}">
-                  <td th:text="${s.trackingNo}">Tracking number</td>
                   <td th:text="${s.shippedOn}">Sent on</td>
+                  <td th:text="${s.trackingNo}">Tracking number</td>
                   <td th:text="${s.addedBy}">Added by</td>
                   <td th:text="${s.vouchersCount}">No. of vouchers</td>
                 </tr>
