@@ -25,8 +25,11 @@ public class CustomerService {
     }
 
     public String doesPassportExist(String id, String passport) {
+        passport = CustomParser.trim(passport);
+        if (passport.equals("NOINFO")) return null;
+
         List<Customer> c = customerRepository
-                .findIdenticalPassports(id, CustomParser.trim(passport));
+                .findIdenticalPassports(id, passport);
 
         return (c.isEmpty())
                 ? null

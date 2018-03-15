@@ -136,7 +136,7 @@ public class VoucherMapper implements EntityMapper<Voucher, VoucherDto> {
                 .append(v.getCreatedOn()).append(s)
                 .append(v.getLastEditedBy()).append(s)
                 .append(v.getLastEditedOn()).append(s)
-                .append(v.getVoucherId().replace("\n", "//")).append(s)
+                .append("#").append(v.getVoucherId().replace("\n", "//")).append(s)
                 .append(v.getIssuedAt()).append(s)
                 .append(v.getIssuedOn()).append(s)
                 .append(v.getReceivedOn()).append(s)
