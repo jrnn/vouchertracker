@@ -16,8 +16,8 @@ public class CustomerMapper implements EntityMapper<Customer, CustomerDto> {
 
     @Override
     public Customer mapDtoToEntity(CustomerDto dto, Customer customer, String user) {
-        customer.setFirstName(dto.getFirstName().trim());
-        customer.setLastName(dto.getLastName().trim());
+        customer.setFirstName(CustomParser.trim(dto.getFirstName()));
+        customer.setLastName(CustomParser.trim(dto.getLastName()));
         customer.setPassport(CustomParser.trim(dto.getPassport()));
 
         customer.setLastEditedBy(user);
