@@ -10,8 +10,8 @@ public class Librarian {
             "Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark",
             "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland", "Ireland",
             "Italy", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Netherlands",
-            "Norway", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden",
-            "Switzerland", "United Kingdom");
+            "Norway", "Poland", "Portugal", "Romania", "Russia", "Slovakia", "Slovenia", "Spain",
+            "Sweden", "Switzerland", "United Kingdom");
     }
 
 }
