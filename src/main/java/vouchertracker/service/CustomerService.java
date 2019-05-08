@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import vouchertracker.domain.dto.CustomerDto;
 import vouchertracker.domain.entity.Account;
 import vouchertracker.domain.entity.Customer;
+import vouchertracker.domain.entity.CustomerLite;
 import vouchertracker.domain.mapper.CustomerMapper;
 import vouchertracker.repository.CustomerRepository;
 import vouchertracker.utility.CustomParser;
@@ -21,6 +22,10 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public List<Customer> findAll() {
+        return customerRepository.findAll();
+    }
+
+    public List<CustomerLite> findAllLite() {
         return customerRepository.findAllByOrderByLastNameAsc();
     }
 

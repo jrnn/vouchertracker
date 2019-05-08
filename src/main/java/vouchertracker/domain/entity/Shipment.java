@@ -6,11 +6,32 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@NamedEntityGraph(
+        name = "shipment-entity-graph",
+        attributeNodes = {
+            @NamedAttributeNode(
+                    value = "vouchers",
+                    subgraph = "vouchers-subgraph"
+            )
+        },
+        subgraphs = {
+            @NamedSubgraph(
+                    name = "vouchers-subgraph",
+                    attributeNodes = {
+                        @NamedAttributeNode("account"),
+                        @NamedAttributeNode("customer")
+                    }
+            )
+        }
+)
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

@@ -8,11 +8,21 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@NamedEntityGraph(
+        name = "voucher-entity-graph",
+        attributeNodes = {
+            @NamedAttributeNode("account"),
+            @NamedAttributeNode("customer"),
+            @NamedAttributeNode("shipment")
+        }
+)
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

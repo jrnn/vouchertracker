@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vouchertracker.domain.dto.VoucherDto;
-import vouchertracker.domain.entity.Customer;
+import vouchertracker.domain.entity.CustomerLite;
 import vouchertracker.domain.entity.Voucher;
 import vouchertracker.service.CommentService;
 import vouchertracker.service.CustomerService;
@@ -37,8 +37,8 @@ public class VoucherController {
     }
 
     @ModelAttribute("customers")
-    public List<Customer> getCustomers() {
-        return customerService.findAll();
+    public List<CustomerLite> getCustomers() {
+        return customerService.findAllLite();
     }
 
     @RequestMapping(value = "/vouchers", method = RequestMethod.GET)
