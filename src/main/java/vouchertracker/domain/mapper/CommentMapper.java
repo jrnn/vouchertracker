@@ -45,7 +45,7 @@ public class CommentMapper implements EntityMapper<Comment, Comment> {
                 .append(c.getCreatedOn()).append(s)
                 .append(c.getExactTime()).append(s)
                 .append(c.getAuthor()).append(s)
-                .append(c.getContent()).append(s);
+                .append(c.getContent().replaceAll("\n", "[LINE_BREAK]")).append(s);
 
         String voucher_id = (c.getVoucher() == null)
                 ? "null"
